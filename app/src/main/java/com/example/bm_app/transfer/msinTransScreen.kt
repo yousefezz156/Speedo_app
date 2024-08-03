@@ -69,13 +69,13 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
     }
     val items = listOf(
         Navi(
-            route = AppRoutes.TRANSFER_HOME,
+            route = "no",
             title = "Home",
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         Navi(
-            route = AppRoutes.TRANSFER_AMOUNT,
+            route = "transfer",
             title = "Tranfer",
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
@@ -87,13 +87,13 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
-            route = AppRoutes.MYCARDS_SELECTCURRENY,
+            route = "my_cards",
             title = "My cards",
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         Navi(
-            route = "",
+            route = "more",
             title = "More",
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
@@ -106,7 +106,9 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
                     selected = selectedItem == index,
                     onClick = {
                         selectedItem = index
-                        navController.navigate(item.route)
+                        if (item.route != "no"){
+                            navController.navigate(item.route)
+                        }
                               },
                     icon = { Icon(
                     painter = if (selectedItem == index) item.SelectedIcon else item.unselectedItem,

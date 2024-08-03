@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
+import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.transfer.Navi
 
 @Composable
@@ -73,14 +74,14 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                 iconRes = R.drawable.favorite,
                 text = "Favourites",
                 navController = navController,
-                destination = "favourites"
+                destination = "more_fav"
             )
             HorizontalDivider(color = Color(0xFFDDD5EB), thickness = 1.dp)
             MoreScreenItem(
                 iconRes = R.drawable.user,
                 text = "Profile",
                 navController = navController,
-                destination = "profile"
+                destination = "more_profile"
             )
             HorizontalDivider(color = Color(0xFFDDD5EB), thickness = 1.dp)
             MoreScreenItem(
@@ -162,13 +163,13 @@ fun ScaffoldMoreMain(navController: NavController, modifier: Modifier = Modifier
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
-            route = "cards",
+            route = "my_cards",
             title = "My cards",
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         Navi(
-            route = "more",
+            route = "no",
             title = "More",
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
@@ -182,7 +183,9 @@ fun ScaffoldMoreMain(navController: NavController, modifier: Modifier = Modifier
                     selected = selectedItem == index,
                     onClick = {
                         selectedItem = index
-                        navController.navigate(item.route)
+                        if (item.route != "no"){
+                            navController.navigate(item.route)
+                        }
                     },
                     icon = {
                         Icon(

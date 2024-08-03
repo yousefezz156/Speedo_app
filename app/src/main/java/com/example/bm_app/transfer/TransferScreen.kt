@@ -90,7 +90,7 @@ fun ScaffoldBack(navController: NavController,modifier: Modifier = Modifier) {
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         data4(
-            routes = "",
+            routes = "more",
             title = "More",
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)

@@ -1,4 +1,4 @@
-package com.example.bm_app.SignUp_Screen
+/*package com.example.bm_app.SignUp_Screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -218,4 +218,4 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
 @Composable
 private fun SignUp_Prev() {
     SignUp(rememberNavController())
-}
+}*/

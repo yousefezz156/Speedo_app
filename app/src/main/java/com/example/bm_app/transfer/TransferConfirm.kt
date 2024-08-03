@@ -67,14 +67,14 @@ fun scaffoldConfirm(navController: NavController,modifier: Modifier = Modifier) 
     }
     val items = listOf(
         data3(
-            route = AppRoutes.TRANSFER_HOME,
+            route = "home",
             title = "Home",
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         data3(
-            route = AppRoutes.TRANSFER_AMOUNT,
-            title = "Tranfer",
+            route = "no",
+            title = "Transfer",
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
@@ -85,13 +85,13 @@ fun scaffoldConfirm(navController: NavController,modifier: Modifier = Modifier) 
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         data3(
-            route = AppRoutes.MYCARDS_SELECTCURRENY,
+            route = "my_cards",
             title = "My cards",
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         data3(
-            route = "",
+            route = "more",
             title = "More",
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
@@ -117,7 +117,9 @@ fun scaffoldConfirm(navController: NavController,modifier: Modifier = Modifier) 
                         selected = selectedItem == index,
                         onClick = {
                             selectedItem = index
-                            navController.navigate(data.route)
+                            if (data.route != "no"){
+                                navController.navigate(data.route)
+                            }
                                   }, icon = { Icon(
                         painter = if (selectedItem == index) data.SelectedIcon else data.unselectedItem,
                         contentDescription = null

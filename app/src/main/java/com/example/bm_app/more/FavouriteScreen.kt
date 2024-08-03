@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -43,6 +44,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.transfer.Navi
+import androidx.compose.foundation.lazy.items
 
 
 @Composable
@@ -93,30 +95,30 @@ fun FavoriteScreen(navController: NavController, modifier: Modifier = Modifier) 
                 "Ahmed Alaa" to "Account xxxx7890",
                 "Ahmed Galal" to "Account xxxx7890",
                 "Ahmed Hagag" to "Account xxxx7890",
-                "Ahmed Mohsen" to "Account xxxx7890"
+                "Ahmed Mohsen" to "Account xxxx7890",
+                "Ahmed Test"  to "Account 121 5151"
             )
+            LazyColumn {
+                items(favourites){(name, account) ->
+                    FavoriteScreenItem(
+                        iconRes = R.drawable.group13,
+                        name = name,
+                        account = account,
+                        onEditClick = {
+                            selectedItem = name to account
+                            isDialogOpen = true
+                        },
+                        onDeleteClick = {
+                            // Handle delete logic here
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
 
-            favourites.forEach { (name, account) ->
-                FavoriteScreenItem(
-                    iconRes = R.drawable.group13,
-                    name = name,
-                    account = account,
-                    onEditClick = {
-                        selectedItem = name to account
-                        isDialogOpen = true
-                    },
-                    onDeleteClick = {
-                        // Handle delete logic here
-                    }
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
     }
 
-
-    selectedItem  = "Ahmed" to "21321"
-    isDialogOpen = true
     if (isDialogOpen && selectedItem != null) {
         val (name, account) = selectedItem!!
         EditFavoriteDialog(
@@ -192,7 +194,7 @@ fun FavoriteScreenItem(
 
 
 @Composable
-fun ScaffoldFavMain(navController: NavController, modifier: Modifier = Modifier) {
+fun ScaffoldFav(navController: NavController, modifier: Modifier = Modifier) {
     var selectedItem by rememberSaveable {
         mutableStateOf(4)
     }
@@ -216,13 +218,13 @@ fun ScaffoldFavMain(navController: NavController, modifier: Modifier = Modifier)
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
-            route = "cards",
+            route = "my_cards",
             title = "My cards",
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         Navi(
-            route = "more",
+            route = "no",
             title = "More",
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
@@ -236,7 +238,9 @@ fun ScaffoldFavMain(navController: NavController, modifier: Modifier = Modifier)
                     selected = selectedItem == index,
                     onClick = {
                         selectedItem = index
-                        navController.navigate(item.route)
+                        if (item.route != "no"){
+                            navController.navigate(item.route)
+                        }
                     },
                     icon = {
                         Icon(
@@ -352,6 +356,6 @@ fun EditFavoriteDialog(
 @Preview(showBackground = true)
 @Composable
 private fun Show() {
-    ScaffoldFavMain(navController = rememberNavController())
+    ScaffoldFav(navController = rememberNavController())
 }
 

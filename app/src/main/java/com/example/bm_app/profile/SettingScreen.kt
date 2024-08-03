@@ -56,7 +56,7 @@ fun SettingScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable { navController.navigate("change_password")}
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(
@@ -107,7 +107,7 @@ fun SettingScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable { navController.navigate("edit_profile")}
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(

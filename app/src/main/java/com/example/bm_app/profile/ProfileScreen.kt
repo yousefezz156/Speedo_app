@@ -67,7 +67,6 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(
@@ -102,7 +101,7 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable { navController.navigate("profile_information") }
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(
@@ -153,7 +152,7 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable { navController.navigate("profile_setting")}
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(
@@ -253,7 +252,7 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable {navController.navigate("more_fav") }
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(
@@ -304,7 +303,7 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ScaffoldProfileMain(navController: NavController, modifier: Modifier = Modifier) {
+fun ScaffoldProfile(navController: NavController, modifier: Modifier = Modifier) {
     var selectedItem by rememberSaveable {
         mutableStateOf(4)
     }
@@ -328,13 +327,13 @@ fun ScaffoldProfileMain(navController: NavController, modifier: Modifier = Modif
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
-            route = "cards",
+            route = "my_cards",
             title = "My cards",
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         Navi(
-            route = "more",
+            route = "no",
             title = "More",
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
@@ -348,7 +347,9 @@ fun ScaffoldProfileMain(navController: NavController, modifier: Modifier = Modif
                     selected = selectedItem == index,
                     onClick = {
                         selectedItem = index
-                        navController.navigate(item.route)
+                        if (item.route != "no"){
+                            navController.navigate(item.route)
+                        }
                     },
                     icon = {
                         Icon(
@@ -377,6 +378,6 @@ fun ScaffoldProfileMain(navController: NavController, modifier: Modifier = Modif
 @Preview(showBackground = true)
 @Composable
 private fun Show() {
-    ScaffoldProfileMain(navController = rememberNavController())
+    ScaffoldProfile(navController = rememberNavController())
 }
 

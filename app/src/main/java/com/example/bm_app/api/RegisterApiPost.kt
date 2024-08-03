@@ -1,4 +1,4 @@
-package com.example.bm_app.api
+/*package com.example.bm_app.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,3 +25,4 @@ object RegisterApiPost {
         retrofit.create(RegisterServices::class.java)
     }
 }
+*/

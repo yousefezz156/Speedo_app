@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -39,6 +40,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.transfer.Navi
+import androidx.compose.foundation.lazy.items
+
 
 
 @Composable
@@ -66,17 +69,26 @@ fun MyCardsScreen(navController: NavController, modifier: Modifier = Modifier) {
 
             // Example list of favourite items
             val Accounts = listOf(
-                "Ahmed Rasshed" to "Account xxxx7890",
-                "Ahmed Fathy" to "Account xxxx7890",
+                listOf("Ahmed Rasshed" , "Account xxxx7890" , true),
+                listOf("Ahmed Fathy" , "Account xxxx7890" , false),
+                listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
+                listOf("Ahmed Fathy" , "Account xxxx7890" , false),
+                listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
+                listOf("Ahmed Fathy" , "Account xxxx7890" , false),
+                listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
+                listOf("Ahmed Fathy" , "Account xxxx7890" , true)
             )
 
-            Accounts.forEach { (name, account) ->
-                CardItem(
-                    name = name,
-                    account = account,
-                    default = true
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+            LazyColumn {
+                items(Accounts){fav->
+                    CardItem(
+                        name = fav[0].toString(),
+                        account = fav[1].toString(),
+                        default = fav[2] as Boolean
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                }
             }
             Button(
                 onClick = {},
@@ -124,17 +136,18 @@ fun CardItem(
                     color = Color(0xFF24221E),
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                Box(
-                    modifier = modifier
-                        .size(44.dp, 15.dp)
-                        .clip(shape = RoundedCornerShape(5.35.dp))
-                        .background(Color(0xFFE3E2E2))
-                    ,
-                    contentAlignment = Alignment.Center,
-                )
-                {
-                   Text(text = "Default", fontSize = 9.34.sp)
+                if (default) {
+                    Box(
+                        modifier = modifier
+                            .size(44.dp, 15.dp)
+                            .clip(shape = RoundedCornerShape(5.35.dp))
+                            .background(Color(0xFFE3E2E2)),
+                        contentAlignment = Alignment.Center,
+                    )
+                    {
+                        Text(text = "Default", fontSize = 9.34.sp)
 
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(4.dp))
@@ -151,7 +164,7 @@ fun CardItem(
 @Composable
 fun ScaffoldMyCardsMain(navController: NavController, modifier: Modifier = Modifier) {
     var selectedItem by rememberSaveable {
-        mutableStateOf(4)
+        mutableStateOf(3)
     }
     val items = listOf(
         Navi(
@@ -173,7 +186,7 @@ fun ScaffoldMyCardsMain(navController: NavController, modifier: Modifier = Modif
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
-            route = "cards",
+            route = "no",
             title = "My cards",
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
@@ -193,7 +206,9 @@ fun ScaffoldMyCardsMain(navController: NavController, modifier: Modifier = Modif
                     selected = selectedItem == index,
                     onClick = {
                         selectedItem = index
-                        navController.navigate(item.route)
+                        if (item.route != "no"){
+                            navController.navigate(item.route)
+                        }
                     },
                     icon = {
                         Icon(
