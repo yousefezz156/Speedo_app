@@ -41,14 +41,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -104,7 +101,7 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                 placeholder = { Text(text = "Enter your Email") },
                 trailingIcon = {
                     Image(
-                        painter = painterResource(id = R.drawable.email),
+                        painter = painterResource(id = R.drawable.red_email),
                         contentDescription = null
                     )
                 }

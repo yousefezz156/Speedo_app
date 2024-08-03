@@ -1,6 +1,5 @@
 package com.example.bm_app.SignUp_Screen
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,11 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Label
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,26 +26,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.approutes.AppRoutes
-import com.example.bm_app.approutes.AppRoutes.SIGNIN
 import com.example.bm_app.approutes.AppRoutes.SIGNUP2
 
 @Composable
@@ -106,7 +95,8 @@ fun SignUp(navController: NavController,modifier : Modifier = Modifier) {
                 }, trailingIcon = {
                     Image(
                         painter = painterResource(id = R.drawable.user),
-                        contentDescription = null
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
                     )
                 })
             Text(text = "Email", modifier.padding(8.dp))
@@ -118,8 +108,9 @@ fun SignUp(navController: NavController,modifier : Modifier = Modifier) {
                     .padding(horizontal = 8.dp),
                 placeholder = { Text(text = "Enter your Email") }, trailingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.email),
-                        contentDescription = null
+                        painter = painterResource(id = R.drawable.red_email),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
                     )
                 })
             Text(text = "Password", modifier.padding(8.dp))
@@ -136,12 +127,14 @@ fun SignUp(navController: NavController,modifier : Modifier = Modifier) {
                     if (passwordVisual)
                         Icon(
                             painter = painterResource(id = R.drawable.eye_comp),
-                            contentDescription = null
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
                         )
                     else
                         Icon(
                             painter = painterResource(id = R.drawable.eye_open),
-                            contentDescription = null
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
                         )
 
                 }
