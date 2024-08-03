@@ -11,9 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.AlertDialog
@@ -40,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key.Companion.Calendar
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -56,6 +60,8 @@ import com.example.bm_app.R
 import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.list.CountryList
 import com.example.bm_app.model.Country
+import com.example.bm_app.model.Currency
+import com.example.bm_app.mycard.CurrencyCard
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -111,37 +117,18 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
             Text(text = "Country", modifier.padding(8.dp))
             if (showCountryPicker){
                 ModalBottomSheet(onDismissRequest = { showCountryPicker = false}) {
-                    Box(modifier = modifier
-                        .fillMaxHeight()
-                        .padding(12.dp)) {
-
-                        Column (modifier = modifier.padding(8.dp)){
-
-                                country.forEach{ countryItem ->
-                                    Row(modifier = modifier
-                                        .fillMaxWidth()
-                                        .clickable { }
-                                        .size(32.dp)) {
-
-                                        Image(painter = painterResource(id = countryItem.image), contentDescription = null, modifier.size(24.dp))
-                                        Spacer(modifier = modifier.padding(4.dp))
-                                        Text(text = countryItem.country , fontSize = 16.sp)
-                                    }}
-
-
-
-                        }
-                    }
+                  lazycol(country = CountryList().getCountryList() , selectedCountry = selectedCountry, onCountrySelected = {selected -> selectedCountry = selected
+                  showCountryPicker=false})
 
             }}
 
             if (isDatePickerShown) {
                 DatePickerChooser(onConfirm = { dateState ->
                     val dateFormatter = SimpleDateFormat("dd-MM-yyyy", java.util.Locale.US)
-                   // val c = Calendar
+                    val c = android.icu.util.Calendar.getInstance()
                     //Ex: time in millis = 1720483200000
                     //Ex: c.time = Tue Jul 09 03:00:00 GMT+03:00 2024 --> date formatter = 09-07-2024
-                    //dateButton = dateFormatter.format(c.)
+                    dateButton = dateFormatter.format(c.time)
                     year =
                         SimpleDateFormat("yyyy", java.util.Locale.US).format(dateFormatter.parse(dateButton)!!)
                             .toInt()
@@ -157,7 +144,7 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
 
             OutlinedTextField(
                 value = selectedCountry?.country ?: "",
-                onValueChange = {},
+                onValueChange = {it},
                 modifier = modifier
                     .clickable { showCountryPicker = true }
                     .fillMaxWidth()
@@ -174,7 +161,7 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
                     .clickable { isDatePickerShown = true }
                     .fillMaxWidth()
                     .padding(8.dp),
-                placeholder = {Text(text = "DD/MM/YYY")},
+                placeholder = {Text(dateButton)},
                 trailingIcon = {Icon(Icons.Filled.DateRange , contentDescription = null)}
             )
             Spacer(modifier = modifier.padding(16.dp))
@@ -212,6 +199,39 @@ fun DatePickerChooser(onConfirm: (DatePickerState) -> Unit, onDismiss: () -> Uni
         },
         text = { DatePicker(state = datePickerState) },
     )
+}
+
+@Composable
+fun Countrycard(onCountrySelected: (Country) -> Unit,
+                isSelected: Boolean,country: Country,modifier: Modifier = Modifier)
+{
+
+    Row(modifier = modifier
+        .fillMaxWidth()
+        .padding(16.dp)
+        .clickable {
+            onCountrySelected(country)
+        }) {
+        Image(painter = painterResource(id = country.image), contentDescription = null)
+        Spacer(modifier = modifier.padding(8.dp))
+        Text(text = country.country)
+
+        if (isSelected) {
+            Spacer(modifier = modifier.weight(1f))
+            Icon(Icons.Filled.Check, contentDescription = null)
+        }
+    }
+}
+@Composable
+fun lazycol(selectedCountry: Country?,
+            onCountrySelected: (Country) -> Unit,country: List<Country>, modifier: Modifier = Modifier) {
+
+
+    LazyColumn {
+        items(country) { countryy ->
+            Countrycard(country = countryy , isSelected = selectedCountry==countryy, onCountrySelected = onCountrySelected)
+        }
+    }
 }
 
 @Preview(showBackground = true)

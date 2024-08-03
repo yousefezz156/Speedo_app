@@ -87,7 +87,7 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
-            route = "",
+            route = AppRoutes.MYCARDS_SELECTCURRENY,
             title = "My cards",
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)

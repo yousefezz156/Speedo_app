@@ -1,7 +1,8 @@
 package com.example.bm_app.SignUp_Screen
 
-import android.provider.ContactsContract.CommonDataKinds.Email
+import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,12 +15,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Label
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,41 +29,40 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
+import com.example.bm_app.api.RegisterApiPost
 import com.example.bm_app.approutes.AppRoutes
-import com.example.bm_app.approutes.AppRoutes.SIGNIN
 import com.example.bm_app.approutes.AppRoutes.SIGNUP2
+import com.example.bm_app.modelApi.Register
+import com.example.bm_app.validation.createPasswordvalidation
+import com.example.bm_app.validation.isValidEmail
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
-fun ScaffoldSignup(navController: NavController,modifier: Modifier = Modifier) {
+fun ScaffoldSignup(navController: NavController, modifier: Modifier = Modifier) {
     Scaffold()
-    {
-        innerpadding ->
-        Box (modifier = modifier.padding(innerpadding)){
+    { innerpadding ->
+        Box(modifier = modifier.padding(innerpadding)) {
             SignUp(navController = navController)
         }
     }
 }
 
 @Composable
-fun SignUp(navController: NavController,modifier : Modifier = Modifier) {
+fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
     var FullName by remember {
         mutableStateOf("")
     }
@@ -77,10 +75,11 @@ fun SignUp(navController: NavController,modifier : Modifier = Modifier) {
     var passwordVisual by remember {
         mutableStateOf(false)
     }
+    val context = LocalContext.current
     Column(
         //  verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize().verticalScroll(state = ScrollState(1) , true)
     )
     {
         Spacer(modifier = modifier.padding(8.dp))
@@ -131,7 +130,7 @@ fun SignUp(navController: NavController,modifier : Modifier = Modifier) {
                     .padding(horizontal = 8.dp),
                 placeholder = { Text(text = "Enter your Password") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                visualTransformation = PasswordVisualTransformation(),
+                //visualTransformation = PasswordVisualTransformation(),
                 trailingIcon = {
                     if (passwordVisual)
                         Icon(
@@ -148,7 +147,41 @@ fun SignUp(navController: NavController,modifier : Modifier = Modifier) {
             )
             Spacer(modifier = modifier.padding(8.dp))
             Button(
-                onClick = { navController.navigate(SIGNUP2) },
+                onClick =
+                {
+                    if (createPasswordvalidation(Password) && isValidEmail(Email)) {
+                        val register = Register(
+                            email = Email,
+                            userName = FullName,
+                            password = Password,
+                            gender = "",
+                            dateOfBirth = "",
+                            country = "",
+                            isActive = 1
+                        )
+
+                        RegisterApiPost.instance.createuser(register).enqueue(object : Callback<Void>{
+                            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                                if(response.isSuccessful){
+                                    Toast.makeText(context , "user Registerd successfully" , Toast.LENGTH_SHORT).show()
+                                    navController.navigate(SIGNUP2)
+
+                                }else{
+                                    val errorBody = response.errorBody()?.string()
+                                    val errorMessage = "Failed with code: ${response.code()}, error: $errorBody"
+                                    Toast.makeText(context , errorMessage , Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
+                            override fun onFailure(call: Call<Void>, t: Throwable) {
+                                Toast.makeText(context ,"error : ${t.message}" , Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    } else {
+                        Toast.makeText(context, "please fill the password", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                },
                 modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -174,7 +207,7 @@ fun SignUp(navController: NavController,modifier : Modifier = Modifier) {
                     color = colorResource(
                         id = R.color.reddd
                     ),
-                    modifier = modifier.clickable { navController.navigate(AppRoutes.SIGNIN)})
+                    modifier = modifier.clickable { navController.navigate(AppRoutes.SIGNIN) })
             }
         }
     }

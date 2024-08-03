@@ -10,6 +10,10 @@ import com.example.bm_app.SignUp_Screen.SignUp
 import com.example.bm_app.SignUp_Screen.SignUpScreenP2
 import com.example.bm_app.SignUp_Screen.SignUpScreenP2S
 import com.example.bm_app.list.CountryList
+import com.example.bm_app.mycard.ScaaffoldOTPend
+import com.example.bm_app.mycard.ScaffoldCurrency
+import com.example.bm_app.mycard.ScaffoldOtp
+import com.example.bm_app.mycard.Scaffold_AddCard
 import com.example.bm_app.signinscreen.SigninScreen
 import com.example.bm_app.transfer.ScaffoldBack
 import com.example.bm_app.transfer.Scaffold_Transfer
@@ -26,6 +30,11 @@ object AppRoutes
     val TRANSFER_AMOUNT ="transfer_amount"
     val TRANSFER_CONFIRMATION ="transfer_confirmation"
     val TRANSFER_PAYMENT ="transfer_payment"
+    val MYCARDS_SELECTCURRENY = "mycards_selectcurrency"
+    val MYCARDS_ADDCARDS = "mycards_addcards"
+    val MYCARDS_LOADINGSCREEN = "mycards_loadingscreen"
+    val MYCARDS_OTP = "mycards_otp"
+    val MYCARDS_SUCCESFUL = "mycards_succesful"
 
 }
 
@@ -43,5 +52,10 @@ fun AppNavHost()
      composable(route = AppRoutes.TRANSFER_AMOUNT){ Scaffold_Transfer(navController) }
      composable(route = AppRoutes.TRANSFER_CONFIRMATION){ scaffoldConfirm(navController) }
      composable(route = AppRoutes.TRANSFER_PAYMENT){ ScaffoldBack(navController) }
+     composable(route = AppRoutes.MYCARDS_SELECTCURRENY){ ScaffoldCurrency(navController) }
+     composable(route = AppRoutes.MYCARDS_ADDCARDS){ Scaffold_AddCard(navController) }
+     composable(route = AppRoutes.MYCARDS_LOADINGSCREEN){ ScaffoldBack(navController) }
+     composable(route = AppRoutes.MYCARDS_OTP){ ScaffoldOtp(navController) }
+     composable(route = AppRoutes.MYCARDS_SUCCESFUL){ ScaaffoldOTPend(navController) }
  }
 }

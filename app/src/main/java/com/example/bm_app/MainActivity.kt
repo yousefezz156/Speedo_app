@@ -14,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.bm_app.SignUp_Screen.SignUpScreenP2
 import com.example.bm_app.approutes.AppNavHost
 import com.example.bm_app.list.CountryList
+import com.example.bm_app.mycard.OTPScreen
+import com.example.bm_app.mycard.ScaffoldOtp
 import com.example.bm_app.transfer.ScaffoldBack
 import com.example.bm_app.transfer.Scaffold_Transfer
 //import com.example.bm_app.signinscreen.SigninScreen
@@ -31,7 +33,9 @@ class MainActivity : ComponentActivity() {
                    // SigninScreen()
 //                    BankingAppUI()
                    // ScaffoldBack()
-                    AppNavHost()
+                     AppNavHost()
+                   // SOTPScreen()
+                    //ScaffoldOtp()
                 }
             }
         }
