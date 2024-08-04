@@ -215,7 +215,6 @@ fun TransferPage(navController: NavController,modifier: Modifier = Modifier, fav
                 .fillMaxWidth()
                 .padding(8.dp)){
             Text(text = "Choose Currency")
-
         }
         Card(
             colors = CardDefaults.cardColors(Color.White),
@@ -257,7 +256,6 @@ fun TransferPage(navController: NavController,modifier: Modifier = Modifier, fav
                 {
                     OutlinedTextField(value =from , onValueChange = {from = it}, modifier = modifier.size(height = 56.dp, width = 160.dp) )
                 }
-
 
 
             }
@@ -324,13 +322,11 @@ fun card(@DrawableRes painter: Int ,name: String,accountB : String,modifier: Mod
         Image(painter = painterResource(id = painter) , contentDescription = null)
         Spacer(modifier = modifier.padding(8.dp))
         Column(
-
             modifier =modifier.fillMaxWidth())
         {
             Text(text = name , textAlign = TextAlign.Center)
             Spacer(modifier = modifier.padding(4.dp))
             Text(text = accountB , textAlign = TextAlign.Center)
-
         }
     }
 }

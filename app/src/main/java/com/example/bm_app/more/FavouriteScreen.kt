@@ -45,6 +45,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.transfer.Navi
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.remember
 
 
 @Composable
@@ -119,9 +123,9 @@ fun FavoriteScreen(navController: NavController, modifier: Modifier = Modifier) 
         }
     }
 
-    if (isDialogOpen && selectedItem != null) {
+    if (isDialogOpen) {
         val (name, account) = selectedItem!!
-        EditFavoriteDialog(
+        EditFavorite(
             name = name,
             account = account,
             onDismiss = { isDialogOpen = false },
@@ -266,8 +270,9 @@ fun ScaffoldFav(navController: NavController, modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditFavoriteDialog(
+fun EditFavorite(
     name: String,
     account: String,
     onDismiss: () -> Unit,
@@ -278,80 +283,74 @@ fun EditFavoriteDialog(
     var newAccount by rememberSaveable { mutableStateOf(account) }
 
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-        AlertDialog(
-            onDismissRequest = onDismiss,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            title = {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+        ModalBottomSheet(onDismissRequest = onDismiss){
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding((16.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.edit),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
-                            tint = Color(0xFF871E35)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = "Edit")
-                    }
+                    Icon(
+                        painter = painterResource(id = R.drawable.edit),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
+                        tint = Color(0xFF871E35)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = "Edit")
                 }
-            },
-            text = {
-                Column(
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Column (modifier= Modifier.padding(horizontal = 16.dp)){
+                Text(text = "Recipient Account", fontSize = 16.sp )
+                Spacer(modifier = Modifier.padding(4.dp))
+                OutlinedTextField(
+                    value = newAccount,
+                    onValueChange = { newAccount = it },
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    TextField(
-                        value = newAccount,
-                        onValueChange = { newAccount = it },
-                        label = { Text("Recipient Account") },
-                        placeholder = { Text("Enter Cardholder Name") },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(8.dp)
-
-                    )
-                    TextField(
-                        value = newName,
-                        onValueChange = { newName = it },
-                        label = { Text("Recipient Name") },
-                        placeholder = { Text("Enter Cardholder Name") },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(8.dp),
-
-                    )
-                }
-            },
-            confirmButton = {
-                Button(
-                    onClick = { },
-                    modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                        .size(56.dp),
+                    shape = RoundedCornerShape(8.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Column(modifier= Modifier.padding(horizontal = 16.dp)) {
+                Text(text = "Recipient Name", fontSize = 16.sp)
+                Spacer(modifier = Modifier.padding(4.dp))
+                OutlinedTextField(
+                    value = newName,
+                    onValueChange = { newName = it },
+                    placeholder = { Text("Enter Cardholder Name") },
+                    modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(
-                            id = R.color.reddd
-                        )
+                )
+            }
+            Spacer(modifier = Modifier.height(32.dp))
+            Button(
+                onClick = { },
+                modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .size(56.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(
+                        id = R.color.reddd
                     )
-                ) {
-                    Text(text = "Save")
-                }
-            },
-        )
+                )
+            ) {
+                Text(text = "Save")
+            }
+            Spacer(modifier = Modifier.height(163.dp))
+        }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
