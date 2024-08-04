@@ -73,10 +73,10 @@ fun MyCardsScreen(navController: NavController, modifier: Modifier = Modifier) {
                 listOf("Ahmed Fathy" , "Account xxxx7890" , false),
                 listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
                 listOf("Ahmed Fathy" , "Account xxxx7890" , false),
-                listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
-                listOf("Ahmed Fathy" , "Account xxxx7890" , false),
-                listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
-                listOf("Ahmed Fathy" , "Account xxxx7890" , true)
+                //listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
+                //listOf("Ahmed Fathy" , "Account xxxx7890" , false),
+                //listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
+                //listOf("Ahmed Fathy" , "Account xxxx7890" , true)
             )
 
             LazyColumn {
@@ -91,11 +91,12 @@ fun MyCardsScreen(navController: NavController, modifier: Modifier = Modifier) {
                 }
             }
             Button(
-                onClick = {},
+                onClick = {navController.navigate("mycards_selectcurrency")},
                 shape = RoundedCornerShape(6.dp),
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 8.dp)
+                    .size(51.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.reddd))
             )
             {

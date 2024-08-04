@@ -3,6 +3,7 @@ package com.example.bm_app.more
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,14 +11,21 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -42,8 +51,10 @@ import com.example.bm_app.R
 import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.transfer.Navi
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
+    var isHelpOpen by rememberSaveable { mutableStateOf(false) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -67,36 +78,111 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                 iconRes = R.drawable.group,
                 text = "Transfer From Website",
                 navController = navController,
-                destination = "transfer"
+                destination = "transfer",
+                onItemClick ={}
             )
             HorizontalDivider(thickness = 1.dp, color = Color(0xFFDDD5EB))
             MoreScreenItem(
                 iconRes = R.drawable.favorite,
                 text = "Favourites",
                 navController = navController,
-                destination = "more_fav"
+                destination = "more_fav",
+                onItemClick ={}
             )
             HorizontalDivider(color = Color(0xFFDDD5EB), thickness = 1.dp)
             MoreScreenItem(
                 iconRes = R.drawable.user,
                 text = "Profile",
                 navController = navController,
-                destination = "more_profile"
+                destination = "more_profile",
+                onItemClick ={}
             )
             HorizontalDivider(color = Color(0xFFDDD5EB), thickness = 1.dp)
             MoreScreenItem(
                 iconRes = R.drawable.fill,
                 text = "Help",
                 navController = navController,
-                destination = "help"
+                destination = "",
+                onItemClick ={isHelpOpen = true}
             )
             HorizontalDivider(color = Color(0xFFDDD5EB), thickness = 1.dp)
             MoreScreenItem(
                 iconRes = R.drawable.logout,
                 text = "Logout",
                 navController = navController,
-                destination = "logout"
+                destination = "signin",
+                onItemClick ={}
             )
+        }
+    }
+    if (isHelpOpen) {
+        ModalBottomSheet(onDismissRequest = { isHelpOpen = false }){
+            Spacer(modifier = Modifier.height(55.dp))
+            Row(){
+                Box(
+                    modifier = modifier
+                        .size(170.dp,170.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(start = 84.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+
+                    ) {
+                        Box(
+                            modifier = modifier
+                                .size(55.dp)
+                                .clip(shape = RoundedCornerShape(6.dp))
+                                .background(Color(0xFFF3E9EB))
+                                .padding(horizontal = 8.dp)
+                            ,
+                            contentAlignment = Alignment.Center,
+                        )
+                        {
+                            Icon(painter = painterResource(id = R.drawable.email),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(24.dp),
+                                tint = Color(0xFFCA0808)
+
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(14.84.dp))
+                        Text(text = "Send Email", fontSize =14.sp)
+                    }
+                }
+                Box(
+                    modifier = modifier
+                        .size(170.dp,170.dp)
+                ) {
+                    Column(modifier = Modifier.padding(start = 84.dp ),
+                        horizontalAlignment = Alignment.CenterHorizontally
+
+                    ) {
+                        Box(
+                            modifier = modifier
+                                .size(55.dp)
+                                .clip(shape = RoundedCornerShape(6.dp))
+                                .background(Color(0xFFF3E9EB))
+                                .padding(horizontal = 8.dp)
+                            ,
+                            contentAlignment = Alignment.Center,
+                        )
+                        {
+                            Icon(painter = painterResource(id = R.drawable.call),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(24.dp),
+                                tint = Color(0xFFCA0808)
+
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(14.84.dp))
+                        Text(text = "Call Us", fontSize =14.sp)
+                        Text(text = "19888", fontSize =14.sp, color = Color(0xFF871E35))
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(55.dp))
         }
     }
 }
@@ -106,6 +192,7 @@ fun MoreScreenItem(
     iconRes: Int,
     text: String,
     navController: NavController,
+    onItemClick: () -> Unit,
     destination: String,
     modifier: Modifier = Modifier
 ) {
@@ -113,7 +200,12 @@ fun MoreScreenItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .clickable { navController.navigate(destination) }
+            .clickable {
+                if (text != "Help") {
+                    navController.navigate(destination)
+                }
+                onItemClick()
+            }
             .padding(horizontal = 1.dp, vertical = 16.dp)
     ) {
         Image(
@@ -129,12 +221,15 @@ fun MoreScreenItem(
             color = Color(0xFF666666)
         )
         Spacer(modifier = Modifier.weight(1f))
-        Icon(
-            painter = painterResource(id = R.drawable.chevron),
-            contentDescription = null,
-            modifier = Modifier.size(24.dp),
-            tint = Color(0xFF666666)
-        )
+        if (text != "Logout"){
+            Icon(
+                painter = painterResource(id = R.drawable.chevron),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+                tint = Color(0xFF666666)
+            )
+        }
+
     }
 }
 
