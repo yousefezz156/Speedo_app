@@ -1,4 +1,4 @@
-package com.example.bm_app.more
+package com.example.bm_app.mycard
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

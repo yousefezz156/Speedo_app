@@ -94,10 +94,11 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize()
+            .padding(8.dp)
     ) {
-        Spacer(modifier = modifier.padding(8.dp))
+        Spacer(modifier = modifier.padding(16.dp))
 
-        Text(text = "Sign in",fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Sign in",fontSize = 20.sp, fontWeight = FontWeight.Normal)
         Spacer(modifier = Modifier.padding(55.dp))
         Text(text = "Speedo Transfer", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.padding(55.dp))
@@ -113,7 +114,7 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                 placeholder = { Text(text = "Enter your Email") },
                 trailingIcon = {
                     Image(
-                        painter = painterResource(id = R.drawable.red_email),
+                        painter = painterResource(id = R.drawable.email),
                         contentDescription = null
                     )
                 }

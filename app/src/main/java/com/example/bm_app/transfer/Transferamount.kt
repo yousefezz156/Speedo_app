@@ -91,7 +91,7 @@ fun Scaffold_Transfer(navController: NavController,modifier: Modifier = Modifier
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         data2(
-            route = "",
+            route = "transactions",
             title = "Transactions",
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)

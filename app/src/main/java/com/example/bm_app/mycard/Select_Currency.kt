@@ -54,19 +54,13 @@ import com.example.bm_app.model.Currency
 fun ScaffoldCurrency(navController: NavController,modifier: Modifier = Modifier) {
     Scaffold(topBar = {
         TopAppBar(navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Filled.KeyboardArrowLeft, contentDescription = null)
-            }
         }, title = {
             Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Text(text = "Select Currency")
 
             }
-        }, actions = {
-            TextButton(onClick = { /*TODO*/ }) {
-                Text(text = "Cancel", fontWeight = FontWeight.Thin)
-            }
-        })
+        },
+        )
     }) { innerpadding ->
         Box(modifier = modifier.padding(innerpadding)) {
             lazycol(rememberNavController(),currencyList = Currency_List().getList())
@@ -95,8 +89,8 @@ fun lazycol(navController: NavController ,currencyList: List<Currency>, modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .size(56.dp),
-            colors = if(!isselected){
-ButtonDefaults.buttonColors(Color.LightGray)
+            colors = if(false){
+                ButtonDefaults.buttonColors(Color.LightGray)
             }else {ButtonDefaults.buttonColors(colorResource(id = R.color.reddd))},
             shape = RoundedCornerShape(6.dp),
         )

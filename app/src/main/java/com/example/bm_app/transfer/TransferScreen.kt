@@ -72,19 +72,19 @@ fun ScaffoldBack(navController: NavController,modifier: Modifier = Modifier) {
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         data4(
-            routes = AppRoutes.TRANSFER_AMOUNT,
+            routes = "transfer",
             title = "Tranfer",
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         data4(
-            routes = "",
+            routes = "transactions",
             title = "Transactions",
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         data4(
-            routes = AppRoutes.MYCARDS_SELECTCURRENY,
+            routes = "my_cards",
             title = "My cards",
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)

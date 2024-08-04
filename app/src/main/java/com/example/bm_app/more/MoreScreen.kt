@@ -1,5 +1,7 @@
 package com.example.bm_app.more
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,11 +48,14 @@ import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.transfer.Navi
+import javax.security.auth.Subject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -116,6 +122,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
         }
     }
     if (isHelpOpen) {
+        val context = LocalContext.current
         ModalBottomSheet(onDismissRequest = { isHelpOpen = false }){
             Spacer(modifier = Modifier.height(55.dp))
             Row(){
@@ -134,6 +141,9 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                                 .clip(shape = RoundedCornerShape(6.dp))
                                 .background(Color(0xFFF3E9EB))
                                 .padding(horizontal = 8.dp)
+                                .clickable {
+                                    context.sendEmail("ahmed6@gmail.com","Test")
+                                }
                             ,
                             contentAlignment = Alignment.Center,
                         )
@@ -171,7 +181,11 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                             Icon(painter = painterResource(id = R.drawable.call),
                                 contentDescription = null,
                                 modifier = Modifier
-                                    .size(24.dp),
+                                    .size(24.dp)
+                                    .clickable {
+                                        val i = Intent(Intent.ACTION_DIAL, "tel: 19888".toUri())
+                                        context.startActivity(i)
+                                    },
                                 tint = Color(0xFFCA0808)
 
                             )
@@ -186,6 +200,17 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
         }
     }
 }
+
+
+fun Context.sendEmail(to: String, subject: String){
+    val intent  = Intent(Intent.ACTION_SEND)
+    intent.type = "vdn.android.cursor.item/email"
+    intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
+    intent.putExtra(Intent.EXTRA_SUBJECT,subject)
+    startActivity(intent)
+
+}
+
 
 @Composable
 fun MoreScreenItem(

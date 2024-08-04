@@ -81,7 +81,7 @@ fun scaffoldConfirm(navController: NavController,addCardViewModel: AddCardViewMo
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         data3(
-            route = "",
+            route = "transactions",
             title = "Transactions",
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)

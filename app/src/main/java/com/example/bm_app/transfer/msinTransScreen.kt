@@ -1,6 +1,7 @@
 package com.example.bm_app.transfer
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,10 +15,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
@@ -58,7 +63,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.buttonbar.Screen
+import com.example.bm_app.mycard.lazycol
 import com.example.bm_app.signinscreen.SigninScreen
+import com.example.bm_app.transaction.IconandBackground
 
 data class Navi (val route : String ,val title : String ,  val SelectedIcon : Painter, val unselectedItem : Painter)
 @Composable
@@ -81,7 +88,7 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         Navi(
-            route="",
+            route="transactions",
             title = "Transactions",
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
@@ -119,13 +126,13 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
     })
     { innerpadding ->
         Box(modifier = modifier.padding(innerpadding)){
-            TransferHome()
+            TransferHome(navController)
         }
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TransferHome( modifier: Modifier = Modifier) {
+fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -163,14 +170,13 @@ fun TransferHome( modifier: Modifier = Modifier) {
 
         }
         Spacer(modifier = modifier.padding(8.dp))
-
         Card(
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.reddd)),
             modifier = modifier
                 .fillMaxWidth()
                 .height(150.dp)
-                .padding(8.dp)
+                .padding(all = 16.dp)
         )
         {
             Spacer(modifier = modifier.padding(top = 32.dp))
@@ -187,42 +193,196 @@ fun TransferHome( modifier: Modifier = Modifier) {
                 modifier = modifier.padding(horizontal = 8.dp)
             )
         }
-        Spacer(modifier = modifier.padding(8.dp))
+
         Card(
+            shape = RoundedCornerShape(8.dp),
             modifier = modifier
                 .fillMaxWidth()
                 .height(150.dp)
-                .padding(horizontal = 8.dp)
-                .border(0.05.dp, Color.Yellow),
+                .padding(horizontal = 16.dp),
             colors = CardDefaults.cardColors(containerColor = Color.White)
-        )
-        {
-            Row (
-                verticalAlignment  = Alignment.CenterVertically,
-
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp))
-            {
-                Spacer(modifier = modifier.padding(horizontal = 12.dp))
-                Text(text = "Services")
-            }
-            Row (
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(40.dp)){
-                IconText(icon = painterResource(id = R.drawable.home), text = "Transfer")
-                Spacer(modifier = modifier.padding(16.dp))
-                IconText(icon = painterResource(id = R.drawable.transaction_figma), text ="Transaction" )
-                Spacer(modifier = modifier.padding(16.dp))
-                IconText(icon = painterResource(id = R.drawable.cards_figma), text ="Cards")
-                Spacer(modifier = modifier.padding(16.dp))
-                IconText(icon = painterResource(id = R.drawable.ic_account_balance), text ="Cards")
-
+        ) {
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                ) {
+                    Spacer(modifier = modifier.padding(horizontal = 10.dp))
+                    Text(text = "Services")
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                ) {
+                    ServiceItem(
+                        iconId = R.drawable.transfer1,
+                        label = "Transfer",
+                        onClick = {navController.navigate("transfer")}
+                    )
+                    ServiceItem(
+                        iconId = R.drawable.history11,
+                        label = "Transactions",
+                        onClick = {navController.navigate("transactions")}
+                    )
+                    ServiceItem(
+                        iconId = R.drawable.card1s,
+                        label = "Cards",
+                        onClick = {navController.navigate("my_cards")}
+                    )
+                    ServiceItem(
+                        iconId = R.drawable.account1,
+                        label = "Account",
+                        onClick = {navController.navigate("more")}
+                    )
+                }
             }
         }
+        Column {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .padding(start = 16.dp, top = 16.dp, end = 16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFFBF6E8))
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp)
+                ) {
+                    Text(text = "Recent transactions", fontSize = 16.sp)
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = "View all",
+                        fontSize = 16.sp,
+                        modifier = Modifier.clickable { navController.navigate("transactions") },
+                        color = Color(0xFF7C7A78)
+                    )
+                }
+            }
+
+            val transactions = listOf(
+                "Ahmed Mohamed" to "1234",
+                "Ahmed Mohamed" to "1234",
+                "Ahmed Mohamed" to "1234",
+                "Ahmed Mohamed" to "1234",
+                "Ahmed Mohamed" to "1234"
+            )
+
+            LazyColumn {
+                items(transactions) { transaction ->
+                    TransactionItem(
+                        name = transaction.first,
+                        accountNumber = transaction.second,
+                        accountType = "Visa",
+                        date = "Today 11:00",
+                        transactionType = "Received",
+                        amount = 1000,
+                        onClick = {},
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+@Composable
+fun TransactionItem(
+    name: String,
+    accountNumber: String,
+    accountType: String,
+    date: String,
+    transactionType: String,
+    amount: Int,
+    onClick: () -> Unit,
+    modifier: Modifier
+) {
+    Card(
+        modifier = modifier
+            .background(color = Color.White)
+            .fillMaxWidth().clickable { onClick() },
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        shape = RoundedCornerShape(8.dp),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFFF3E9EB)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.group7),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                    tint = Color.Unspecified
+                )
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(text = name, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "$accountType . $accountNumber",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+                Text(
+                    text = "$date - $transactionType",
+                    modifier = Modifier.padding(top = 4.dp),
+                    color = Color.Gray
+                )
+            }
+            Text(
+                text = "$$amount",
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF871E35),
+                modifier = Modifier.padding(start = 12.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun ServiceItem(iconId: Int, label: String, onClick : ()->Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(horizontal = 6.dp)
+            .clickable { onClick() }
+    ) {
+        Box(
+            modifier = Modifier
+                .size(60.dp)
+                .clip(shape = RoundedCornerShape(8.dp))
+                .background(Color(0xFFFBFBFB)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(id = iconId),
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+                tint = Color(0xFF9F7815)
+            )
+        }
+        Spacer(modifier = Modifier.height(2.dp))
+        Text(text = label, fontSize = 14.sp)
     }
 }
 

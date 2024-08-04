@@ -1,7 +1,6 @@
 package com.example.bm_app.approutes
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,13 +8,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.SignUp_Screen.ScaffoldSignup
 //import com.example.bm_app.SignUp_Screen.ScaffoldSignup
 //import com.example.bm_app.SignUp_Screen.SignUp
-import com.example.bm_app.SignUp_Screen.SignUpScreenP2
 import com.example.bm_app.SignUp_Screen.SignUpScreenP2S
 import com.example.bm_app.list.CountryList
-import com.example.bm_app.more.MyCardsScreen
 import com.example.bm_app.more.ScaffoldFav
 import com.example.bm_app.more.ScaffoldMoreMain
-import com.example.bm_app.more.ScaffoldMyCardsMain
+import com.example.bm_app.mycard.ScaffoldMyCardsMain
 import com.example.bm_app.mycard.ScaaffoldOTPend
 import com.example.bm_app.mycard.ScaffoldCurrency
 import com.example.bm_app.mycard.ScaffoldOtp
@@ -26,10 +23,11 @@ import com.example.bm_app.profile.ProfileInformationScreen
 import com.example.bm_app.profile.ScaffoldProfile
 import com.example.bm_app.profile.SettingScreen
 import com.example.bm_app.signinscreen.SigninScreen
+import com.example.bm_app.transaction.ScaffololdSuccessTransactionScreen
+import com.example.bm_app.transaction.ScaffololdTransactionScreen
 import com.example.bm_app.transfer.ScaffoldBack
 import com.example.bm_app.transfer.Scaffold_Transfer
 import com.example.bm_app.transfer.ScaffoldtransMain
-import com.example.bm_app.transfer.TransferHome
 import com.example.bm_app.transfer.scaffoldConfirm
 import com.example.bm_app.viewModel.AddCardViewModel
 
@@ -42,6 +40,8 @@ object AppRoutes
     val TRANSFER_AMOUNT ="transfer"
     val TRANSFER_CONFIRMATION ="transfer_confirmation"
     val TRANSFER_PAYMENT ="transfer_payment"
+    val TRANSACTIONS_HISTORY = "transactions"
+    val TRANSACTION_SUCCESS = "transaction_success"
     val MYCARDS_SELECTCURRENY = "mycards_selectcurrency"
     val MYCARDS_ADDCARDS = "mycards_addcards"
     val MYCARDS_LOADINGSCREEN = "mycards_loadingscreen"
@@ -65,7 +65,7 @@ fun AppNavHost()
     val addCardViewModel: AddCardViewModel = viewModel()
 
 
-    NavHost(navController = navController, startDestination = AppRoutes.SIGNUP1 )
+    NavHost(navController = navController, startDestination = AppRoutes.TRANSFER_HOME )
  {
      composable(route = AppRoutes.SIGNUP1){ ScaffoldSignup(navController) }
      composable(route = AppRoutes.SIGNUP2){ SignUpScreenP2S( navController) }
@@ -74,6 +74,8 @@ fun AppNavHost()
      composable(route = AppRoutes.TRANSFER_AMOUNT){ Scaffold_Transfer(navController) }
      composable(route = AppRoutes.TRANSFER_CONFIRMATION){ scaffoldConfirm(navController, addCardViewModel) }
      composable(route = AppRoutes.TRANSFER_PAYMENT){ ScaffoldBack(navController) }
+     composable(route = AppRoutes.TRANSACTIONS_HISTORY){ ScaffololdTransactionScreen(navController) }
+     composable(route = AppRoutes.TRANSACTION_SUCCESS){ ScaffololdSuccessTransactionScreen(navController) }
      composable(route = AppRoutes.MYCARDS_SELECTCURRENY){ ScaffoldCurrency(navController) }
      composable(route = AppRoutes.MYCARDS_ADDCARDS){ Scaffold_AddCard(navController) }
      composable(route = AppRoutes.MYCARDS_LOADINGSCREEN){ ScaffoldBack(navController) }
