@@ -11,4 +11,6 @@
     <color name="gry">#E3E2E2</color>
     <color name="lightred">#C36565</color>
     <color name="brown">#9F7815</color>
+    <color name="main">#f3e9eb</color>
+    <color name="green">#118A30</color>
 </resources>
