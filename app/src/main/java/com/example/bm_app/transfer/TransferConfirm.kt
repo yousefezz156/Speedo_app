@@ -52,16 +52,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.approutes.AppRoutes
+import com.example.bm_app.viewModel.AddCardViewModel
 import org.xmlpull.v1.sax2.Driver
 data class data3 (val route :String, val title : String ,  val SelectedIcon : Painter, val unselectedItem : Painter)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun scaffoldConfirm(navController: NavController,modifier: Modifier = Modifier) {
+fun scaffoldConfirm(navController: NavController,addCardViewModel: AddCardViewModel = viewModel(),modifier: Modifier = Modifier) {
     var selectedItem by rememberSaveable {
         mutableStateOf(1)
     }
@@ -130,17 +132,20 @@ fun scaffoldConfirm(navController: NavController,modifier: Modifier = Modifier) 
     )
     { innerpadding ->
         Box(modifier = modifier.padding(innerpadding)) {
-            TransferConfirmation(navController = navController)
+            TransferConfirmation(navController = navController,addCardViewModel)
         }
     }
 }
 
 @Composable
-fun TransferConfirmation(navController: NavController,modifier: Modifier = Modifier) {
+fun TransferConfirmation(navController: NavController,addCardViewModel: AddCardViewModel = viewModel(),modifier: Modifier = Modifier) {
+    val cardHolderName = addCardViewModel.cardHolderName.value
+    val cardNumber = addCardViewModel.cardNumber.value
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(8.dp).verticalScroll(state = ScrollState(1) , true),
+            .padding(8.dp)
+            .verticalScroll(state = ScrollState(1), true),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(modifier.fillMaxWidth()) {
@@ -211,7 +216,7 @@ fun TransferConfirmation(navController: NavController,modifier: Modifier = Modif
                         Column {
                             Text(text = "From")
                             Text(
-                                text = "Asmaa dosuky",
+                                text = cardHolderName,
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 20.sp,
@@ -219,7 +224,7 @@ fun TransferConfirmation(navController: NavController,modifier: Modifier = Modif
                             )
 
                             Text(
-                                text = "Account xxxx7890",
+                                text = "Account ${cardNumber.takeLast(4).padStart(cardNumber.length, '*')}",
                                 modifier = modifier.padding(top = 12.dp)
                             )
                         }

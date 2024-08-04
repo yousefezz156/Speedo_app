@@ -124,7 +124,7 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
 
             if (isDatePickerShown) {
                 DatePickerChooser(onConfirm = { dateState ->
-                    val dateFormatter = SimpleDateFormat("dd-MM-yyyy", java.util.Locale.US)
+                    val dateFormatter = SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US)
                     val c = android.icu.util.Calendar.getInstance()
                     //Ex: time in millis = 1720483200000
                     //Ex: c.time = Tue Jul 09 03:00:00 GMT+03:00 2024 --> date formatter = 09-07-2024

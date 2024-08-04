@@ -36,6 +36,8 @@ package com.example.bm_app.signinscreen
 //import kotlin.math.sign
 
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -46,6 +48,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -60,7 +63,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
+import com.example.bm_app.api.loginApi.loginUserClient
 import com.example.bm_app.approutes.AppRoutes
+import com.example.bm_app.modelApi.LoginRequest
+import com.example.bm_app.modelApi.LoginResponse
+import com.example.bm_app.validation.isValidEmail
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @Composable
@@ -78,6 +88,8 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -117,16 +129,49 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    if (passwordVisible)
-                        Icon(painter = painterResource(id = R.drawable.eye_comp) , contentDescription = null)
-                    else
-                        Icon(painter = painterResource(id = R.drawable.eye_open) , contentDescription = null)
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        val icon =
+                            if (passwordVisible) Image(
+                                painter = painterResource(id = R.drawable.eye_comp),
+                                contentDescription =null )
+                            else
+                                Image(
+                                painter = painterResource(id = R.drawable.eye_open),
+                                contentDescription = null
+                            )
 
+                    }
                 }
             )
             Spacer(modifier = Modifier.padding(8.dp))
             Button(
-                onClick = { navController.navigate(AppRoutes.TRANSFER_HOME) },
+                onClick = {  if (isValidEmail(email) && password.isNotEmpty()) {
+                    val loginRequest = LoginRequest(email, password)
+                    loginUserClient.instance.loginUser(loginRequest).enqueue(object :
+                        Callback<LoginResponse> {
+                        override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                            if (response.isSuccessful) {
+                                val token = response.body()?.token
+                                if (token != null) {
+                                    storeToken(context, token)
+                                    Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                                    navController.navigate(AppRoutes.TRANSFER_HOME)
+                                } else {
+                                    Toast.makeText(context, "Failed to retrieve token", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                            Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                } else {
+                    Toast.makeText(context, "Please enter valid email and password", Toast.LENGTH_SHORT).show()
+                }
+                          },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -146,13 +191,20 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
             ) {
                 Text(text = "Don't have an account?")
                 Text(
-                    text = " Sign in",
+                    text = " Sign up",
                     textDecoration = TextDecoration.Underline,
                     color = colorResource(id = R.color.reddd),
                     modifier = Modifier.clickable { }
                 )
             }
         }
+    }
+}
+fun storeToken(context: Context, token: String) {
+    val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+    with(sharedPreferences.edit()) {
+        putString("auth_token", token)
+        apply()
     }
 }
 

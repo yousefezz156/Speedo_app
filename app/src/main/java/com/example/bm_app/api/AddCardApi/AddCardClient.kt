@@ -1,11 +1,11 @@
-/*package com.example.bm_app.api
+package com.example.bm_app.api.AddCardApi
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RegisterApiPost {
+object AddCardClient {
     private val client: OkHttpClient by lazy {
         val logging = HttpLoggingInterceptor().apply {
             setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -15,14 +15,13 @@ object RegisterApiPost {
             .build()
     }
 
-    val instance: RegisterServices by lazy {
+    val instance: AddCardService by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://localhost:8080/")
+            .baseUrl("http://localhost:8080")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-      retrofit.create(RegisterServices::class.java)
+        retrofit.create(AddCardService::class.java)
     }
 }
-*/

@@ -1,5 +1,6 @@
 package com.example.bm_app.mycard
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,19 +25,32 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
+import com.example.bm_app.api.AddCardApi.AddCardClient
 import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.approutes.AppRoutes.SIGNUP2
+import com.example.bm_app.modelApi.AddCardRequest
+import com.example.bm_app.viewModel.AddCardViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,7 +81,24 @@ fun Scaffold_AddCard(navController: NavController, modifier: Modifier = Modifier
 }
 
 @Composable
-fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier) {
+fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , addCardViewModel: AddCardViewModel = viewModel()) {
+
+    var cardHolderName by remember {
+        mutableStateOf("yousef")
+    }
+    var cardNumber by remember {
+        mutableStateOf("")
+    }
+    var monthYear by remember {
+        mutableStateOf("")
+    }
+    var cvv by remember {
+        mutableStateOf("")
+    }
+    var balance by remember {
+        mutableIntStateOf(1000)
+    }
+    val context = LocalContext.current
     Column(
         modifier = modifier.fillMaxSize(),
         ) {
@@ -84,8 +115,8 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier) {
             Text(text = "Cardholder Name")
             Spacer(modifier = modifier.padding(8.dp))
             OutlinedTextField(
-                value = "",
-                onValueChange = { it },
+                value = cardHolderName,
+                onValueChange = { cardHolderName=it },
                 modifier.fillMaxWidth(),
                 placeholder = {
                     Text(
@@ -96,8 +127,8 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier) {
             Text(text = "Card No")
             Spacer(modifier = modifier.padding(8.dp))
             OutlinedTextField(
-                value = "",
-                onValueChange = { it },
+                value = cardNumber,
+                onValueChange = { cardNumber=it },
 
                 modifier.fillMaxWidth(), placeholder = {
                     Text(
@@ -109,7 +140,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier) {
                 Column {
                     Text(text = "MM/YY")
                     Spacer(modifier = modifier.padding(8.dp))
-                    OutlinedTextField(value = "", onValueChange = { it },
+                    OutlinedTextField(value = monthYear, onValueChange = { monthYear=it },
                         modifier
                             .width(168.dp)
                             .height(49.dp),
@@ -122,8 +153,8 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier) {
                     Spacer(modifier = modifier.padding(8.dp))
 
                     OutlinedTextField(
-                        value = "",
-                        onValueChange = { it },
+                        value = cvv,
+                        onValueChange = { cvv=it },
                         modifier
                             .width(168.dp)
                             .height(49.dp),
@@ -134,7 +165,33 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier) {
         }
         Spacer(modifier = modifier.padding(32.dp))
         Button(
-            onClick = { navController.navigate(AppRoutes.MYCARDS_OTP) },
+            onClick = { val addCardRequest = AddCardRequest(
+                cardNumber = cardNumber,
+                cardholderName = cardHolderName,
+                monthYear = monthYear ,
+                cvv = cvv,
+                pin = "",
+                balance = balance,
+                currency = "",
+                accountType = ""
+            )
+
+                AddCardClient.instance.addCard(addCardRequest).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                            addCardViewModel.cardHolderName.value = cardHolderName
+                            addCardViewModel.cardNumber.value = cardNumber
+                            Toast.makeText(context, "Card added successfully", Toast.LENGTH_SHORT).show()
+                            navController.navigate(AppRoutes.MYCARDS_OTP)
+                        } else {
+                            Toast.makeText(context, "Failed to add card", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }) },
             modifier
                 .fillMaxWidth()
                 .padding(16.dp)

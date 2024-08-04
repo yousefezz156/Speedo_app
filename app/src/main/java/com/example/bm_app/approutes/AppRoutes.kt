@@ -2,9 +2,11 @@ package com.example.bm_app.approutes
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.bm_app.SignUp_Screen.ScaffoldSignup
 //import com.example.bm_app.SignUp_Screen.ScaffoldSignup
 //import com.example.bm_app.SignUp_Screen.SignUp
 import com.example.bm_app.SignUp_Screen.SignUpScreenP2
@@ -29,6 +31,7 @@ import com.example.bm_app.transfer.Scaffold_Transfer
 import com.example.bm_app.transfer.ScaffoldtransMain
 import com.example.bm_app.transfer.TransferHome
 import com.example.bm_app.transfer.scaffoldConfirm
+import com.example.bm_app.viewModel.AddCardViewModel
 
 object AppRoutes
 {
@@ -59,15 +62,17 @@ object AppRoutes
 fun AppNavHost()
 {
  val navController = rememberNavController()
+    val addCardViewModel: AddCardViewModel = viewModel()
 
- NavHost(navController = navController, startDestination = AppRoutes.TRANSFER_HOME )
+
+    NavHost(navController = navController, startDestination = AppRoutes.SIGNUP1 )
  {
-     //composable(route = AppRoutes.SIGNUP1){ ScaffoldSignup(navController) }
+     composable(route = AppRoutes.SIGNUP1){ ScaffoldSignup(navController) }
      composable(route = AppRoutes.SIGNUP2){ SignUpScreenP2S( navController) }
      composable(route = AppRoutes.SIGNIN){ SigninScreen(navController) }
      composable(route = AppRoutes.TRANSFER_HOME){ ScaffoldtransMain(navController = navController)}
      composable(route = AppRoutes.TRANSFER_AMOUNT){ Scaffold_Transfer(navController) }
-     composable(route = AppRoutes.TRANSFER_CONFIRMATION){ scaffoldConfirm(navController) }
+     composable(route = AppRoutes.TRANSFER_CONFIRMATION){ scaffoldConfirm(navController, addCardViewModel) }
      composable(route = AppRoutes.TRANSFER_PAYMENT){ ScaffoldBack(navController) }
      composable(route = AppRoutes.MYCARDS_SELECTCURRENY){ ScaffoldCurrency(navController) }
      composable(route = AppRoutes.MYCARDS_ADDCARDS){ Scaffold_AddCard(navController) }

@@ -1,4 +1,4 @@
-/*package com.example.bm_app.SignUp_Screen
+package com.example.bm_app.SignUp_Screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
-import com.example.bm_app.api.RegisterApiPost
+import com.example.bm_app.api.registerApi.RegisterApiPost
 import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.approutes.AppRoutes.SIGNUP2
 import com.example.bm_app.modelApi.Register
@@ -218,4 +218,4 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
 @Composable
 private fun SignUp_Prev() {
     SignUp(rememberNavController())
-}*/
+}
