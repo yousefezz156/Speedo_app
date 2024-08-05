@@ -2,6 +2,7 @@ package com.example.bm_app.more
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,6 +45,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -61,6 +64,7 @@ import javax.security.auth.Subject
 @Composable
 fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
     var isHelpOpen by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -84,8 +88,11 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                 iconRes = R.drawable.group,
                 text = "Transfer From Website",
                 navController = navController,
-                destination = "transfer",
-                onItemClick ={}
+                destination = "no",
+                onItemClick ={
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.banquemisr.com/"))
+                    context.startActivity(intent)
+                }
             )
             HorizontalDivider(thickness = 1.dp, color = Color(0xFFDDD5EB))
             MoreScreenItem(
@@ -108,7 +115,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                 iconRes = R.drawable.fill,
                 text = "Help",
                 navController = navController,
-                destination = "",
+                destination = "no",
                 onItemClick ={isHelpOpen = true}
             )
             HorizontalDivider(color = Color(0xFFDDD5EB), thickness = 1.dp)
@@ -122,7 +129,6 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
         }
     }
     if (isHelpOpen) {
-        val context = LocalContext.current
         ModalBottomSheet(onDismissRequest = { isHelpOpen = false }){
             Spacer(modifier = Modifier.height(55.dp))
             Row(){
@@ -142,7 +148,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                                 .background(Color(0xFFF3E9EB))
                                 .padding(horizontal = 8.dp)
                                 .clickable {
-                                    context.sendEmail("ahmed6@gmail.com","Test")
+                                    context.sendEmail("ahmed6@gmail.com", "Test")
                                 }
                             ,
                             contentAlignment = Alignment.Center,
@@ -201,7 +207,6 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
     }
 }
 
-
 fun Context.sendEmail(to: String, subject: String){
     val intent  = Intent(Intent.ACTION_SEND)
     intent.type = "vdn.android.cursor.item/email"
@@ -226,7 +231,7 @@ fun MoreScreenItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                if (text != "Help") {
+                if (destination != "no"  ) {
                     navController.navigate(destination)
                 }
                 onItemClick()

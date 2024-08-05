@@ -184,7 +184,7 @@ fun TransferPage(navController: NavController,modifier: Modifier = Modifier, fav
                         card(
                             painter = favoriteItem.image,
                             name = favoriteItem.name,
-                            accountB = favoriteItem.accountB
+                            accountB = favoriteItem.account
                         )
                     }
                 }

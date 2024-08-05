@@ -1,34 +1,13 @@
 package com.example.bm_app.more
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,7 +16,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -45,16 +23,16 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.transfer.Navi
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.runtime.remember
-
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.bm_app.list.favoriteList
+import com.example.bm_app.model.Favorite
 
 @Composable
-fun FavoriteScreen(navController: NavController, modifier: Modifier = Modifier) {
-    var isDialogOpen by rememberSaveable { mutableStateOf(false) }
-    var selectedItem by rememberSaveable { mutableStateOf<Pair<String, String>?>(null) }
+fun FavoriteScreen(navController: NavController, modifier: Modifier = Modifier, favourites: List<Favorite>) {
+    var favouritesState by remember { mutableStateOf(favourites) }
+    var selectedItem by remember { mutableStateOf<Favorite?>(null) }
+    var isDialogOpen by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -71,9 +49,10 @@ fun FavoriteScreen(navController: NavController, modifier: Modifier = Modifier) 
             modifier = Modifier.padding(vertical = 16.dp)
         )
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -92,49 +71,40 @@ fun FavoriteScreen(navController: NavController, modifier: Modifier = Modifier) 
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Example list of favourite items
-            val favourites = listOf(
-                "Ahmed Rasshed" to "Account xxxx7890",
-                "Ahmed Fathy" to "Account xxxx7890",
-                "Ahmed Alaa" to "Account xxxx7890",
-                "Ahmed Galal" to "Account xxxx7890",
-                "Ahmed Hagag" to "Account xxxx7890",
-                "Ahmed Mohsen" to "Account xxxx7890",
-                "Ahmed Test"  to "Account 121 5151"
-            )
             LazyColumn {
-                items(favourites){(name, account) ->
+                items(favouritesState) { favourite ->
                     FavoriteScreenItem(
                         iconRes = R.drawable.group13,
-                        name = name,
-                        account = account,
+                        name = favourite.name,
+                        account = favourite.account,
                         onEditClick = {
-                            selectedItem = name to account
+                            selectedItem = favourite
                             isDialogOpen = true
                         },
                         onDeleteClick = {
-                            // Handle delete logic here
+                            favouritesState = favouritesState.filter { it != favourite }
                         }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
 
+            if (isDialogOpen) {
+                selectedItem?.let { favorite ->
+                    EditFavorite(
+                        name = favorite.name,
+                        account = favorite.account,
+                        onDismiss = { isDialogOpen = false },
+                        onSave = { newName, newAccount ->
+                            favouritesState = favouritesState.map {
+                                if (it == favorite) it.copy(name = newName, account = newAccount) else it
+                            }
+                            isDialogOpen = false
+                        }
+                    )
                 }
             }
         }
-    }
-
-    if (isDialogOpen) {
-        val (name, account) = selectedItem!!
-        EditFavorite(
-            name = name,
-            account = account,
-            onDismiss = { isDialogOpen = false },
-            onSave = { newName, newAccount ->
-                // Handle save logic here
-                // Update the item in the list
-                isDialogOpen = false
-            }
-        )
     }
 }
 
@@ -170,7 +140,7 @@ fun FavoriteScreenItem(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = account,
+                text = "Account xxxx${account.takeLast(4)}",
                 fontSize = 14.sp,
                 color = Color(0xFF666666)
             )
@@ -195,7 +165,6 @@ fun FavoriteScreenItem(
         )
     }
 }
-
 
 @Composable
 fun ScaffoldFav(navController: NavController, modifier: Modifier = Modifier) {
@@ -265,7 +234,7 @@ fun ScaffoldFav(navController: NavController, modifier: Modifier = Modifier) {
         }
     }) { innerPadding ->
         Box(modifier = modifier.padding(innerPadding)) {
-            FavoriteScreen(navController = navController )
+            FavoriteScreen(navController = navController, favourites = favoriteList().getFavoriteList() )
         }
     }
 }
@@ -287,11 +256,11 @@ fun EditFavorite(
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-        ModalBottomSheet(onDismissRequest = onDismiss){
+        ModalBottomSheet(onDismissRequest = onDismiss) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding((16.dp)),
+                    .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Row(
@@ -309,8 +278,8 @@ fun EditFavorite(
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Column (modifier= Modifier.padding(horizontal = 16.dp)){
-                Text(text = "Recipient Account", fontSize = 16.sp )
+            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                Text(text = "Recipient Account", fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 OutlinedTextField(
                     value = newAccount,
@@ -320,7 +289,7 @@ fun EditFavorite(
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
-            Column(modifier= Modifier.padding(horizontal = 16.dp)) {
+            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 Text(text = "Recipient Name", fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 OutlinedTextField(
@@ -328,21 +297,19 @@ fun EditFavorite(
                     onValueChange = { newName = it },
                     placeholder = { Text("Enter Cardholder Name") },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(8.dp)
                 )
             }
             Spacer(modifier = Modifier.height(32.dp))
             Button(
-                onClick = { },
-                modifier
+                onClick = { onSave(newName, newAccount) },
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .size(56.dp),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(
-                        id = R.color.reddd
-                    )
+                    containerColor = colorResource(id = R.color.reddd)
                 )
             ) {
                 Text(text = "Save")
@@ -357,4 +324,3 @@ fun EditFavorite(
 private fun Show() {
     ScaffoldFav(navController = rememberNavController())
 }
-

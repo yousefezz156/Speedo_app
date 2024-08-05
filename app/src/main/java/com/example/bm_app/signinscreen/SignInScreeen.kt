@@ -36,8 +36,10 @@ package com.example.bm_app.signinscreen
 //import kotlin.math.sign
 
 
+import android.app.Activity
 import android.content.Context
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -88,6 +90,8 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    val activity = (LocalContext.current as? Activity)
+
 
     val context = LocalContext.current
 
@@ -195,10 +199,13 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                     text = " Sign up",
                     textDecoration = TextDecoration.Underline,
                     color = colorResource(id = R.color.reddd),
-                    modifier = Modifier.clickable { }
+                    modifier = Modifier.clickable {navController.navigate("signup_1")}
                 )
             }
         }
+    }
+    BackHandler() {
+        activity?.finish()
     }
 }
 fun storeToken(context: Context, token: String) {

@@ -1,5 +1,7 @@
 package com.example.bm_app.transfer
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -49,6 +51,7 @@ import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -58,6 +61,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
@@ -74,6 +78,7 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
     var selectedItem by rememberSaveable {
         mutableStateOf(0)
     }
+    val activity = (LocalContext.current as? Activity)
     val items = listOf(
         Navi(
             route = "no",
@@ -128,6 +133,9 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
         Box(modifier = modifier.padding(innerpadding)){
             TransferHome(navController)
         }
+    }
+    BackHandler() {
+            activity?.finish()
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -255,7 +263,9 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 2.dp)
                 ) {
                     Text(text = "Recent transactions", fontSize = 16.sp)
                     Spacer(modifier = Modifier.weight(1f))
@@ -309,7 +319,8 @@ fun TransactionItem(
     Card(
         modifier = modifier
             .background(color = Color.White)
-            .fillMaxWidth().clickable { onClick() },
+            .fillMaxWidth()
+            .clickable { onClick() },
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = RoundedCornerShape(8.dp),
     ) {

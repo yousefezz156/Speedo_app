@@ -9,15 +9,25 @@ class favoriteList {
         favorite.add(
             Favorite(
                 R.drawable.bank,
-                "asmaa dosuky",
-                "Account xxxx7890"
+                1,
+                "Rashed",
+                "6548489"
             )
         )
         favorite.add(
             Favorite(
                 R.drawable.bank,
-                "asmaa dosuky",
-                "Account xxxx7890"
+                2,
+                "Ahmed Fathi",
+                "54648489890"
+            )
+        )
+        favorite.add(
+            Favorite(
+                R.drawable.bank,
+                2,
+                "Ahmed Galal",
+                "5465454654"
             )
         )
         return favorite
