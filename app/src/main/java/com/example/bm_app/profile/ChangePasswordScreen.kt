@@ -1,6 +1,7 @@
 package com.example.bm_app.profile
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.compose.ui.unit.dp
@@ -86,18 +89,20 @@ fun ChangePasswordScreen(navController: NavController, modifier: Modifier = Modi
                         Text(text = "Enter your Password")
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    visualTransformation = PasswordVisualTransformation(),
+                    visualTransformation = if (passwordVisual) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
-                        if (passwordVisual)
-                            Icon(
-                                painter = painterResource(id = R.drawable.eye_comp),
-                                contentDescription = null
-                            )
-                        else
-                            Icon(
-                                painter = painterResource(id = R.drawable.eye_open),
-                                contentDescription = null
-                            )
+                        IconButton(onClick = { passwordVisual = !passwordVisual }) {
+                            val icon =
+                                if (!passwordVisual) Image(
+                                    painter = painterResource(id = R.drawable.eye_comp),
+                                    contentDescription =null )
+                                else
+                                    Image(
+                                        painter = painterResource(id = R.drawable.eye_open),
+                                        contentDescription = null
+                                    )
+
+                        }
                     }
                 )
             }
@@ -113,18 +118,20 @@ fun ChangePasswordScreen(navController: NavController, modifier: Modifier = Modi
                         .fillMaxWidth(),
                     placeholder = { Text(text = "Enter your Password") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    visualTransformation = PasswordVisualTransformation(),
+                    visualTransformation = if (newPasswordVisual) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
-                        if (newPasswordVisual)
-                            Icon(
-                                painter = painterResource(id = R.drawable.eye_comp),
-                                contentDescription = null
-                            )
-                        else
-                            Icon(
-                                painter = painterResource(id = R.drawable.eye_open),
-                                contentDescription = null
-                            )
+                        IconButton(onClick = { newPasswordVisual = !newPasswordVisual }) {
+                            val icon =
+                                if (!newPasswordVisual) Image(
+                                    painter = painterResource(id = R.drawable.eye_comp),
+                                    contentDescription =null )
+                                else
+                                    Image(
+                                        painter = painterResource(id = R.drawable.eye_open),
+                                        contentDescription = null
+                                    )
+
+                        }
                     }
                 )
             }

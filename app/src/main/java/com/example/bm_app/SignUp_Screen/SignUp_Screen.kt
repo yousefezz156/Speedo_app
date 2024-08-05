@@ -19,6 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,6 +35,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -84,6 +87,7 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
+            .padding(16.dp)
             .verticalScroll(state = ScrollState(1), true)
     )
     {
@@ -135,19 +139,20 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
                     .padding(horizontal = 8.dp),
                 placeholder = { Text(text = "Enter your Password") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                //visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (passwordVisual) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
-                    if (passwordVisual)
-                        Icon(
-                            painter = painterResource(id = R.drawable.eye_comp),
-                            contentDescription = null
-                        )
-                    else
-                        Icon(
-                            painter = painterResource(id = R.drawable.eye_open),
-                            contentDescription = null
-                        )
+                    IconButton(onClick = { passwordVisual = !passwordVisual }) {
+                        val icon =
+                            if (!passwordVisual) Image(
+                                painter = painterResource(id = R.drawable.eye_comp),
+                                contentDescription =null )
+                            else
+                                Image(
+                                    painter = painterResource(id = R.drawable.eye_open),
+                                    contentDescription = null
+                                )
 
+                    }
                 }
             )
             Spacer(modifier = modifier.padding(8.dp))

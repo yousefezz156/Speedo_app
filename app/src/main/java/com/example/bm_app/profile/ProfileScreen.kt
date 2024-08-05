@@ -44,6 +44,7 @@ import com.example.bm_app.transfer.Navi
 
 @Composable
 fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
+    var userName = "Ahmed Rashed"
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -81,7 +82,7 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
                 )
                 {
                     Text(
-                        text = "FL",
+                        text = getInitials(userName),
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         textAlign = TextAlign.Center
@@ -90,7 +91,7 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "First Last",
+                    text = userName,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF24221E)
@@ -301,7 +302,12 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
         }
     }
 }
-
+fun getInitials(fullName: String): String {
+    val parts = fullName.trim().split(" ")
+    val firstNameInitial = parts[0].first().uppercaseChar()
+    val lastNameInitial = parts[1].first().uppercaseChar()
+    return "$firstNameInitial$lastNameInitial"
+}
 @Composable
 fun ScaffoldProfile(navController: NavController, modifier: Modifier = Modifier) {
     var selectedItem by rememberSaveable {

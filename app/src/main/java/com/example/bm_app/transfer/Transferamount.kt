@@ -4,6 +4,8 @@ import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,6 +61,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -165,7 +168,6 @@ fun Scaffold_Transfer(navController: NavController, modifier: Modifier = Modifie
 
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -199,22 +201,22 @@ fun TransferPage(
     )
     {
         if (showpicker) {
-            ModalBottomSheet(onDismissRequest = { showpicker = false })
-            {
+            ModalBottomSheet(onDismissRequest = { showpicker = false }) {
                 favorite.forEach { favoriteItem ->
                     Card(
                         modifier = modifier
                             .fillMaxWidth()
-                            .padding(8.dp),
-                        colors = CardDefaults.cardColors(
-                            colorResource(id = R.color.purple_200)
-                        )
-                    )
-                    {
-                        card(
-                            painter = favoriteItem.image,
+                            .padding(horizontal = 16.dp , vertical = 8.dp),
+                        colors = CardDefaults.cardColors(Color(0xFFF3E9EB))
+                    ) {
+                        FavoriteScreenItem(
                             name = favoriteItem.name,
-                            accountB = favoriteItem.account
+                            account = favoriteItem.account,
+                            onFavoriteClick = {
+                                recipientName = favoriteItem.name
+                                recipientAccount = favoriteItem.account
+                                showpicker = false
+                            }
                         )
                     }
                 }
@@ -343,23 +345,23 @@ fun TransferPage(
 
         }
         Text(text = "Recipient Name", modifier.padding(8.dp))
-        OutlinedTextField(value = recipientName, onValueChange = { recipientName = it },
+        OutlinedTextField(
+            value = recipientName,
+            onValueChange = { recipientName = it },
             modifier
                 .fillMaxWidth()
-                .padding(8.dp), placeholder = {
-                Text(
-                    text = "Enter Recipient Name"
-                )
-            })
+                .padding(8.dp),
+            placeholder = { Text(text = "Enter Recipient Name") }
+        )
         Text(text = "Recipient Account", modifier.padding(8.dp))
-        OutlinedTextField(value = recipientAccount, onValueChange = { recipientAccount = it },
+        OutlinedTextField(
+            value = recipientAccount,
+            onValueChange = { recipientAccount = it },
             modifier
                 .fillMaxWidth()
-                .padding(8.dp), placeholder = {
-                Text(
-                    text = "Enter Recipient Account Number"
-                )
-            })
+                .padding(8.dp),
+            placeholder = { Text(text = "Enter Recipient Account Number") }
+        )
 
         Button(onClick = {
             if (recipientName.isNotEmpty() && !recipientAccount.isEmpty() && from.toInt() <= 5000) {
@@ -398,17 +400,39 @@ fun stepintext(painter: Painter, text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun card(@DrawableRes painter: Int, name: String, accountB: String, modifier: Modifier = Modifier) {
-    Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Image(painter = painterResource(id = painter), contentDescription = null)
-        Spacer(modifier = modifier.padding(8.dp))
-        Column(
-            modifier = modifier.fillMaxWidth()
+fun FavoriteScreenItem(
+    name: String,
+    account: String,
+    onFavoriteClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .background(Color(0xFFF3E9EB), shape = RoundedCornerShape(16.dp))
+            .clickable { onFavoriteClick() }
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.group13),
+            contentDescription = null,
+            modifier = Modifier.size(48.dp)
         )
-        {
-            Text(text = name, textAlign = TextAlign.Center)
-            Spacer(modifier = modifier.padding(4.dp))
-            Text(text = accountB, textAlign = TextAlign.Center)
+        Spacer(modifier = Modifier.width(16.dp))
+        Column {
+            Text(
+                text = name,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                color = Color(0xFF24221E)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Account xxxx${account.takeLast(4)}",
+                fontSize = 14.sp,
+                color = Color(0xFF666666)
+            )
         }
     }
 }

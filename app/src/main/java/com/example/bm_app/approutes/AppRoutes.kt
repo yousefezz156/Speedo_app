@@ -68,36 +68,9 @@ object AppRoutes {
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
-    val addCardViewModel: AddCardViewModel = viewModel()
-    val signUpViewModel: SignUpViewModel = viewModel()
+    //val addCardViewModel: AddCardViewModel = viewModel()
+    //val signUpViewModel: SignUpViewModel = viewModel()
 
-
-    NavHost(navController = navController, startDestination = AppRoutes.TRANSFER_HOME )
- {
-     composable(route = AppRoutes.SIGNUP1){ ScaffoldSignup(navController) }
-     composable(route = AppRoutes.SIGNUP2){ SignUpScreenP2S( navController) }
-     composable(route = AppRoutes.SIGNIN){ SigninScreen(navController) }
-     composable(route = AppRoutes.TRANSFER_HOME){ ScaffoldtransMain(navController = navController)}
-     composable(route = AppRoutes.TRANSFER_AMOUNT){ Scaffold_Transfer(navController) }
-     composable(route = AppRoutes.TRANSFER_CONFIRMATION){ scaffoldConfirm(navController, addCardViewModel) }
-     composable(route = AppRoutes.TRANSFER_PAYMENT){ ScaffoldBack(navController) }
-     composable(route = AppRoutes.TRANSACTIONS_HISTORY){ ScaffololdTransactionScreen(navController) }
-     composable(route = AppRoutes.TRANSACTION_SUCCESS){ ScaffololdSuccessTransactionScreen(navController) }
-     composable(route = AppRoutes.MYCARDS_SELECTCURRENY){ ScaffoldCurrency(navController) }
-     composable(route = AppRoutes.MYCARDS_ADDCARDS){ Scaffold_AddCard(navController) }
-     composable(route = AppRoutes.MYCARDS_LOADINGSCREEN){ ScaffoldBack(navController) }
-     composable(route = AppRoutes.MYCARDS_OTP){ ScaffoldOtp(navController) }
-     composable(route = AppRoutes.MYCARDS_SUCCESFUL){ ScaaffoldOTPend(navController) }
-     composable(route = AppRoutes.MORE){ ScaffoldMoreMain(navController) }
-     composable(route = AppRoutes.MORE_FAV){ ScaffoldFav(navController) }
-     composable(route = AppRoutes.MORE_PROFILE){ ScaffoldProfile(navController) }
-     composable(route = AppRoutes.PROFILE_INFORMATION){ ProfileInformationScreen(navController) }
-     composable(route = AppRoutes.PROFILE_SETTING){ SettingScreen(navController) }
-     composable(route = AppRoutes.CHANGE_PASSWORD){ ChangePasswordScreen(navController) }
-     composable(route = AppRoutes.EDIT_PROFILE){ EditProfileScreen(navController,country = CountryList().getCountryList()) }
-     composable(route = AppRoutes.MY_CARDS){ ScaffoldMyCardsMain(navController) }
-
- }
     NavHost(navController = navController, startDestination = AppRoutes.TRANSFER_HOME)
     {
         composable(route = SIGNUP1) { ScaffoldSignup(navController) }

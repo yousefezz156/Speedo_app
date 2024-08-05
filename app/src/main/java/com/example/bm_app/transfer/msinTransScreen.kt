@@ -2,10 +2,7 @@ package com.example.bm_app.transfer
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,13 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,19 +28,15 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -58,20 +45,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
-import com.example.bm_app.approutes.AppRoutes
-import com.example.bm_app.buttonbar.Screen
-import com.example.bm_app.mycard.lazycol
-import com.example.bm_app.signinscreen.SigninScreen
-import com.example.bm_app.viewModel.SignUpViewModel
-import com.example.bm_app.transaction.IconandBackground
 
 data class Navi (val route : String ,val title : String ,  val SelectedIcon : Painter, val unselectedItem : Painter)
 @Composable
@@ -143,6 +121,7 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
+    var user_name = "Ahmed Rashed"
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -157,12 +136,12 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
         )
         {
             Spacer(modifier = modifier.padding(8.dp))
-            IconChange()
+            IconChange(user_name)
             Spacer(modifier = modifier.padding(8.dp))
             Column {
                 Text(text = "welcome  back,")
                 Spacer(modifier = modifier.padding(4.dp))
-                Text(text = "yousef", modifier.padding(horizontal = 4.dp))
+                Text(text = user_name, modifier.padding(horizontal = 4.dp))
             }
 
             Row(
@@ -419,7 +398,7 @@ fun IconText(icon: Painter, text: String, modifier: Modifier = Modifier) {
 
 
 @Composable
-fun IconChange(modifier: Modifier = Modifier) {
+fun IconChange(userName : String ,modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .size(48.dp)
@@ -432,13 +411,20 @@ fun IconChange(modifier: Modifier = Modifier) {
     )
     {
         Text(
-            text = "AD",
+            text = getInitials(userName),
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             textAlign = TextAlign.Center
         )
 
     }
+}
+
+fun getInitials(fullName: String): String {
+    val parts = fullName.trim().split(" ")
+    val firstNameInitial = parts[0].first().uppercaseChar()
+    val lastNameInitial = parts[1].first().uppercaseChar()
+    return "$firstNameInitial$lastNameInitial"
 }
 
 @Preview(showBackground = true)

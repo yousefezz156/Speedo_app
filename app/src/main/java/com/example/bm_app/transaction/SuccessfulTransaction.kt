@@ -223,7 +223,7 @@ fun SuccesTransactionScreen(modifier: Modifier = Modifier) {
                         )
                         Spacer(modifier = modifier.padding(12.dp))
                         Column {
-                            Text(text = "From")
+                            Text(text = "To")
                             Text(
                                 text = "Asmaa dosuky",
                                 textAlign = TextAlign.Center,
