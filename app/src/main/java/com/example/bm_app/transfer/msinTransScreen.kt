@@ -61,6 +61,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -69,6 +70,7 @@ import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.buttonbar.Screen
 import com.example.bm_app.mycard.lazycol
 import com.example.bm_app.signinscreen.SigninScreen
+import com.example.bm_app.viewModel.SignUpViewModel
 import com.example.bm_app.transaction.IconandBackground
 
 data class Navi (val route : String ,val title : String ,  val SelectedIcon : Painter, val unselectedItem : Painter)

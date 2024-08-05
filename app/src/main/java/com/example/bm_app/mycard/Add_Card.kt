@@ -96,7 +96,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
         mutableStateOf("")
     }
     var balance by remember {
-        mutableIntStateOf(1000)
+        mutableIntStateOf(250000)
     }
     val context = LocalContext.current
     Column(

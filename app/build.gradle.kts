@@ -70,5 +70,9 @@ dependencies {
     implementation(libs.converter.gson)
     implementation (libs.logging.interceptor)
     implementation(libs.androidx.navigation.compose)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1.")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+
+
 
 }
