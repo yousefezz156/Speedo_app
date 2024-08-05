@@ -17,7 +17,7 @@ object AddCardClient {
 
     val instance: AddCardService by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:8080")
+            .baseUrl("https://solid-spies-scream.loca.lt/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

@@ -68,6 +68,8 @@ import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.modelApi.LoginRequest
 import com.example.bm_app.modelApi.LoginResponse
 import com.example.bm_app.validation.isValidEmail
+import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -84,12 +86,17 @@ fun ScaffoldSignIn(navController: NavController,modifier: Modifier = Modifier) {
 }
 @Composable
 fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val prefs = context.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+    val savedEmail = prefs.getString("email", "")!!
+    val savedPassword = prefs.getString("password", "")!!
 
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+
+    var email by remember { mutableStateOf(savedEmail) }
+    var password by remember { mutableStateOf(savedPassword) }
     var passwordVisible by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -149,23 +156,25 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                 onClick = {  if (isValidEmail(email) && password.isNotEmpty()) {
                     val loginRequest = LoginRequest(email, password)
                     loginUserClient.instance.loginUser(loginRequest).enqueue(object :
-                        Callback<LoginResponse> {
-                        override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                        Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                             if (response.isSuccessful) {
-                                val token = response.body()?.token
-                                if (token != null) {
+                                val responsebody = response.body()?.string()
+                                if (responsebody != null) {
+                                    val token = responsebody
                                     storeToken(context, token)
                                     Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
                                     navController.navigate(AppRoutes.TRANSFER_HOME)
-                                } else {
-                                    Toast.makeText(context, "Failed to retrieve token", Toast.LENGTH_SHORT).show()
                                 }
                             } else {
-                                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
+                                val errorCode = response.code()
+                                val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                                Toast.makeText(context, "Login failed: $errorCode - $errorMessage", Toast.LENGTH_SHORT).show()
+                               // Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                             }
                         }
 
-                        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                             Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                         }
                     })

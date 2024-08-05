@@ -17,7 +17,7 @@ object RegisterApiPost {
 
     val instance: RegisterServices by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://chubby-sloths-taste.loca.lt")
+            .baseUrl("https://pretty-aliens-look.loca.lt")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

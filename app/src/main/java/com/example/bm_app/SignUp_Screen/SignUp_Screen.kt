@@ -38,6 +38,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
@@ -47,22 +49,23 @@ import com.example.bm_app.approutes.AppRoutes.SIGNUP2
 import com.example.bm_app.modelApi.Register
 import com.example.bm_app.validation.createPasswordvalidation
 import com.example.bm_app.validation.isValidEmail
+import com.example.bm_app.viewModel.SignUpViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun ScaffoldSignup(navController: NavController, modifier: Modifier = Modifier) {
+fun ScaffoldSignup(navController: NavController, modifier: Modifier = Modifier, signUpViewModel: SignUpViewModel = viewModel()) {
     Scaffold()
     { innerpadding ->
         Box(modifier = modifier.padding(innerpadding)) {
-            SignUp(navController = navController)
+            SignUp(navController = navController, signUpViewModel = signUpViewModel)
         }
     }
 }
 
 @Composable
-fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
+fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpViewModel: SignUpViewModel = viewModel()) {
     var FullName by remember {
         mutableStateOf("")
     }
@@ -79,7 +82,9 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
     Column(
         //  verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize().verticalScroll(state = ScrollState(1) , true)
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(state = ScrollState(1), true)
     )
     {
         Spacer(modifier = modifier.padding(8.dp))
@@ -163,6 +168,7 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier) {
                         RegisterApiPost.instance.createuser(register).enqueue(object : Callback<Void>{
                             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                                 if(response.isSuccessful){
+                                    signUpViewModel.fullName= FullName
                                     Toast.makeText(context , "user Registerd successfully" , Toast.LENGTH_SHORT).show()
                                     navController.navigate(SIGNUP2)
 

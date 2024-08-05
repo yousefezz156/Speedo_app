@@ -56,14 +56,31 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
+import com.example.bm_app.api.TransferApi.TransferApiClient
 import com.example.bm_app.approutes.AppRoutes
+import com.example.bm_app.modelApi.Transfer
 import com.example.bm_app.viewModel.AddCardViewModel
+import okhttp3.Callback
 import org.xmlpull.v1.sax2.Driver
-data class data3 (val route :String, val title : String ,  val SelectedIcon : Painter, val unselectedItem : Painter)
+import retrofit2.Call
+import retrofit2.Response
+
+data class data3(
+    val route: String,
+    val title: String,
+    val SelectedIcon: Painter,
+    val unselectedItem: Painter
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun scaffoldConfirm(navController: NavController,addCardViewModel: AddCardViewModel = viewModel(),modifier: Modifier = Modifier) {
+fun scaffoldConfirm(
+    navController: NavController,
+    recipientname: String,
+    recipientaccount: String,
+    addCardViewModel: AddCardViewModel = viewModel(),
+    modifier: Modifier = Modifier
+) {
     var selectedItem by rememberSaveable {
         mutableStateOf(1)
     }
@@ -111,34 +128,55 @@ fun scaffoldConfirm(navController: NavController,addCardViewModel: AddCardViewMo
                     Text(text = "Transfer")
                 }
             })
-        }
-        , bottomBar = {
+        }, bottomBar = {
             NavigationBar(modifier = modifier.clip(RoundedCornerShape(24.dp))) {
                 items.forEachIndexed { index, data ->
                     NavigationBarItem(
                         selected = selectedItem == index,
                         onClick = {
                             selectedItem = index
-                            if (data.route != "no"){
+                            if (data.route != "no") {
                                 navController.navigate(data.route)
                             }
-                                  }, icon = { Icon(
-                        painter = if (selectedItem == index) data.SelectedIcon else data.unselectedItem,
-                        contentDescription = null
-                    ) }, label = { Text(text = data.title, fontSize = 11.sp , textAlign = TextAlign.Center , maxLines = 1)})
+                        },
+                        icon = {
+                            Icon(
+                                painter = if (selectedItem == index) data.SelectedIcon else data.unselectedItem,
+                                contentDescription = null
+                            )
+                        },
+                        label = {
+                            Text(
+                                text = data.title,
+                                fontSize = 11.sp,
+                                textAlign = TextAlign.Center,
+                                maxLines = 1
+                            )
+                        })
                 }
             }
         }
     )
     { innerpadding ->
         Box(modifier = modifier.padding(innerpadding)) {
-            TransferConfirmation(navController = navController,addCardViewModel)
+            TransferConfirmation(
+                navController = navController,
+                recipientname,
+                recipientaccount,
+                addCardViewModel
+            )
         }
     }
 }
 
 @Composable
-fun TransferConfirmation(navController: NavController,addCardViewModel: AddCardViewModel = viewModel(),modifier: Modifier = Modifier) {
+fun TransferConfirmation(
+    navController: NavController,
+    recipientname: String,
+    recipientaccount: String,
+    addCardViewModel: AddCardViewModel = viewModel(),
+    modifier: Modifier = Modifier
+) {
     val cardHolderName = addCardViewModel.cardHolderName.value
     val cardNumber = addCardViewModel.cardNumber.value
     Column(
@@ -224,7 +262,9 @@ fun TransferConfirmation(navController: NavController,addCardViewModel: AddCardV
                             )
 
                             Text(
-                                text = "Account ${cardNumber.takeLast(4).padStart(cardNumber.length, '*')}",
+                                text = "Account ${
+                                    cardNumber.takeLast(4).padStart(cardNumber.length, '*')
+                                }",
                                 modifier = modifier.padding(top = 12.dp)
                             )
                         }
@@ -254,7 +294,7 @@ fun TransferConfirmation(navController: NavController,addCardViewModel: AddCardV
                         Column {
                             Text(text = "From")
                             Text(
-                                text = "Asmaa dosuky",
+                                text = "$recipientname",
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 20.sp,
@@ -262,8 +302,8 @@ fun TransferConfirmation(navController: NavController,addCardViewModel: AddCardV
                             )
 
                             Text(
-                                text = "Account xxxx7890",
-                                modifier = modifier.padding(top = 12.dp)
+                                text = "Account $recipientaccount", fontSize = 12.sp,
+                                // modifier = modifier.padding(top = 12.dp)
                             )
                         }
                     }
@@ -299,7 +339,29 @@ fun TransferConfirmation(navController: NavController,addCardViewModel: AddCardV
         }
         Spacer(modifier = modifier.padding(8.dp))
         Button(
-            onClick = { navController.navigate(AppRoutes.TRANSFER_AMOUNT)},
+            onClick = {
+                val transfer = Transfer(
+                    senderCardNumber = "123",
+                    recipientCardNumber = recipientaccount,
+                    senderUserName = "",
+                    senderEmail = "",
+                    recipientUserName = recipientname,
+                    recipientEmail = "",
+                    amount = 500,
+                    date = ""
+                )
+                TransferApiClient.instance.transferService(transfer).enqueue(object : retrofit2.Callback<Void> {
+                    override fun onResponse(p0: Call<Void>, p1: Response<Void>) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onFailure(p0: Call<Void>, p1: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+                navController.navigate(AppRoutes.TRANSFER_AMOUNT)
+            },
             colors = ButtonDefaults.buttonColors(colorResource(id = R.color.white)),
             modifier = modifier
                 .fillMaxWidth()
@@ -318,5 +380,5 @@ fun TransferConfirmation(navController: NavController,addCardViewModel: AddCardV
 @Composable
 private fun prevs() {
     //TransferConfirmation()
-    scaffoldConfirm(navController = rememberNavController())
+    scaffoldConfirm(navController = rememberNavController(), "", "")
 }

@@ -1,6 +1,7 @@
 package com.example.bm_app.transaction
 
 import android.view.SurfaceControl.Transaction
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -52,6 +53,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.transfer.data4
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalContext
+import com.example.bm_app.viewModel.TransactionViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -127,7 +131,14 @@ fun ScaffololdTransactionScreen(navController: NavController, modifier: Modifier
 }
 
 @Composable
-fun TransactionHistoryScreen(modifier: Modifier = Modifier) {
+fun TransactionHistoryScreen(viewModel: TransactionViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), modifier: Modifier = Modifier) {
+
+    val transactions by viewModel.transaction.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    val context = LocalContext.current
+    if (error!= null)
+        Toast.makeText(context, " the error: $error" , Toast.LENGTH_SHORT).show()
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -164,22 +175,18 @@ fun TransactionHistoryScreen(modifier: Modifier = Modifier) {
                     color = Color(0xFF24221E)
                 )
             }
-            val transactions = listOf(
-                "Ahmed Rasshed" to "Account xxxx7890",
-                "Ahmed Fathy" to "Account xxxx7890",
 
-                )
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn {
                 items(transactions) { transaction ->
                     TransactionItem(
-                        name = "Rashed",
-                        accountNumber = "1235",
+                        name = transaction.recipientUserName,
+                        accountNumber = transaction.recipientCardNumber,
                         accountType = "card",
                         date = "51515",
                         transactionType = "Sent",
-                        amount = 1520,
-                        successful = false,
+                        amount = transaction.amount,
+                        successful = transaction.status=="APPROVED",
                         onClick = {},
                         modifier = Modifier
                     )
