@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -62,31 +63,31 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
     val items = listOf(
         Navi(
             route = "no",
-            title = "Home",
+            title = stringResource(R.string.home),
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         Navi(
             route = "transfer",
-            title = "Tranfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         Navi(
             route="transactions",
-            title = "Transactions",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
             route = "my_cards",
-            title = "My cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         Navi(
             route = "more",
-            title = "More",
+            title = stringResource(R.string.more),
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
         )
@@ -139,7 +140,7 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
             IconChange(user_name)
             Spacer(modifier = modifier.padding(8.dp))
             Column {
-                Text(text = "welcome  back,")
+                Text(text = stringResource(R.string.welcome_back))
                 Spacer(modifier = modifier.padding(4.dp))
                 Text(text = user_name, modifier.padding(horizontal = 4.dp))
             }
@@ -170,7 +171,7 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
         {
             Spacer(modifier = modifier.padding(top = 32.dp))
             Text(
-                text = "Current balnace",
+                text = stringResource(R.string.current_balance),
                 color = Color.White,
                 modifier = modifier.padding(horizontal = 8.dp)
             )
@@ -202,7 +203,7 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
                         .padding(top = 8.dp)
                 ) {
                     Spacer(modifier = modifier.padding(horizontal = 10.dp))
-                    Text(text = "Services")
+                    Text(text = stringResource(R.string.services))
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -248,10 +249,10 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
                         .fillMaxWidth()
                         .padding(horizontal = 2.dp)
                 ) {
-                    Text(text = "Recent transactions", fontSize = 16.sp)
+                    Text(text = stringResource(R.string.recent_transactions), fontSize = 16.sp)
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        text = "View all",
+                        text = stringResource(R.string.view_all),
                         fontSize = 16.sp,
                         modifier = Modifier.clickable { navController.navigate("transactions") },
                         color = Color(0xFF7C7A78)
@@ -261,10 +262,10 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
 
             val transactions = listOf(
                 "Ahmed Mohamed" to "1234",
-                "Ahmed Mohamed" to "1234",
-                "Ahmed Mohamed" to "1234",
-                "Ahmed Mohamed" to "1234",
-                "Ahmed Mohamed" to "1234"
+                "Ahmed Hamdy" to "4658",
+                "Ahmed Rashed" to "2847",
+                "Ahmed Galal" to "9432",
+                "Ahmed Ezz" to "2589"
             )
 
             LazyColumn {
@@ -434,140 +435,3 @@ private fun Show() {
 
 }
 
-//import androidx.compose.foundation.Image
-//
-//import androidx.compose.foundation.background
-//import androidx.compose.foundation.layout.*
-//import androidx.compose.foundation.shape.RoundedCornerShape
-//import androidx.compose.material.*
-//import androidx.compose.material3.Card
-//import androidx.compose.material3.CardColors
-//import androidx.compose.material3.Icon
-//import androidx.compose.material3.Text
-//import androidx.compose.runtime.Composable
-//import androidx.compose.runtime.remember
-//import androidx.compose.ui.Alignment
-//import androidx.compose.ui.Modifier
-//import androidx.compose.ui.graphics.Color
-//import androidx.compose.ui.res.colorResource
-//import androidx.compose.ui.res.painterResource
-//import androidx.compose.ui.text.font.FontWeight
-//import androidx.compose.ui.tooling.preview.Preview
-//import androidx.compose.ui.unit.dp
-//import androidx.compose.ui.unit.sp
-//import com.example.bm_app.R
-
-//import com.example.app.ui.theme.MyAppTheme
-
-/*
-@Composable
-fun BankingAppUI() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF5F5F5))
-    ) {
-        Header()
-        BalanceCard()
-        ServicesSection()
-        RecentTransactionsSection()
-
-    }
-}
-
-@Composable
-fun Header() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(text = "Welcome back,", fontSize = 20.sp)
-        Text(text = "Asmaa Dosuky", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-    }
-}
-
-@Composable
-fun BalanceCard() {
-    Card(
-        shape = RoundedCornerShape(10.dp),
-        colors = CardColors(containerColor = Color),
-
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .height(100.dp)
-            .background(Color.Red)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(text = "Current Balance", color = Color.White, fontSize = 16.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "$2,85,856.20", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        }
-    }
-}
-
-@Composable
-fun ServicesSection() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = "Services", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-            ServiceItem(iconResId = R.drawable.baseline_payment_24, label = "Transfer")
-            ServiceItem(iconResId = R.drawable.ic_receipt, label = "Transactions")
-            ServiceItem(iconResId = R.drawable.ic_menu_book, label = "Cards")
-            ServiceItem(iconResId = R.drawable.ic_account_balance, label = "Account")
-        }
-    }
-}
-
-@Composable
-fun ServiceItem(iconResId: Int, label: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(painter = painterResource(id = iconResId), contentDescription = label, modifier = Modifier.size(40.dp))
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(text = label, fontSize = 12.sp)
-    }
-}
-
-@Composable
-fun RecentTransactionsSection() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = "Recent transactions", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(8.dp))
-        TransactionItem(name = "Ahmed Mohamed", amount = "$1000", cardDetails = "Visa . Meter Card . 1234", time = "Today 11:00 - Received")
-        TransactionItem(name = "Ahmed Mohamed", amount = "$1000", cardDetails = "Visa . Meter Card . 1234", time = "Today 11:00 - Received")
-    }
-}
-
-@Composable
-fun TransactionItem(name: String, amount: String, cardDetails: String, time: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        Icon(painter = painterResource(id = R.drawable.baseline_payment_24), contentDescription = null, modifier = Modifier.size(40.dp))
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Text(text = name, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-            Text(text = cardDetails, fontSize = 14.sp, color = Color.Gray)
-            Text(text = time, fontSize = 12.sp, color = Color.Gray)
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        Text(text = amount, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.Green)
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-        BankingAppUI()
-
-}
-*/

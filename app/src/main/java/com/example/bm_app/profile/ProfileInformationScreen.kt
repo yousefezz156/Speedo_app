@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.bm_app.R
 import com.example.bm_app.viewModel.CurrenUserViewModel
 
 @Composable
@@ -50,7 +52,7 @@ fun ProfileInformationScreen(
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Profile information",
+            text = stringResource(R.string.profile_information),
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(vertical = 16.dp)
@@ -69,7 +71,7 @@ fun ProfileInformationScreen(
             ) {
                 Column {
                     Text(
-                        text = "Full Name",
+                        text = stringResource(R.string.full_name),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
@@ -93,7 +95,7 @@ fun ProfileInformationScreen(
             ) {
                 Column {
                     Text(
-                        text = "Email",
+                        text = stringResource(R.string.email),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
@@ -117,7 +119,7 @@ fun ProfileInformationScreen(
             ) {
                 Column {
                     Text(
-                        text = "Date Of Brith",
+                        text = stringResource(R.string.date_of_brith),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
@@ -141,14 +143,14 @@ fun ProfileInformationScreen(
             ) {
                 Column {
                     Text(
-                        text = "Country",
+                        text = stringResource(R.string.country),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
                     )
                     Spacer(modifier = Modifier.padding(6.dp))
                     Text(
-                        text = "Egypt",
+                        text = stringResource(R.string.egypt),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)
@@ -165,7 +167,7 @@ fun ProfileInformationScreen(
             ) {
                 Column {
                     Text(
-                        text = "Bank Account",
+                        text = stringResource(R.string.bank_account),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)

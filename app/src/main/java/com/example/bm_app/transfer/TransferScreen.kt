@@ -50,6 +50,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -74,31 +75,31 @@ fun ScaffoldBack(navController: NavController,recipientname : String, recipienta
     val items = listOf(
         data4(
             routes = AppRoutes.TRANSFER_HOME,
-            title = "Home",
+            title = stringResource(R.string.home),
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         data4(
             routes = "transfer",
-            title = "Tranfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         data4(
             routes = "transactions",
-            title = "Transactions",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         data4(
             routes = "my_cards",
-            title = "My cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         data4(
             routes = "more",
-            title = "More",
+            title = stringResource(R.string.more),
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
         )
@@ -106,7 +107,7 @@ fun ScaffoldBack(navController: NavController,recipientname : String, recipienta
     Scaffold(topBar = {
         TopAppBar(title = {
             Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxWidth()) {
-                Text(text = "Transfer", textAlign = TextAlign.Center)
+                Text(text = stringResource(R.string.transfer), textAlign = TextAlign.Center)
             }
         })
     }, bottomBar = {
@@ -147,17 +148,17 @@ fun TransferPayment(navController: NavController, recipientaccount: String,recip
         Row(modifier.fillMaxWidth()) {
             stepintext(
                 painter = painterResource(id = R.drawable.step_text___horizontal),
-                text = " Amount"
+                text = stringResource(R.string.amount)
             )
             stepintext(painter = painterResource(id = R.drawable.step_trail), text = "")
             stepintext(
                 painter = painterResource(id = R.drawable.step_text_2_red),
-                text = " Confirmation"
+                text = stringResource(R.string.confirmation)
             )
             stepintext(painter = painterResource(id = R.drawable.step_trail), text = "")
             stepintext(
                 painter = painterResource(id = R.drawable.step_text_2_red),
-                text = "payment"
+                text = stringResource(R.string.payment)
             )
         }
         Spacer(modifier = modifier.padding(12.dp))
@@ -170,12 +171,10 @@ fun TransferPayment(navController: NavController, recipientaccount: String,recip
             Image(painter = painterResource(id = R.drawable.ic_check), contentDescription =null , modifier = modifier.size(100.dp) )
         }
         Spacer(modifier = modifier.padding(16.dp))
-        Text(text = "Your transfer was successful", fontSize = 20.sp, fontWeight = FontWeight.Bold )
+        Text(text = stringResource(R.string.your_transfer_was_successful), fontSize = 20.sp, fontWeight = FontWeight.Bold )
         Spacer(modifier = modifier.padding(8.dp))
         Box() {
             Column() {
-
-
                 Card(
                     modifier = modifier
                         .fillMaxWidth()
@@ -189,7 +188,6 @@ fun TransferPayment(navController: NavController, recipientaccount: String,recip
                             .padding(horizontal = 32.dp)
                     )
                     {
-                        //card(painter = R.drawable.bank, name = "Asmaa Dosuky" , accountB ="Account xxxx7890" )
                         Image(
                             painter = painterResource(id = R.drawable.bank),
                             contentDescription = null
@@ -274,7 +272,7 @@ fun TransferPayment(navController: NavController, recipientaccount: String,recip
                 .padding(8.dp)
         )
         {
-            Text(text = "Total amount")
+            Text(text = stringResource(R.string.total_amount))
             Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth())
             {
                 Text(text = "48,4220")
@@ -297,7 +295,7 @@ fun TransferPayment(navController: NavController, recipientaccount: String,recip
             shape = RoundedCornerShape(6.dp)
 
         ) {
-            Text(text = "back of home")
+            Text(text = stringResource(R.string.back_of_home))
         }
         Spacer(modifier = modifier.padding(8.dp))
         Button(
@@ -310,7 +308,7 @@ fun TransferPayment(navController: NavController, recipientaccount: String,recip
             border = BorderStroke(width = 0.5.dp, color = colorResource(id = R.color.reddd))
 
         ) {
-            Text(text = "Add to favorite", color = colorResource(id = R.color.reddd))
+            Text(text = stringResource(R.string.add_to_favorite), color = colorResource(id = R.color.reddd))
         }
 
 

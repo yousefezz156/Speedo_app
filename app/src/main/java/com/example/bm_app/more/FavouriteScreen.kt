@@ -24,6 +24,7 @@ import com.example.bm_app.R
 import com.example.bm_app.transfer.Navi
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.bm_app.list.favoriteList
 import com.example.bm_app.model.Favorite
@@ -43,7 +44,7 @@ fun FavoriteScreen(navController: NavController, modifier: Modifier = Modifier, 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Favourite",
+            text = stringResource(R.string.favourite),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 16.dp)
@@ -62,7 +63,7 @@ fun FavoriteScreen(navController: NavController, modifier: Modifier = Modifier, 
                     .padding(horizontal = 1.dp, vertical = 8.dp)
             ) {
                 Text(
-                    text = "Your favourite list",
+                    text = stringResource(R.string.your_favourite_list),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF24221E)
@@ -174,31 +175,31 @@ fun ScaffoldFav(navController: NavController, modifier: Modifier = Modifier) {
     val items = listOf(
         Navi(
             route = "home",
-            title = "Home",
+            title = stringResource(R.string.home),
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         Navi(
             route = "transfer",
-            title = "Transfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         Navi(
             route = "transactions",
-            title = "Transactions",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
             route = "my_cards",
-            title = "My cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         Navi(
             route = "no",
-            title = "More",
+            title = stringResource(R.string.more),
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
         )
@@ -274,12 +275,12 @@ fun EditFavorite(
                         tint = Color(0xFF871E35)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Edit")
+                    Text(text = stringResource(R.string.edit))
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                Text(text = "Recipient Account", fontSize = 16.sp)
+                Text(text = stringResource(R.string.recipient_account), fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 OutlinedTextField(
                     value = newAccount,
@@ -290,12 +291,12 @@ fun EditFavorite(
             }
             Spacer(modifier = Modifier.height(4.dp))
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                Text(text = "Recipient Name", fontSize = 16.sp)
+                Text(text = stringResource(R.string.recipient_name), fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 OutlinedTextField(
                     value = newName,
                     onValueChange = { newName = it },
-                    placeholder = { Text("Enter Cardholder Name") },
+                    placeholder = { Text(stringResource(R.string.enter_cardholder_name)) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(8.dp)
                 )
@@ -312,7 +313,7 @@ fun EditFavorite(
                     containerColor = colorResource(id = R.color.reddd)
                 )
             ) {
-                Text(text = "Save")
+                Text(text = stringResource(R.string.save))
             }
             Spacer(modifier = Modifier.height(163.dp))
         }

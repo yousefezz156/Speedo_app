@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 
 import androidx.compose.ui.text.input.KeyboardType
@@ -67,25 +68,26 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .padding(16.dp)
     ) {
         Spacer(modifier = modifier.padding(16.dp))
 
-        Text(text = "Sign in",fontSize = 20.sp, fontWeight = FontWeight.Normal)
+        Text(text = stringResource(R.string.sign_in),fontSize = 20.sp, fontWeight = FontWeight.Normal)
         Spacer(modifier = Modifier.padding(55.dp))
-        Text(text = "Speedo Transfer", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text(text = stringResource(R.string.speedo_transfer), fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.padding(55.dp))
 
         Column(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Email", modifier = Modifier.padding(8.dp))
+            Text(text = stringResource(R.string.email), modifier = Modifier.padding(8.dp))
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                placeholder = { Text(text = "Enter your Email") },
+                placeholder = { Text(text = stringResource(R.string.enter_your_email)) },
                 trailingIcon = {
                     Image(
                         painter = painterResource(id = R.drawable.email),
@@ -93,14 +95,14 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                     )
                 }
             )
-            Text(text = "Password", modifier = Modifier.padding(8.dp))
+            Text(text = stringResource(R.string.password), modifier = Modifier.padding(8.dp))
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                placeholder = { Text(text = "Enter your Password") },
+                placeholder = { Text(text = stringResource(R.string.enter_your_password)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -130,7 +132,8 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                                 if (responsebody != null) {
                                     val token = responsebody
                                     storeToken(context, token)
-                                    Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context,
+                                        context.getString(R.string.login_successful), Toast.LENGTH_SHORT).show()
                                     navController.navigate(AppRoutes.TRANSFER_HOME)
                                 }
                             } else {
@@ -145,7 +148,8 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                         }
                     })
                 } else {
-                    Toast.makeText(context, "Please enter valid email and password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,
+                        context.getString(R.string.please_enter_valid_email_and_password), Toast.LENGTH_SHORT).show()
                 }
                           },
                 modifier = Modifier
@@ -157,7 +161,7 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                     containerColor = colorResource(id = R.color.reddd)
                 )
             ) {
-                Text(text = "Sign in")
+                Text(text = stringResource(R.string.sign_in))
             }
             Spacer(modifier = Modifier.padding(8.dp))
 
@@ -165,9 +169,9 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Don't have an account?")
+                Text(text = stringResource(R.string.don_t_have_an_account))
                 Text(
-                    text = " Sign up",
+                    text = stringResource(R.string.sign_up),
                     textDecoration = TextDecoration.Underline,
                     color = colorResource(id = R.color.reddd),
                     modifier = Modifier.clickable {navController.navigate("signup_1")}

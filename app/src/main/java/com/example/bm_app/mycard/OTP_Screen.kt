@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,14 +45,10 @@ import com.example.bm_app.approutes.AppRoutes
 fun ScaffoldOtp(navController: NavController,modifier: Modifier = Modifier) {
     Scaffold(topBar = {
         TopAppBar(navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Filled.KeyboardArrowLeft, contentDescription = null)
-
-            }
         }, title = {
             Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
             {
-                Text(text = "Bank Card OTP")
+                Text(text = stringResource(R.string.bank_card_otp))
             }
         })
     }) { innerpadding ->
@@ -110,7 +107,7 @@ fun OTPScreen(navController: NavController, modifier: Modifier = Modifier) {
             .padding(16.dp)
     ) {
         Spacer(modifier = modifier.height(48.dp))
-        Text("Enter the digits verification code \n Send to: Email@example.com", fontSize = 16.sp)
+        Text(stringResource(R.string.enter_the_digits_verification_code), fontSize = 16.sp)
         Spacer(modifier = Modifier.height(16.dp))
         Row {
             otpValues.forEachIndexed { index, value ->
@@ -129,8 +126,8 @@ fun OTPScreen(navController: NavController, modifier: Modifier = Modifier) {
         }
         Spacer(modifier = modifier.height(24.dp))
         Row() {
-            Text("Don't receive OTP? ", color = Color.Gray)
-            Text("Resend OTP" , color = colorResource(id = R.color.reddd), modifier = Modifier.clickable {  })
+            Text(stringResource(R.string.don_t_receive_otp), color = Color.Gray)
+            Text(stringResource(R.string.resend_otp) , color = colorResource(id = R.color.reddd), modifier = Modifier.clickable {  })
         }
         Spacer(modifier = modifier.height(156.dp))
         Button(
@@ -145,9 +142,9 @@ fun OTPScreen(navController: NavController, modifier: Modifier = Modifier) {
             shape = RoundedCornerShape(8.dp)
         ) {
             if(isComplete) {
-                Text("Confirm", color = Color.White)
+                Text(stringResource(R.string.confirm), color = Color.White)
             }else{
-                Text("Sign on", color = Color.White)
+                Text(stringResource(R.string.sign_on), color = Color.White)
             }
         }
     }
@@ -156,5 +153,5 @@ fun OTPScreen(navController: NavController, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun OTPPrev() {
-    OTPInputBox(value = "1", onValueChange = {})
+    ScaffoldOtp(rememberNavController() )
 }

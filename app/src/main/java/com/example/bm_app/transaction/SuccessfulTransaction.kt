@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,30 +60,30 @@ fun ScaffololdSuccessTransactionScreen(
     val items = listOf(
         data4(
             routes = AppRoutes.TRANSFER_HOME,
-            title = "Home",
+            title = stringResource(R.string.home),
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         data4(
             routes = AppRoutes.TRANSFER_AMOUNT,
-            title = "Tranfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         data4(
-            routes = "",
-            title = "Transactions",
+            routes = "no",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         data4(
-            routes = AppRoutes.MYCARDS_SELECTCURRENY,
-            title = "My cards",
+            routes = "my_cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         data4(
-            routes = "",
+            routes = "more",
             title = "More",
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
@@ -91,7 +92,8 @@ fun ScaffololdSuccessTransactionScreen(
 
     Scaffold(topBar = {
         TopAppBar(title = {
-            Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxWidth()
+            Box(contentAlignment = Alignment.Center, modifier = modifier
+                .fillMaxWidth()
                 .padding(top = 16.dp)) {
                 Text(text = "Successful Transactions")
             }
@@ -103,7 +105,9 @@ fun ScaffololdSuccessTransactionScreen(
                     selected = selectedItem == index,
                     onClick = {
                         selectedItem = index
+                        if (data.routes != "no"){
                         navController.navigate(data.routes)
+                        }
                     },
                     icon = {
                         Icon(
@@ -147,19 +151,19 @@ fun SuccesTransactionScreen(modifier: Modifier = Modifier) {
         Row {
             Text(text = "1000 ", fontWeight = FontWeight.Bold, fontSize = 24.sp)
             Text(
-                text = "USD",
+                text = stringResource(R.string.usd),
                 color = colorResource(id = R.color.reddd),
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp
             )
         }
         Row {
-            Text(text = "Transfer ", fontSize = 16.sp)
+            Text(text = stringResource(R.string.transfer), fontSize = 16.sp)
             Text(text = "amount", fontSize = 16.sp)
         }
         Row {
-            Text(text = "Send ", fontSize = 14.sp)
-            Text(text = "money", fontSize = 14.sp, color = colorResource(id = R.color.reddd))
+            Text(text = stringResource(R.string.send), fontSize = 14.sp)
+            Text(text = stringResource(R.string.money), fontSize = 14.sp, color = colorResource(id = R.color.reddd))
         }
         Spacer(modifier = modifier.padding(16.dp))
 
@@ -185,7 +189,7 @@ fun SuccesTransactionScreen(modifier: Modifier = Modifier) {
                         )
                         Spacer(modifier = modifier.padding(12.dp))
                         Column {
-                            Text(text = "From")
+                            Text(text = stringResource(R.string.from))
                             Text(
                                 text = "Asmaa dosuky",
                                 textAlign = TextAlign.Center,
@@ -223,7 +227,7 @@ fun SuccesTransactionScreen(modifier: Modifier = Modifier) {
                         )
                         Spacer(modifier = modifier.padding(12.dp))
                         Column {
-                            Text(text = "To")
+                            Text(text = stringResource(R.string.to))
                             Text(
                                 text = "Asmaa dosuky",
                                 textAlign = TextAlign.Center,

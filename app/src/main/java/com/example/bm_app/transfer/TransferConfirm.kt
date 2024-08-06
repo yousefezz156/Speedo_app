@@ -51,6 +51,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -93,31 +94,31 @@ fun scaffoldConfirm(
     val items = listOf(
         data3(
             route = "home",
-            title = "Home",
+            title = stringResource(R.string.home),
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         data3(
             route = "no",
-            title = "Transfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         data3(
             route = "transactions",
-            title = "Transactions",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         data3(
             route = "my_cards",
-            title = "My cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         data3(
             route = "more",
-            title = "More",
+            title = stringResource(R.string.more),
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
         )
@@ -125,13 +126,10 @@ fun scaffoldConfirm(
     Scaffold(
         topBar = {
             TopAppBar(navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(Icons.Filled.KeyboardArrowLeft, contentDescription = null)
 
-                }
             }, title = {
                 Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxWidth()) {
-                    Text(text = "Transfer")
+                    Text(text = stringResource(R.string.transfer))
                 }
             })
         }, bottomBar = {
@@ -197,23 +195,23 @@ fun TransferConfirmation(
         Row(modifier.fillMaxWidth()) {
             stepintext(
                 painter = painterResource(id = R.drawable.step_text___horizontal),
-                text = " Amount"
+                text = stringResource(R.string.amount)
             )
             stepintext(painter = painterResource(id = R.drawable.step_trail), text = "")
             stepintext(
                 painter = painterResource(id = R.drawable.step_text_2_red),
-                text = " Confirmation"
+                text = stringResource(R.string.confirmation)
             )
             stepintext(painter = painterResource(id = R.drawable.step_trail_gray), text = "")
             stepintext(
                 painter = painterResource(id = R.drawable.step_text_2_gray),
-                text = "payment"
+                text = stringResource(R.string.payment)
             )
         }
         Spacer(modifier = modifier.padding(8.dp))
         Text(text = "1000 USD", fontWeight = FontWeight.Bold, fontSize = 20.sp)
         Spacer(modifier = modifier.padding(4.dp))
-        Text(text = "Transfer Amount")
+        Text(text = stringResource(R.string.transfer_amount))
 
         Spacer(modifier = modifier.padding(8.dp))
         Row(
@@ -222,7 +220,7 @@ fun TransferConfirmation(
                 .padding(8.dp)
         )
         {
-            Text(text = "Total amount")
+            Text(text = stringResource(R.string.total_amount))
             Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth())
             {
                 Text(text = "48,4220")
@@ -238,8 +236,6 @@ fun TransferConfirmation(
 
         Box() {
             Column() {
-
-
                 Card(
                     modifier = modifier
                         .fillMaxWidth()
@@ -260,7 +256,7 @@ fun TransferConfirmation(
                         )
                         Spacer(modifier = modifier.padding(12.dp))
                         Column {
-                            Text(text = "From")
+                            Text(text = stringResource(R.string.from))
                             Text(
                                 text = cardHolderName,
                                 textAlign = TextAlign.Center,
@@ -335,10 +331,12 @@ fun TransferConfirmation(
         }
         Spacer(modifier = modifier.padding(12.dp))
         Button(
-            onClick = {notificationHelper.sendNotification(
+            onClick = {
+                //navController.navigate(AppRoutes.MYCARDS_LOADINGSCREEN)
+                notificationHelper.sendNotification(
                 "Transfer Successful",
                 "Your transfer of $500 to $recipientname was successful."
-            )
+                )
                 val transfer = Transfer(
                     senderCardNumber = "123",
                     recipientCardNumber = recipientaccount,
@@ -382,7 +380,7 @@ fun TransferConfirmation(
             shape = RoundedCornerShape(6.dp)
 
         ) {
-            Text(text = "Confirm")
+            Text(text = stringResource(R.string.confirm))
         }
         Spacer(modifier = modifier.padding(8.dp))
         Button(onClick = {navController.navigate(AppRoutes.TRANSFER_AMOUNT)},
@@ -393,7 +391,7 @@ fun TransferConfirmation(
             shape = RoundedCornerShape(6.dp),
             border = BorderStroke(width = 0.5.dp, color = colorResource(id = R.color.reddd)))
             {
-            Text(text = "Previous", color = colorResource(id = R.color.reddd))
+            Text(text = stringResource(R.string.previous), color = colorResource(id = R.color.reddd))
         }
     }
 }

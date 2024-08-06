@@ -55,6 +55,7 @@ import com.example.bm_app.transfer.data4
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.example.bm_app.viewModel.TransactionViewModel
 
 
@@ -68,31 +69,31 @@ fun ScaffololdTransactionScreen(navController: NavController, modifier: Modifier
     val items = listOf(
         data4(
             routes = "home",
-            title = "Home",
+            title = stringResource(R.string.home),
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         data4(
             routes = "transfer",
-            title = "Tranfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         data4(
-            routes = "transactions",
-            title = "Transactions",
+            routes = "no",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         data4(
             routes = "my_cards",
-            title = "My cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         data4(
             routes = "more",
-            title = "More",
+            title = stringResource(R.string.more),
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
         )
@@ -104,7 +105,9 @@ fun ScaffololdTransactionScreen(navController: NavController, modifier: Modifier
                     selected = selectedItem == index,
                     onClick = {
                         selectedItem = index
+                        if (data.routes != "no"){
                         navController.navigate(data.routes)
+                        }
                     },
                     icon = {
                         Icon(
@@ -150,7 +153,7 @@ fun TransactionHistoryScreen(viewModel: TransactionViewModel = androidx.lifecycl
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Transactions",
+            text = stringResource(R.string.transactions),
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(vertical = 16.dp)
@@ -169,7 +172,7 @@ fun TransactionHistoryScreen(viewModel: TransactionViewModel = androidx.lifecycl
                     .padding(horizontal = 1.dp, vertical = 8.dp)
             ) {
                 Text(
-                    text = "Your Last Transactions",
+                    text = stringResource(R.string.your_last_transactions),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF24221E)
@@ -266,14 +269,14 @@ fun TransactionItem(
                     {
                         if (successful) {
                             Text(
-                                text = "successful",
+                                text = stringResource(R.string.successful),
                                 fontSize = 10.sp,
                                 color = colorResource(id = R.color.green),
                                 maxLines = 1
                             )
                         } else {
                             Text(
-                                text = "Failed",
+                                text = stringResource(R.string.failed),
                                 fontSize = 10.sp,
                                 color = colorResource(id = R.color.reddd),
                                 maxLines = 1

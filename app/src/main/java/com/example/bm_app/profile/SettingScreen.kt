@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -42,7 +43,7 @@ fun SettingScreen(navController: NavController, modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Setting",
+            text = stringResource(R.string.setting),
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(vertical = 16.dp)
@@ -56,7 +57,7 @@ fun SettingScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { navController.navigate("change_password")}
+                    .clickable { navController.navigate("change_password") }
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(
@@ -80,14 +81,14 @@ fun SettingScreen(navController: NavController, modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Change password",
+                        text = stringResource(R.string.change_password),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
                     )
                     Spacer(modifier = Modifier.padding(1.dp))
                     Text(
-                        text = "Change password",
+                        text = stringResource(R.string.change_password),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)
@@ -107,7 +108,7 @@ fun SettingScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { navController.navigate("edit_profile")}
+                    .clickable { navController.navigate("edit_profile") }
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(
@@ -131,14 +132,14 @@ fun SettingScreen(navController: NavController, modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Edit Profile",
+                        text = stringResource(R.string.edit_profile),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
                     )
                     Spacer(modifier = Modifier.padding(1.dp))
                     Text(
-                        text = "Change your information",
+                        text = stringResource(R.string.change_your_information),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)

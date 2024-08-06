@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -58,7 +59,7 @@ fun ScaaffoldOTPend(navController: NavController,modifier: Modifier = Modifier) 
         }, title = {
             Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
             {
-                Text(text = "Bank Card OTP")
+                Text(text = stringResource(R.string.bank_card_otp))
             }
         })
     }) { innerpadding ->
@@ -89,14 +90,14 @@ fun AccountConnectedScreen(navController: NavController,modifier: Modifier = Mod
             IconChange()
             Spacer(modifier = modifier.padding(50.dp))
             Text(
-                text = "Account Connected \n Successfully!",
+                text = stringResource(R.string.account_connected_successfully),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Feel free to connect another account \n at the same time.",
+                text = stringResource(R.string.feel_free_to_connect_another_account_at_the_same_time),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -106,11 +107,12 @@ fun AccountConnectedScreen(navController: NavController,modifier: Modifier = Mod
                 colors = ButtonDefaults.buttonColors(colorResource(id = R.color.reddd)),
                 modifier = modifier
                     .fillMaxWidth()
-                    .height(52.dp).padding(horizontal = 16.dp),
+                    .height(52.dp)
+                    .padding(horizontal = 16.dp),
                 shape = RoundedCornerShape(6.dp)
 
             ) {
-                Text(text = "Create another account")
+                Text(text = stringResource(R.string.create_another_account))
             }
             Spacer(modifier = modifier.padding(8.dp))
             Button(
@@ -118,12 +120,13 @@ fun AccountConnectedScreen(navController: NavController,modifier: Modifier = Mod
                 colors = ButtonDefaults.buttonColors(colorResource(id = R.color.white)),
                 modifier = modifier
                     .fillMaxWidth()
-                    .height(52.dp).padding(horizontal = 16.dp),
+                    .height(52.dp)
+                    .padding(horizontal = 16.dp),
                 shape = RoundedCornerShape(6.dp),
                 border = BorderStroke(width = 0.5.dp, color = colorResource(id = R.color.reddd))
 
             ) {
-                Text(text = "Back to home", color = colorResource(id = R.color.reddd))
+                Text(text = stringResource(R.string.back_to_home), color = colorResource(id = R.color.reddd))
             }
         }
     }

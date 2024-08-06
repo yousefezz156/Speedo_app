@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -76,7 +77,7 @@ fun EditProfileScreen(navController: NavController,country : List<Country>, modi
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Edit Profile",
+            text = stringResource(R.string.edit_profile),
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(vertical = 16.dp)
@@ -88,34 +89,34 @@ fun EditProfileScreen(navController: NavController,country : List<Country>, modi
                 .padding(horizontal = 16.dp)
         ) {
             Column {
-                Text(text = "Full Name", fontSize = 16.sp)
+                Text(text = stringResource(R.string.full_name), fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 OutlinedTextField(
                     value = FullName,
                     onValueChange = { FullName = it },
                     modifier.fillMaxWidth(),
                     label = {
-                        Text(text = "Enter your full name")
+                        Text(text = stringResource(R.string.enter_your_full_name))
                     },
                 )
             }
             Spacer(modifier = Modifier.padding(4.dp))
 
             Column {
-                Text(text = "Email", fontSize = 16.sp)
+                Text(text = stringResource(R.string.email), fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 OutlinedTextField(
                     value = Email,
                     onValueChange = { Email = it },
                     modifier
                         .fillMaxWidth(),
-                    placeholder = { Text(text = "Enter your Email") },
+                    placeholder = { Text(text = stringResource(R.string.enter_your_email)) },
 
                 )
             }
             Spacer(modifier = Modifier.padding(4.dp))
             Column {
-                Text(text = "Country", fontSize = 16.sp)
+                Text(text = stringResource(R.string.country), fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 if (showCountryPicker){
                     ModalBottomSheet(onDismissRequest = { showCountryPicker = false}) {
@@ -147,14 +148,14 @@ fun EditProfileScreen(navController: NavController,country : List<Country>, modi
                     modifier = modifier
                         .clickable { showCountryPicker = true }
                         .fillMaxWidth(),
-                    placeholder = {Text(text = "Select your country")},
+                    placeholder = {Text(text = stringResource(R.string.select_your_country))},
                     trailingIcon = { Icon(Icons.Filled.KeyboardArrowDown , contentDescription = null) },
                     readOnly = true
                 )
             }
             Spacer(modifier = Modifier.padding(4.dp))
             Column {
-                Text(text = "Date Of Brith", fontSize = 16.sp)
+                Text(text = stringResource(R.string.date_of_brith), fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 if (isDatePickerShown) {
                     DatePickerChooser(onConfirm = { dateState ->
@@ -178,7 +179,7 @@ fun EditProfileScreen(navController: NavController,country : List<Country>, modi
                     modifier = modifier
                         .clickable { isDatePickerShown = true }
                         .fillMaxWidth(),
-                    placeholder = {Text(text = "DD/MM/YYY")},
+                    placeholder = {Text(text = stringResource(R.string.dd_mm_yyy))},
                     trailingIcon = {
                         Icon(Icons.Filled.DateRange,
                             contentDescription = null,
@@ -197,7 +198,7 @@ fun EditProfileScreen(navController: NavController,country : List<Country>, modi
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.reddd))
             )
             {
-                Text(text = "Save", fontSize = 16.sp)
+                Text(text = stringResource(R.string.save), fontSize = 16.sp)
             }
         }
     }

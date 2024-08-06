@@ -62,6 +62,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -93,31 +94,31 @@ fun Scaffold_Transfer(navController: NavController, modifier: Modifier = Modifie
     val items = listOf(
         data2(
             route = "home",
-            title = "Home",
+            title = stringResource(R.string.home),
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         data2(
             route = "no",
-            title = "Tranfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         data2(
             route = "transactions",
-            title = "Transactions",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         data2(
             route = "my_cards",
-            title = "My cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         data2(
             route = "more",
-            title = "More",
+            title = stringResource(R.string.more),
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
         )
@@ -126,13 +127,10 @@ fun Scaffold_Transfer(navController: NavController, modifier: Modifier = Modifie
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
-                    }
                 },
                 title = {
                     Box(modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text(text = "Transfer", textAlign = TextAlign.Center)
+                        Text(text = stringResource(R.string.transfer), textAlign = TextAlign.Center)
                     }
                 })
         }, bottomBar = {
@@ -199,6 +197,7 @@ fun TransferPage(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(16.dp)
             .verticalScroll(state = ScrollState(1), true)
     )
     {
@@ -208,7 +207,7 @@ fun TransferPage(
                     Card(
                         modifier = modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp , vertical = 8.dp),
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                         colors = CardDefaults.cardColors(Color(0xFFF3E9EB))
                     ) {
                         FavoriteScreenItem(
@@ -231,15 +230,15 @@ fun TransferPage(
         {
             stepintext(
                 painter = painterResource(id = R.drawable.step_text___horizontal),
-                text = "Amount"
+                text = stringResource(R.string.amount)
             )
             stepintext(painter = painterResource(id = R.drawable.step_trail), text = "")
             stepintext(
                 painter = painterResource(id = R.drawable.step_text_2_gray),
-                text = "Confirmation"
+                text = stringResource(R.string.confirmation)
             )
             stepintext(painter = painterResource(id = R.drawable.step_trail_gray), text = "")
-            stepintext(painter = painterResource(id = R.drawable.step_text_2_gray), text = "Amount")
+            stepintext(painter = painterResource(id = R.drawable.step_text_2_gray), text = stringResource(R.string.amount))
 
         }
         Spacer(modifier = modifier.padding(16.dp))
@@ -248,7 +247,7 @@ fun TransferPage(
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Text(text = "How much are you sending", fontSize = 20.sp)
+            Text(text = stringResource(R.string.how_much_are_you_sending), fontSize = 20.sp)
 
         }
         Spacer(modifier = modifier.padding(16.dp))
@@ -257,7 +256,7 @@ fun TransferPage(
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Text(text = "Choose Currency")
+            Text(text = stringResource(R.string.choose_currency))
         }
         Card(
             colors = CardDefaults.cardColors(Color.White),
@@ -273,7 +272,7 @@ fun TransferPage(
                 modifier.padding(12.dp),
                 color = colorResource(id = R.color.gry)
             )
-            Text(text = "You Send", modifier.padding(8.dp))
+            Text(text = stringResource(R.string.you_send), modifier.padding(8.dp))
             Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.united_states),
@@ -297,7 +296,7 @@ fun TransferPage(
             Spacer(modifier = modifier.padding(8.dp))
             Divider(color = Color.Black, thickness = 0.5.dp)
             Spacer(modifier = modifier.padding(8.dp))
-            Text(text = "Recipient Gets")
+            Text(text = stringResource(R.string.recipient_gets))
 
             Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
 
@@ -305,7 +304,7 @@ fun TransferPage(
                     painter = painterResource(id = R.drawable.united_states),
                     contentDescription = null
                 )
-                Text(text = "USD", modifier.padding(8.dp))
+                Text(text = stringResource(R.string.usd), modifier.padding(8.dp))
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(Icons.Filled.KeyboardArrowDown, contentDescription = null)
                 }
@@ -330,7 +329,7 @@ fun TransferPage(
         {
             // Spacer(modifier = modifier.padding(24.dp))
             Text(
-                text = "Recipient Information",
+                text = stringResource(R.string.recipient_information),
                 modifier.padding(8.dp),
                 textAlign = TextAlign.Center
             )
@@ -346,7 +345,7 @@ fun TransferPage(
             }
 
         }
-        Text(text = "Recipient Name", modifier.padding(8.dp))
+        Text(text = stringResource(R.string.recipient_name), modifier.padding(8.dp))
         OutlinedTextField(
             value = recipientName,
             onValueChange = { recipientName = it },
@@ -354,17 +353,17 @@ fun TransferPage(
                 .fillMaxWidth()
                 .padding(8.dp), placeholder = {
                 Text(
-                    text = "Enter Recipient Name"
+                    text = stringResource(R.string.enter_recipient_name)
                 )
             },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
-        Text(text = "Recipient Account", modifier.padding(8.dp))
+        Text(text = stringResource(R.string.recipient_account), modifier.padding(8.dp))
         OutlinedTextField(
             value = recipientAccount,
             onValueChange = { recipientAccount = it },
             modifier
                 .fillMaxWidth()
                 .padding(8.dp),
-            placeholder = { Text(text = "Enter Recipient Account Number") }
+            placeholder = { Text(text = stringResource(R.string.enter_recipient_account_number)) }
         ,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
 
@@ -372,11 +371,12 @@ fun TransferPage(
             if (recipientName.isNotEmpty() && !recipientAccount.isEmpty() && from.toInt() <= 5000) {
                 navController.navigate("${TRANSFER_CONFIRMATION}/$recipientName/$recipientAccount")
             } else if (recipientName.isBlank() && recipientAccount.isBlank()) {
-                Toast.makeText(context, "Please enter respie", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.please_enter_respie), Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(
                     context,
-                    "you cant send more than 5000 L.E per transaction",
+                    context.getString(R.string.you_cant_send_more_than_5000_l_e_per_transaction),
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -41,7 +41,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.transfer.Navi
 import androidx.compose.foundation.lazy.items
-
+import androidx.compose.ui.res.stringResource
 
 
 @Composable
@@ -69,14 +69,10 @@ fun MyCardsScreen(navController: NavController, modifier: Modifier = Modifier) {
 
             // Example list of favourite items
             val Accounts = listOf(
-                listOf("Ahmed Rasshed" , "Account xxxx7890" , true),
-                listOf("Ahmed Fathy" , "Account xxxx7890" , false),
-                listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
-                listOf("Ahmed Fathy" , "Account xxxx7890" , false),
-                //listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
-                //listOf("Ahmed Fathy" , "Account xxxx7890" , false),
-                //listOf("Ahmed Rasshed" , "Account xxxx7890" , false),
-                //listOf("Ahmed Fathy" , "Account xxxx7890" , true)
+                listOf("NBA" , "Account xxxx7890" , true),
+                listOf("Misr" , "Account xxxx7890" , false),
+                listOf("QNB" , "Account xxxx7890" , false),
+                listOf("CIB" , "Account xxxx7890" , false),
             )
 
             LazyColumn {
@@ -100,7 +96,7 @@ fun MyCardsScreen(navController: NavController, modifier: Modifier = Modifier) {
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.reddd))
             )
             {
-                Text(text = "Add New Account", fontSize = 16.sp)
+                Text(text = stringResource(R.string.add_new_account), fontSize = 16.sp)
             }
         }
     }
@@ -146,7 +142,7 @@ fun CardItem(
                         contentAlignment = Alignment.Center,
                     )
                     {
-                        Text(text = "Default", fontSize = 9.34.sp)
+                        Text(text = stringResource(R.string._default), fontSize = 9.34.sp)
 
                     }
                 }
@@ -170,31 +166,31 @@ fun ScaffoldMyCardsMain(navController: NavController, modifier: Modifier = Modif
     val items = listOf(
         Navi(
             route = "home",
-            title = "Home",
+            title = stringResource(R.string.home),
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         Navi(
             route = "transfer",
-            title = "Transfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         Navi(
             route = "transactions",
-            title = "Transactions",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
             route = "no",
-            title = "My cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         Navi(
             route = "more",
-            title = "More",
+            title = stringResource(R.string.more),
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
         )

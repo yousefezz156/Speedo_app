@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -94,15 +95,15 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
         Spacer(modifier = modifier.padding(8.dp))
 
         Text(
-            text = "Sign Up",
+            text = stringResource(R.string.sign_up),
             fontSize = 20.sp, fontWeight = FontWeight.Bold
         )
         Spacer(modifier = modifier.padding(55.dp))
-        Text(text = " Speedo Transfer", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text(text = stringResource(R.string.speedo_transfer), fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(modifier = modifier.padding(55.dp))
 
         Column(modifier = modifier.fillMaxWidth()) {
-            Text(text = "Full Name", modifier.padding(horizontal = 8.dp))
+            Text(text = stringResource(R.string.full_name), modifier.padding(horizontal = 8.dp))
             OutlinedTextField(
                 value = FullName,
                 onValueChange = { FullName = it },
@@ -110,34 +111,34 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
                 label = {
-                    Text(text = "Enter your full name")
+                    Text(text = stringResource(R.string.enter_your_full_name))
                 }, trailingIcon = {
                     Image(
                         painter = painterResource(id = R.drawable.user),
                         contentDescription = null
                     )
                 })
-            Text(text = "Email", modifier.padding(8.dp))
+            Text(text = stringResource(R.string.email), modifier.padding(8.dp))
             OutlinedTextField(
                 value = Email,
                 onValueChange = { Email = it },
                 modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                placeholder = { Text(text = "Enter your Email") }, trailingIcon = {
+                placeholder = { Text(text = stringResource(R.string.enter_your_email)) }, trailingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.email),
                         contentDescription = null
                     )
                 })
-            Text(text = "Password", modifier.padding(8.dp))
+            Text(text = stringResource(R.string.password), modifier.padding(8.dp))
             OutlinedTextField(
                 value = Password,
                 onValueChange = { Password = it },
                 modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                placeholder = { Text(text = "Enter your Password") },
+                placeholder = { Text(text =  stringResource(R.string.enter_your_password)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 visualTransformation = if (passwordVisual) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
@@ -174,7 +175,7 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
                             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                                 if(response.isSuccessful){
                                     signUpViewModel.fullName= FullName
-                                    Toast.makeText(context , "user Registerd successfully" , Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context , "user Registered successfully" , Toast.LENGTH_SHORT).show()
                                     navController.navigate(SIGNUP2)
 
                                 }else{
@@ -204,7 +205,7 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
                     )
                 )
             ) {
-                Text(text = "Sign up")
+                Text(text = stringResource(R.string.sign_up))
             }
             Spacer(modifier = modifier.padding(8.dp))
 
@@ -212,8 +213,8 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
                 horizontalArrangement = Arrangement.Center,
                 modifier = modifier.fillMaxWidth()
             ) {
-                Text(text = "Already have an account?")
-                Text(text = " Sign in",
+                Text(text = stringResource(R.string.already_have_an_account))
+                Text(text = stringResource(R.string.sign_in),
                     textDecoration = TextDecoration.Underline,
                     color = colorResource(
                         id = R.color.reddd

@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import com.example.bm_app.R
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -48,15 +49,15 @@ fun ServerError( modifier: Modifier = Modifier) {
             modifier = Modifier.size(273.dp,195.dp)
         )
         Spacer(modifier = Modifier.height(50.dp))
-        Text(text = "Server error...",
+        Text(text = stringResource(R.string.server_error),
             fontSize = 24.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "It seems like we’re haveing some diffculities ," +
-                " please don’t leave your aspirations, we are sending for help",
+        Text(
+            text = stringResource(R.string.server_error_message),
             fontSize = 16.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Normal,
@@ -72,7 +73,7 @@ fun ServerError( modifier: Modifier = Modifier) {
             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.reddd))
         )
         {
-            Text(text = "Call Us", fontSize = 16.sp)
+            Text(text = stringResource(R.string.call_us), fontSize = 16.sp)
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(
@@ -85,7 +86,8 @@ fun ServerError( modifier: Modifier = Modifier) {
             border = BorderStroke(1.dp,Color(0xFF521220))
         )
         {
-            Text(text = "Message Us", fontSize = 16.sp,
+            Text(
+                text = stringResource(R.string.message_us), fontSize = 16.sp,
                 color = colorResource(id = R.color.reddd),
             )
         }

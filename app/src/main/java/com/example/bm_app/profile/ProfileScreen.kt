@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -64,7 +65,7 @@ fun ProfileScreen(navController: NavController, viewModel: CurrenUserViewModel =
 
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Profile",
+            text = stringResource(R.string.profile),
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(vertical = 16.dp)
@@ -136,7 +137,7 @@ fun ProfileScreen(navController: NavController, viewModel: CurrenUserViewModel =
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Personal information",
+                        text = stringResource(R.string.personal_information),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
@@ -187,14 +188,14 @@ fun ProfileScreen(navController: NavController, viewModel: CurrenUserViewModel =
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Setting",
+                        text = stringResource(R.string.setting),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
                     )
                     Spacer(modifier = Modifier.padding(1.dp))
                     Text(
-                        text = "Change your settings",
+                        text = stringResource(R.string.change_your_settings),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)
@@ -237,14 +238,14 @@ fun ProfileScreen(navController: NavController, viewModel: CurrenUserViewModel =
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "Payment history",
+                        text = stringResource(R.string.payment_history),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
                     )
                     Spacer(modifier = Modifier.padding(1.dp))
                     Text(
-                        text = "view your transactions",
+                        text = stringResource(R.string.view_your_transactions),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)
@@ -287,14 +288,14 @@ fun ProfileScreen(navController: NavController, viewModel: CurrenUserViewModel =
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        text = "My Favourite list",
+                        text = stringResource(R.string.my_favourite_list),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF24221E)
                     )
                     Spacer(modifier = Modifier.padding(1.dp))
                     Text(
-                        text = "view your favourites",
+                        text = stringResource(R.string.view_your_favourites),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)
@@ -326,31 +327,31 @@ fun ScaffoldProfile(navController: NavController, modifier: Modifier = Modifier)
     val items = listOf(
         Navi(
             route = "home",
-            title = "Home",
+            title = stringResource(R.string.home),
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         Navi(
             route = "transfer",
-            title = "Transfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         Navi(
             route = "transactions",
-            title = "Transactions",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
             route = "my_cards",
-            title = "My cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         Navi(
             route = "no",
-            title = "More",
+            title = stringResource(R.string.more),
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
         )

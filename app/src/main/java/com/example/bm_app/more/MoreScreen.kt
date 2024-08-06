@@ -3,6 +3,7 @@ package com.example.bm_app.more
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -74,7 +76,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "More",
+            text = stringResource(R.string.more),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 16.dp)
@@ -86,18 +88,18 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
         ) {
             MoreScreenItem(
                 iconRes = R.drawable.group,
-                text = "Transfer From Website",
+                text = stringResource(R.string.transfer_from_website),
                 navController = navController,
                 destination = "no",
                 onItemClick ={
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.banquemisr.com/"))
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://speddo-transfer-group-b.netlify.app"))
                     context.startActivity(intent)
                 }
             )
             HorizontalDivider(thickness = 1.dp, color = Color(0xFFDDD5EB))
             MoreScreenItem(
                 iconRes = R.drawable.favorite,
-                text = "Favourites",
+                text = stringResource(R.string.favourites),
                 navController = navController,
                 destination = "more_fav",
                 onItemClick ={}
@@ -105,7 +107,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
             HorizontalDivider(color = Color(0xFFDDD5EB), thickness = 1.dp)
             MoreScreenItem(
                 iconRes = R.drawable.user,
-                text = "Profile",
+                text = stringResource(R.string.profile),
                 navController = navController,
                 destination = "more_profile",
                 onItemClick ={}
@@ -113,7 +115,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
             HorizontalDivider(color = Color(0xFFDDD5EB), thickness = 1.dp)
             MoreScreenItem(
                 iconRes = R.drawable.fill,
-                text = "Help",
+                text = stringResource(R.string.help),
                 navController = navController,
                 destination = "no",
                 onItemClick ={isHelpOpen = true}
@@ -121,7 +123,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
             HorizontalDivider(color = Color(0xFFDDD5EB), thickness = 1.dp)
             MoreScreenItem(
                 iconRes = R.drawable.logout,
-                text = "Logout",
+                text = stringResource(R.string.logout),
                 navController = navController,
                 destination = "signin",
                 onItemClick ={}
@@ -148,7 +150,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                                 .background(Color(0xFFF3E9EB))
                                 .padding(horizontal = 8.dp)
                                 .clickable {
-                                    context.sendEmail("ahmed6@gmail.com", "Test")
+                                    context.sendEmail("ahmed6@gmail.com", "Problem []: User []")
                                 }
                             ,
                             contentAlignment = Alignment.Center,
@@ -163,7 +165,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                             )
                         }
                         Spacer(modifier = Modifier.height(14.84.dp))
-                        Text(text = "Send Email", fontSize =14.sp)
+                        Text(text = stringResource(R.string.send_email), fontSize =14.sp)
                     }
                 }
                 Box(
@@ -197,8 +199,8 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
                             )
                         }
                         Spacer(modifier = Modifier.height(14.84.dp))
-                        Text(text = "Call Us", fontSize =14.sp)
-                        Text(text = "19888", fontSize =14.sp, color = Color(0xFF871E35))
+                        Text(text = stringResource(R.string.call_us), fontSize =14.sp)
+                        Text(text = stringResource(R.string._19888), fontSize =14.sp, color = Color(0xFF871E35))
                     }
                 }
             }
@@ -231,7 +233,7 @@ fun MoreScreenItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-                if (destination != "no"  ) {
+                if (destination != "no") {
                     navController.navigate(destination)
                 }
                 onItemClick()
@@ -270,32 +272,32 @@ fun ScaffoldMoreMain(navController: NavController, modifier: Modifier = Modifier
     }
     val items = listOf(
         Navi(
-            route = "home",
+            route = stringResource(R.string.home),
             title = "Home",
             SelectedIcon = painterResource(id = R.drawable.home),
             unselectedItem = painterResource(id = R.drawable.home)
         ),
         Navi(
             route = "transfer",
-            title = "Transfer",
+            title = stringResource(R.string.transfer),
             SelectedIcon = painterResource(id = R.drawable.transfer_figma),
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         Navi(
             route = "transactions",
-            title = "Transactions",
+            title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
         ),
         Navi(
             route = "my_cards",
-            title = "My cards",
+            title = stringResource(R.string.my_cards),
             SelectedIcon = painterResource(id = R.drawable.cards_figma),
             unselectedItem = painterResource(id = R.drawable.cards_figma)
         ),
         Navi(
             route = "no",
-            title = "More",
+            title = stringResource(R.string.more),
             SelectedIcon = painterResource(id = R.drawable.more),
             unselectedItem = painterResource(id = R.drawable.more)
         )

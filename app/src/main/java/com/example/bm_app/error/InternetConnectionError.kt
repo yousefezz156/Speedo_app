@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import com.example.bm_app.R
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,7 +46,7 @@ fun InternetConnectionError( modifier: Modifier = Modifier) {
             modifier = Modifier.size(109.dp)
         )
         Spacer(modifier = Modifier.height(50.dp))
-        Text(text = "Internet connection\n disabled......",
+        Text(text = stringResource(R.string.internet_connection_disabled),
             fontSize = 24.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.SemiBold,
@@ -61,7 +62,7 @@ fun InternetConnectionError( modifier: Modifier = Modifier) {
             colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.reddd))
         )
         {
-            Text(text = "Update", fontSize = 16.sp)
+            Text(text = stringResource(R.string.update), fontSize = 16.sp)
         }
     }
 }

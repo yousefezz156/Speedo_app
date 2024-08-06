@@ -106,15 +106,17 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
     var day by remember { mutableIntStateOf(0) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize()) {
-        Text(text = "Speedo Transfer", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
+        Text(text = stringResource(R.string.speedo_transfer), fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(modifier = modifier.padding(12.dp))
-        Text(text = "Welcome to Banque Misr!" , fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text(text = stringResource(R.string.welcome_to_banque_misr) , fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(modifier = modifier.padding(4.dp))
-        Text(text = "Lets complete your profile")
+        Text(text = stringResource(R.string.lets_complete_your_profile))
 
         Column(modifier = modifier.fillMaxWidth()) {
-            Text(text = "Country", modifier.padding(8.dp))
+            Text(text = stringResource(R.string.country), modifier.padding(8.dp))
             if (showCountryPicker){
                 ModalBottomSheet(onDismissRequest = { showCountryPicker = false}) {
                   lazycol(country = CountryList().getCountryList() , selectedCountry = selectedCountry, onCountrySelected = {selected -> selectedCountry = selected
@@ -149,11 +151,11 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
                     .clickable { showCountryPicker = true }
                     .fillMaxWidth()
                     .padding(8.dp),
-                placeholder = {Text(text = "Select your country")},
+                placeholder = {Text(text =  stringResource(R.string.select_your_country))},
                 trailingIcon = {Icon(Icons.Filled.KeyboardArrowDown , contentDescription = null)},
                 readOnly = true
             )
-            Text(text = "Date Of Birth", modifier.padding(8.dp))
+            Text(text = stringResource(R.string.date_of_brith), modifier.padding(8.dp))
             OutlinedTextField(
                 value = "",
                 onValueChange = {it},
@@ -175,7 +177,7 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.reddd))
             )
             {
-                Text(text = "Continue")
+                Text(text = stringResource(R.string._continue))
             }
         }
     }
@@ -195,7 +197,7 @@ fun DatePickerChooser(onConfirm: (DatePickerState) -> Unit, onDismiss: () -> Uni
             }
         },
         dismissButton = {
-            TextButton(onClick = { onDismiss() }) { Text(text = "cancel") }
+            TextButton(onClick = { onDismiss() }) { Text(text = stringResource(R.string.cancel)) }
         },
         text = { DatePicker(state = datePickerState) },
     )

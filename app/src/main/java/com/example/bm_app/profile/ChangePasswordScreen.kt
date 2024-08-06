@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -67,7 +68,7 @@ fun ChangePasswordScreen(navController: NavController, modifier: Modifier = Modi
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Change Password",
+            text = stringResource(R.string.change_password),
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.padding(vertical = 16.dp)
@@ -79,14 +80,14 @@ fun ChangePasswordScreen(navController: NavController, modifier: Modifier = Modi
                 .padding(horizontal = 16.dp)
         ) {
             Column {
-                Text(text = "Current Password", fontSize = 16.sp)
+                Text(text = stringResource(R.string.current_password), fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
                     modifier.fillMaxWidth(),
                     label = {
-                        Text(text = "Enter your Password")
+                        Text(text = stringResource(R.string.enter_your_password))
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     visualTransformation = if (passwordVisual) VisualTransformation.None else PasswordVisualTransformation(),
@@ -109,14 +110,14 @@ fun ChangePasswordScreen(navController: NavController, modifier: Modifier = Modi
             Spacer(modifier = Modifier.padding(4.dp))
 
             Column {
-                Text(text = "New Password", fontSize = 16.sp)
+                Text(text = stringResource(R.string.new_password), fontSize = 16.sp)
                 Spacer(modifier = Modifier.padding(4.dp))
                 OutlinedTextField(
                     value = newPassword,
                     onValueChange = { newPassword = it },
                     modifier
                         .fillMaxWidth(),
-                    placeholder = { Text(text = "Enter your Password") },
+                    placeholder = { Text(text = stringResource(R.string.enter_your_password)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     visualTransformation = if (newPasswordVisual) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
@@ -145,7 +146,7 @@ fun ChangePasswordScreen(navController: NavController, modifier: Modifier = Modi
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.reddd))
             )
             {
-                Text(text = "Save", fontSize = 16.sp)
+                Text(text = stringResource(R.string.save), fontSize = 16.sp)
             }
         }
     }

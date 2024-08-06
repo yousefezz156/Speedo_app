@@ -2,6 +2,7 @@ package com.example.bm_app.mycard
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -103,10 +105,21 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
     }
     val context = LocalContext.current
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
         ) {
         Text(
-            text = "Sign on your Speedo Transfer Account",
+            text = stringResource(R.string.add_card),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium,
+            fontSize = 24.sp,
+            maxLines = 2
+        )
+        Spacer(modifier = modifier.padding(22.dp))
+        Text(
+            text = stringResource(R.string.sign_on_your_speedo_transfer_account),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
@@ -115,7 +128,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
         Spacer(modifier = modifier.padding(22.dp))
 
         Column(modifier = modifier.padding(horizontal = 16.dp)) {
-            Text(text = "Cardholder Name")
+            Text(text = stringResource(R.string.cardholder_name))
             Spacer(modifier = modifier.padding(8.dp))
             OutlinedTextField(
                 value = cardHolderName,
@@ -123,12 +136,12 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                 modifier.fillMaxWidth(),
                 placeholder = {
                     Text(
-                        text = "Enter Cardholder Name"
+                        text = stringResource(R.string.enter_cardholder_name)
                     )
                 },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
             )
             Spacer(modifier = modifier.padding(8.dp))
-            Text(text = "Card No")
+            Text(text = stringResource(R.string.card_no))
             Spacer(modifier = modifier.padding(8.dp))
             OutlinedTextField(
                 value = cardNumber,
@@ -136,24 +149,24 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
 
                 modifier.fillMaxWidth(), placeholder = {
                     Text(
-                        text = "Card No"
+                        text = stringResource(R.string.card_no)
                     )
                 },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
             Spacer(modifier = modifier.padding(8.dp))
             Row {
                 Column {
-                    Text(text = "MM/YY")
+                    Text(text = stringResource(R.string.mm_yy))
                     Spacer(modifier = modifier.padding(8.dp))
                     OutlinedTextField(value = monthYear, onValueChange = { monthYear=it },
                         modifier
                             .width(168.dp)
                             .height(49.dp),
-                        placeholder = { Text(text = "MM/YY") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
+                        placeholder = { Text(text = stringResource(R.string.mm_yy)) }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
 
                 }
                 Spacer(modifier = modifier.padding(8.dp))
                 Column {
-                    Text(text = "CVV")
+                    Text(text = stringResource(R.string.cvv))
                     Spacer(modifier = modifier.padding(8.dp))
 
                     OutlinedTextField(
@@ -162,7 +175,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                         modifier
                             .width(168.dp)
                             .height(49.dp),
-                        placeholder = { Text(text = "CVV") },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
+                        placeholder = { Text(text = stringResource(R.string.cvv)) },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
                 }
             }
 
@@ -189,17 +202,20 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                         if (response.isSuccessful) {
                             addCardViewModel.cardHolderName.value = cardHolderName
                             addCardViewModel.cardNumber.value = cardNumber
-                            Toast.makeText(context, "Card added successfully", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context,
+                                context.getString(R.string.card_added_successfully), Toast.LENGTH_SHORT).show()
                             navController.navigate(AppRoutes.MYCARDS_OTP)
                         } else {
-                            Toast.makeText(context, "Failed to add card", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context,
+                                context.getString(R.string.failed_to_add_card), Toast.LENGTH_SHORT).show()
                         }
                     }
 
                     override fun onFailure(call: Call<Void>, t: Throwable) {
                         Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                     }
-                })} ?: run { Toast.makeText(context, "Token is missing" , Toast.LENGTH_SHORT).show() }
+                })} ?: run { Toast.makeText(context,
+                    context.getString(R.string.token_is_missing) , Toast.LENGTH_SHORT).show() }
                       },
             modifier
                 .fillMaxWidth()
@@ -212,7 +228,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                 )
             )
         ) {
-            Text(text = "Sign on")
+            Text(text = stringResource(R.string.sign_on))
         }
     }
 

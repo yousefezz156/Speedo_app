@@ -72,7 +72,7 @@ fun AppNavHost() {
     val signUpViewModel: SignUpViewModel = viewModel()
 
 
-    NavHost(navController = navController, startDestination = AppRoutes.MYCARDS_ADDCARDS)
+    NavHost(navController = navController, startDestination = AppRoutes.TRANSFER_HOME)
     {
         composable(route = SIGNUP1) { ScaffoldSignup(navController) }
         composable(route = AppRoutes.SIGNUP2) { SignUpScreenP2S(navController) }
