@@ -235,7 +235,7 @@ fun TransferPage(
                 text = stringResource(R.string.confirmation)
             )
             stepintext(painter = painterResource(id = R.drawable.step_trail_gray), text = "")
-            stepintext(painter = painterResource(id = R.drawable.step_text_2_gray), text = stringResource(R.string.amount))
+            stepintext(painter = painterResource(id = R.drawable.step_text_2_gray), text = stringResource(R.string.payment))
 
         }
         Spacer(modifier = modifier.padding(16.dp))
@@ -394,7 +394,7 @@ fun stepintext(painter: Painter, text: String, modifier: Modifier = Modifier) {
     ) {
         Image(painter = painter, contentDescription = null)
         Spacer(modifier = modifier.padding(16.dp))
-        Text(text = text, textAlign = TextAlign.Center)
+        Text(text = text, textAlign = TextAlign.Center, fontSize = 12.sp)
     }
 }
 

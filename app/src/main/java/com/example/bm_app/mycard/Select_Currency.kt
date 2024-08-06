@@ -52,53 +52,51 @@ import com.example.bm_app.model.Currency
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldCurrency(navController: NavController,modifier: Modifier = Modifier) {
+fun ScaffoldCurrency(navController: NavController, modifier: Modifier = Modifier) {
     Scaffold(topBar = {
         TopAppBar(
-            navigationIcon = {
-            },
+            navigationIcon = {},
             title = {
                 Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Text(text = stringResource(R.string.select_currency))
-
                 }
             },
         )
-    }) { innerpadding ->
-        Box(modifier = modifier.padding(innerpadding)) {
-            lazycol(rememberNavController(),currencyList = Currency_List().getList())
+    }) { innerPadding ->
+        Box(modifier = modifier.padding(innerPadding)) {
+            lazycol(navController, currencyList = Currency_List().getList())
         }
-
-
     }
 }
 
 @Composable
-fun lazycol(navController: NavController ,currencyList: List<Currency>, modifier: Modifier = Modifier) {
-    var isselected by remember {
-        mutableStateOf(false)
-    }
+fun lazycol(navController: NavController, currencyList: List<Currency>, modifier: Modifier = Modifier) {
+    var selectedCurrency by remember { mutableStateOf<Currency?>(null) }
 
     LazyColumn {
-        items(currencyList) { currencyy ->
-            CurrencyCard(currencyy)
+        items(currencyList) { currency ->
+            CurrencyCard(currency, isSelected = currency == selectedCurrency, onSelect = { selectedCurrency = if (selectedCurrency == currency) null else currency })
         }
     }
-    Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom)
-    {
+
+    Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom) {
         Button(
-            onClick = { navController.navigate(AppRoutes.MYCARDS_ADDCARDS)},
-            modifier
+            onClick = {
+                if (selectedCurrency != null) {
+                    navController.navigate(AppRoutes.MYCARDS_ADDCARDS)
+                }
+            },
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .size(56.dp),
-            colors = if(false){
+            colors = if (selectedCurrency == null) {
                 ButtonDefaults.buttonColors(Color.LightGray)
-            }else {ButtonDefaults.buttonColors(colorResource(id = R.color.reddd))},
+            } else {
+                ButtonDefaults.buttonColors(colorResource(id = R.color.reddd))
+            },
             shape = RoundedCornerShape(6.dp),
-        )
-        {
-
+        ) {
             Text(text = stringResource(R.string.confirm_that))
         }
         Spacer(modifier = modifier.padding(77.dp))
@@ -106,31 +104,23 @@ fun lazycol(navController: NavController ,currencyList: List<Currency>, modifier
 }
 
 @Composable
-fun CurrencyCard(currency: Currency, modifier: Modifier = Modifier) {
-    var isselected by remember {
-        mutableStateOf(false)
-    }
-    Row(modifier = modifier
-        .fillMaxWidth()
-        .padding(16.dp)
-        .clickable {
-            if (!isselected) {
-                isselected = true
-            } else {
-                isselected = false
-            }
-        }) {
+fun CurrencyCard(currency: Currency, isSelected: Boolean, onSelect: () -> Unit, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable { onSelect() }
+    ) {
         Image(painter = painterResource(id = currency.image), contentDescription = null)
         Spacer(modifier = modifier.padding(8.dp))
         Text(text = currency.text)
 
-        if (isselected) {
+        if (isSelected) {
             Spacer(modifier = modifier.weight(1f))
             Icon(Icons.Filled.Check, contentDescription = null)
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

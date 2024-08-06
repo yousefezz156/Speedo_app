@@ -145,7 +145,7 @@ fun TransferPayment(navController: NavController, from:String,recipientname: Str
             .verticalScroll(state = ScrollState(1), true),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(modifier.fillMaxWidth()) {
+        Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             stepintext(
                 painter = painterResource(id = R.drawable.step_text___horizontal),
                 text = stringResource(R.string.amount)

@@ -196,7 +196,7 @@ fun TransferConfirmation(
             .verticalScroll(state = ScrollState(1), true),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(modifier.fillMaxWidth()) {
+        Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             stepintext(
                 painter = painterResource(id = R.drawable.step_text___horizontal),
                 text = stringResource(R.string.amount)
@@ -272,7 +272,7 @@ fun TransferConfirmation(
                             Text(
                                 text = "Account ${
                                     cardNumber.takeLast(4).padStart(cardNumber.length, '*')
-                                }",
+                                }", fontSize = 16.sp,
                                 modifier = modifier.padding(top = 12.dp)
                             )
                         }

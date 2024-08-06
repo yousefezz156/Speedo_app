@@ -110,13 +110,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
         ) {
-        Text(
-            text = stringResource(R.string.add_card),
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Medium,
-            fontSize = 24.sp,
-            maxLines = 2
-        )
+
         Spacer(modifier = modifier.padding(22.dp))
         Text(
             text = stringResource(R.string.sign_on_your_speedo_transfer_account),
