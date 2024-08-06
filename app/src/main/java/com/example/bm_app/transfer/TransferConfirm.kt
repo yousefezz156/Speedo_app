@@ -65,6 +65,7 @@ import com.example.bm_app.R
 import com.example.bm_app.api.TransferApi.TransferApiClient
 import com.example.bm_app.approutes.AppRoutes
 import com.example.bm_app.approutes.AppRoutes.TRANSFER_CONFIRMATION
+import com.example.bm_app.approutes.AppRoutes.TRANSFER_PAYMENT
 import com.example.bm_app.modelApi.Transfer
 import com.example.bm_app.viewModel.AddCardViewModel
 import okhttp3.Callback
@@ -83,6 +84,7 @@ data class data3(
 @Composable
 fun scaffoldConfirm(
     navController: NavController,
+    from:String,
     recipientname: String,
     recipientaccount: String,
     addCardViewModel: AddCardViewModel = viewModel(),
@@ -165,6 +167,7 @@ fun scaffoldConfirm(
         Box(modifier = modifier.padding(innerpadding)) {
             TransferConfirmation(
                 navController = navController,
+                from,
                 recipientname,
                 recipientaccount,
                 addCardViewModel
@@ -176,6 +179,7 @@ fun scaffoldConfirm(
 @Composable
 fun TransferConfirmation(
     navController: NavController,
+    from: String,
     recipientname: String,
     recipientaccount: String,
     addCardViewModel: AddCardViewModel = viewModel(),
@@ -209,7 +213,7 @@ fun TransferConfirmation(
             )
         }
         Spacer(modifier = modifier.padding(8.dp))
-        Text(text = "1000 USD", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+        Text(text = from, fontWeight = FontWeight.Bold, fontSize = 20.sp)
         Spacer(modifier = modifier.padding(4.dp))
         Text(text = stringResource(R.string.transfer_amount))
 
@@ -298,7 +302,7 @@ fun TransferConfirmation(
                         Column {
                             Text(text = "From")
                             Text(
-                                text = "$recipientname",
+                                text = recipientname,
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 20.sp,
@@ -332,11 +336,11 @@ fun TransferConfirmation(
         Spacer(modifier = modifier.padding(12.dp))
         Button(
             onClick = {
-                //navController.navigate(AppRoutes.MYCARDS_LOADINGSCREEN)
                 notificationHelper.sendNotification(
-                "Transfer Successful",
-                "Your transfer of $500 to $recipientname was successful."
+                    "Transfer Successful",
+                    "Your transfer of $from to $recipientname was successful."
                 )
+                navController.navigate("$TRANSFER_PAYMENT/$from/$recipientname/$recipientaccount")
                 val transfer = Transfer(
                     senderCardNumber = "123",
                     recipientCardNumber = recipientaccount,
@@ -356,10 +360,10 @@ fun TransferConfirmation(
                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
                             if(response.isSuccessful){
                                 Toast.makeText(context , "Transfer succesfully" , Toast.LENGTH_SHORT).show()
-                                notificationHelper.sendNotification(
-                                    "Transfer Successful",
-                                    "Your transfer of $500 to $recipientname was successful."
-                                )
+//                                notificationHelper.sendNotification(
+//                                    "Transfer Successful",
+//                                    "Your transfer of $from L.E to $recipientname was successful."
+//                                )
                                 navController.navigate(AppRoutes.TRANSFER_PAYMENT)
                             }else{
                                 val error = response.errorBody()?.string() ?: "Unknown error"
@@ -379,7 +383,7 @@ fun TransferConfirmation(
                 .height(52.dp),
             shape = RoundedCornerShape(6.dp)
 
-        ) {
+            ) {
             Text(text = stringResource(R.string.confirm))
         }
         Spacer(modifier = modifier.padding(8.dp))
@@ -402,5 +406,5 @@ fun TransferConfirmation(
 @Composable
 private fun prevs() {
     //TransferConfirmation()
-    scaffoldConfirm(navController = rememberNavController(), "", "")
+    scaffoldConfirm(navController = rememberNavController(), "", "", "")
 }

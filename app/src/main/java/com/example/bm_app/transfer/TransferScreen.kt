@@ -68,7 +68,7 @@ data class data4 (val routes : String , val title : String, val SelectedIcon : P
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldBack(navController: NavController,recipientname : String, recipientaccount: String,modifier: Modifier = Modifier) {
+fun ScaffoldBack(navController: NavController,from: String,recipientname : String, recipientaccount: String,modifier: Modifier = Modifier) {
     var selectedItem by rememberSaveable {
         mutableStateOf(1)
     }
@@ -127,14 +127,14 @@ fun ScaffoldBack(navController: NavController,recipientname : String, recipienta
         }
     }) { innerpadding ->
         Box(modifier = modifier.padding(innerpadding)) {
-            TransferPayment(navController, recipientaccount,recipientname)
+            TransferPayment(navController, from,recipientname,recipientaccount)
         }
 
     }
 }
 
 @Composable
-fun TransferPayment(navController: NavController, recipientaccount: String,recipientname: String,viewModel: FavoriteApiViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), modifier: Modifier = Modifier) {
+fun TransferPayment(navController: NavController, from:String,recipientname: String,recipientaccount: String,viewModel: FavoriteApiViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), modifier: Modifier = Modifier) {
     val addFavoriteResult by viewModel.addFavoriteResult.collectAsState()
     val error by viewModel.error.collectAsState()
     val context= LocalContext.current
@@ -251,6 +251,7 @@ fun TransferPayment(navController: NavController, recipientaccount: String,recip
             }
             //chatGpt
             Box(
+
                 modifier = Modifier
                     .align(Alignment.Center)
                     .background(color = colorResource(id = R.color.brown), shape = CircleShape)
@@ -275,7 +276,7 @@ fun TransferPayment(navController: NavController, recipientaccount: String,recip
             Text(text = stringResource(R.string.total_amount))
             Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth())
             {
-                Text(text = "48,4220")
+                Text(text = from)
             }
         }
         Spacer(modifier = modifier.padding(6.dp))
@@ -331,6 +332,6 @@ fun TransferPayment(navController: NavController, recipientaccount: String,recip
 @Composable
 private fun prevscreen () {
     //TransferPayment()
-    //ScaffoldBack(navController = rememberNavController())
+    ScaffoldBack(navController = rememberNavController(),"","","")
 
 }

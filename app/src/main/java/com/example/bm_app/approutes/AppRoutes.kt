@@ -80,21 +80,28 @@ fun AppNavHost() {
         composable(route = AppRoutes.TRANSFER_HOME) { ScaffoldtransMain(navController = navController) }
         composable(route = AppRoutes.TRANSFER_AMOUNT) { Scaffold_Transfer(navController) }
         composable(
-            route = "${TRANSFER_CONFIRMATION}/{recipientName}/{recipientAccount}",
-            arguments = listOf(navArgument("recipientName") { type = NavType.StringType },
-                navArgument("recipientAccount") { type = NavType.StringType })
+            route = "${TRANSFER_CONFIRMATION}/{from}/{recipientName}/{recipientAccount}",
+            arguments = listOf(
+                navArgument("from"){type = NavType.StringType},
+                navArgument("recipientName") { type = NavType.StringType },
+                navArgument("recipientAccount") { type = NavType.StringType }
+            )
         ) { backStackEntry ->
+            val from = backStackEntry.arguments?.getString("from") ?: ""
             val recipientName = backStackEntry.arguments?.getString("recipientName") ?: ""
             val recipientAccount = backStackEntry.arguments?.getString("recipientAccount") ?: ""
-            scaffoldConfirm(navController, recipientName, recipientAccount)
+            scaffoldConfirm(navController, from,recipientName, recipientAccount)
         }
-        composable(route = "${AppRoutes.TRANSFER_PAYMENT}/{recipientname}/{recipientaccount}",
-        arguments = listOf(navArgument("recipientname") { type = NavType.StringType },
+        composable(route = "${AppRoutes.TRANSFER_PAYMENT}/{from}/{recipientname}/{recipientaccount}",
+        arguments = listOf(
+            navArgument("from") { type = NavType.StringType },
+            navArgument("recipientname") { type = NavType.StringType },
             navArgument("recipientaccount") { type = NavType.StringType })
         ) { backStackEntry ->
-        val recipientName = backStackEntry.arguments?.getString("recipientname") ?: ""
+            val from = backStackEntry.arguments?.getString("from") ?: ""
+        val recipientName = backStackEntry.arguments?.getString("recipientaccount") ?: ""
         val recipientAccount = backStackEntry.arguments?.getString("recipientaccount") ?: ""
-        scaffoldConfirm(navController, recipientName, recipientAccount)
+        ScaffoldBack(navController,from ,recipientName, recipientAccount)
     }
         composable(route = AppRoutes.TRANSACTIONS_HISTORY) {
             ScaffololdTransactionScreen(

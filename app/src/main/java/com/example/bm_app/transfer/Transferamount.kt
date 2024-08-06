@@ -179,10 +179,7 @@ fun TransferPage(
 ) {
 
     var from by remember {
-        mutableStateOf("0")
-    }
-    var where by remember {
-        mutableStateOf("48332.50")
+        mutableStateOf("")
     }
     var recipientName by remember {
         mutableStateOf("")
@@ -272,47 +269,44 @@ fun TransferPage(
                 modifier.padding(12.dp),
                 color = colorResource(id = R.color.gry)
             )
-            Text(text = stringResource(R.string.you_send), modifier.padding(8.dp))
-            Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.united_states),
-                    contentDescription = null
-                )
-                Text(text = "USD", modifier.padding(8.dp))
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(Icons.Filled.KeyboardArrowDown, contentDescription = null)
-                }
-                Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth())
-                {
-                    OutlinedTextField(
-                        value = from,
-                        onValueChange = { from.toInt() },
-                        modifier = modifier.size(height = 56.dp, width = 160.dp)
-                    )
-                }
-
-
-            }
+//            Text(text = stringResource(R.string.you_send), modifier.padding(8.dp))
+//            Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.united_states),
+//                    contentDescription = null
+//                )
+//                Text(text = "USD", modifier.padding(8.dp))
+//                IconButton(onClick = { /*TODO*/ }) {
+//                    Icon(Icons.Filled.KeyboardArrowDown, contentDescription = null)
+//                }
+//                Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth())
+//                {
+//                    OutlinedTextField(
+//                        value = from,
+//                        onValueChange = { from.toInt() },
+//                        modifier = modifier.size(height = 56.dp, width = 160.dp)
+//                    )
+//                }
+//
+//
+//            }
             Spacer(modifier = modifier.padding(8.dp))
             Divider(color = Color.Black, thickness = 0.5.dp)
             Spacer(modifier = modifier.padding(8.dp))
-            Text(text = stringResource(R.string.recipient_gets))
+            Text(text = stringResource(R.string.recipient_gets), modifier.padding(8.dp))
 
-            Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
 
                 Image(
                     painter = painterResource(id = R.drawable.united_states),
                     contentDescription = null
                 )
                 Text(text = stringResource(R.string.usd), modifier.padding(8.dp))
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(Icons.Filled.KeyboardArrowDown, contentDescription = null)
-                }
                 Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth())
                 {
                     OutlinedTextField(
                         value = from,
-                        onValueChange = {from.toInt()} ,
+                        onValueChange = {from = it} , keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = modifier.size(height = 56.dp, width = 160.dp)
                     )
                 }
@@ -369,8 +363,8 @@ fun TransferPage(
 
         Button(onClick = {
             if (recipientName.isNotEmpty() && !recipientAccount.isEmpty() && from.toInt() <= 5000) {
-                navController.navigate("${TRANSFER_CONFIRMATION}/$recipientName/$recipientAccount")
-            } else if (recipientName.isBlank() && recipientAccount.isBlank()) {
+                navController.navigate("${TRANSFER_CONFIRMATION}/$from/$recipientName/$recipientAccount")
+            } else if (recipientName.isBlank() || recipientAccount.isBlank()) {
                 Toast.makeText(context,
                     context.getString(R.string.please_enter_respie), Toast.LENGTH_SHORT).show()
             } else {
