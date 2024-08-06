@@ -1,5 +1,7 @@
 package com.example.bm_app.transfer
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -37,6 +39,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -45,6 +48,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -55,9 +59,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.bm_app.NotificationHelper
 import com.example.bm_app.R
 import com.example.bm_app.api.TransferApi.TransferApiClient
 import com.example.bm_app.approutes.AppRoutes
+import com.example.bm_app.approutes.AppRoutes.TRANSFER_CONFIRMATION
 import com.example.bm_app.modelApi.Transfer
 import com.example.bm_app.viewModel.AddCardViewModel
 import okhttp3.Callback
@@ -179,6 +185,8 @@ fun TransferConfirmation(
 ) {
     val cardHolderName = addCardViewModel.cardHolderName.value
     val cardNumber = addCardViewModel.cardNumber.value
+    val context = LocalContext.current
+    val notificationHelper = remember { NotificationHelper(context) }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -327,19 +335,10 @@ fun TransferConfirmation(
         }
         Spacer(modifier = modifier.padding(12.dp))
         Button(
-            onClick = { navController.navigate(AppRoutes.TRANSFER_PAYMENT) },
-            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.reddd)),
-            modifier = modifier
-                .fillMaxWidth()
-                .height(52.dp),
-            shape = RoundedCornerShape(6.dp)
-
-        ) {
-            Text(text = "Confirm")
-        }
-        Spacer(modifier = modifier.padding(8.dp))
-        Button(
-            onClick = {
+            onClick = {notificationHelper.sendNotification(
+                "Transfer Successful",
+                "Your transfer of $500 to $recipientname was successful."
+            )
                 val transfer = Transfer(
                     senderCardNumber = "123",
                     recipientCardNumber = recipientaccount,
@@ -350,30 +349,55 @@ fun TransferConfirmation(
                     amount = 500,
                     date = ""
                 )
-                TransferApiClient.instance.transferService(transfer).enqueue(object : retrofit2.Callback<Void> {
-                    override fun onResponse(p0: Call<Void>, p1: Response<Void>) {
-                        TODO("Not yet implemented")
-                    }
 
-                    override fun onFailure(p0: Call<Void>, p1: Throwable) {
-                        TODO("Not yet implemented")
-                    }
+                val sharedPreferences = context.getSharedPreferences("MyAppPreferences" , Context.MODE_PRIVATE)
+                val token = sharedPreferences.getString("auth_token", null)
 
-                })
-                navController.navigate(AppRoutes.TRANSFER_AMOUNT)
+                token?.let {
+                    TransferApiClient.instance.transferService("Bearer $it",transfer).enqueue(object : retrofit2.Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if(response.isSuccessful){
+                                Toast.makeText(context , "Transfer succesfully" , Toast.LENGTH_SHORT).show()
+                                notificationHelper.sendNotification(
+                                    "Transfer Successful",
+                                    "Your transfer of $500 to $recipientname was successful."
+                                )
+                                navController.navigate(AppRoutes.TRANSFER_PAYMENT)
+                            }else{
+                                val error = response.errorBody()?.string() ?: "Unknown error"
+                                Toast.makeText(context, "Transfer failed: ${response.code()} - $error", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Toast.makeText(context, "Transfer failed: ${t.message}", Toast.LENGTH_SHORT).show()
+                        }
+
+                    })}
             },
+            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.reddd)),
+            modifier = modifier
+                .fillMaxWidth()
+                .height(52.dp),
+            shape = RoundedCornerShape(6.dp)
+
+        ) {
+            Text(text = "Confirm")
+        }
+        Spacer(modifier = modifier.padding(8.dp))
+        Button(onClick = {navController.navigate(AppRoutes.TRANSFER_AMOUNT)},
             colors = ButtonDefaults.buttonColors(colorResource(id = R.color.white)),
             modifier = modifier
                 .fillMaxWidth()
                 .height(52.dp),
             shape = RoundedCornerShape(6.dp),
-            border = BorderStroke(width = 0.5.dp, color = colorResource(id = R.color.reddd))
-
-        ) {
+            border = BorderStroke(width = 0.5.dp, color = colorResource(id = R.color.reddd)))
+            {
             Text(text = "Previous", color = colorResource(id = R.color.reddd))
         }
     }
 }
+
 
 
 @Preview(showBackground = true)

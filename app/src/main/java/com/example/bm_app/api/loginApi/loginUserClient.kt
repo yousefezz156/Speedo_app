@@ -1,5 +1,6 @@
 package com.example.bm_app.api.loginApi
 
+import com.example.bm_app.BaseUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,7 +18,7 @@ object loginUserClient {
 
     val instance: LoginService by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://pretty-aliens-look.loca.lt") // Replace with your actual backend URL
+            .baseUrl(BaseUrl.BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

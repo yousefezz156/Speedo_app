@@ -166,7 +166,7 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
                             password = Password,
                             gender = "",
                             dateOfBirth = "",
-                            country = "",
+                            country = "egypt",
                             isActive = 1
                         )
 

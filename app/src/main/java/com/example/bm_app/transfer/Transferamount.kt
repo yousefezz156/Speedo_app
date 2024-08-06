@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -62,6 +63,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -350,9 +352,11 @@ fun TransferPage(
             onValueChange = { recipientName = it },
             modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            placeholder = { Text(text = "Enter Recipient Name") }
-        )
+                .padding(8.dp), placeholder = {
+                Text(
+                    text = "Enter Recipient Name"
+                )
+            },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
         Text(text = "Recipient Account", modifier.padding(8.dp))
         OutlinedTextField(
             value = recipientAccount,
@@ -361,7 +365,8 @@ fun TransferPage(
                 .fillMaxWidth()
                 .padding(8.dp),
             placeholder = { Text(text = "Enter Recipient Account Number") }
-        )
+        ,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
 
         Button(onClick = {
             if (recipientName.isNotEmpty() && !recipientAccount.isEmpty() && from.toInt() <= 5000) {

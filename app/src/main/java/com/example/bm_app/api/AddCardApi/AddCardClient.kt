@@ -1,5 +1,6 @@
 package com.example.bm_app.api.AddCardApi
 
+import com.example.bm_app.BaseUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,7 +18,7 @@ object AddCardClient {
 
     val instance: AddCardService by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://solid-spies-scream.loca.lt/")
+            .baseUrl(BaseUrl.BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

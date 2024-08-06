@@ -1,5 +1,6 @@
 package com.example.bm_app.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -12,19 +13,35 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.bm_app.viewModel.CurrenUserViewModel
 
 @Composable
-fun ProfileInformationScreen(navController: NavController, modifier: Modifier = Modifier) {
+fun ProfileInformationScreen(
+    navController: NavController,
+    viewModel: CurrenUserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    modifier: Modifier = Modifier)
+{
+
+    val getuser by viewModel.currentUser.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    val context = LocalContext.current
+    if (error!= null)
+        Toast.makeText(context, " the error: $error" , Toast.LENGTH_SHORT).show()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -59,7 +76,7 @@ fun ProfileInformationScreen(navController: NavController, modifier: Modifier = 
                     )
                     Spacer(modifier = Modifier.padding(6.dp))
                     Text(
-                        text = "Ahmed Rashed",
+                        text = "${getuser?.name}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)
@@ -83,7 +100,7 @@ fun ProfileInformationScreen(navController: NavController, modifier: Modifier = 
                     )
                     Spacer(modifier = Modifier.padding(6.dp))
                     Text(
-                        text = "Ahmed@gmail.com",
+                        text = "${getuser?.email}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)

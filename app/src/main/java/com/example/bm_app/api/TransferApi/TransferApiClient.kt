@@ -1,5 +1,6 @@
 package com.example.bm_app.api.TransferApi
 
+import com.example.bm_app.BaseUrl
 import com.example.bm_app.api.loginApi.LoginService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,7 +19,7 @@ object TransferApiClient {
 
     val instance: TransferApiService by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://pretty-aliens-look.loca.lt") // Replace with your actual backend URL
+            .baseUrl(BaseUrl.BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

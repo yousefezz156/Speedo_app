@@ -1,11 +1,11 @@
-package com.example.bm_app.api.registerApi
+package com.example.bm_app.api.FavoriteApi
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RegisterApiPost {
+object FavoriteApiClient {
     private val client: OkHttpClient by lazy {
         val logging = HttpLoggingInterceptor().apply {
             setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -15,13 +15,15 @@ object RegisterApiPost {
             .build()
     }
 
-    val instance: RegisterServices by lazy {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://proud-kings-think.loca.lt/")
-            .client(client)
+    val instance: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://localhost")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
             .build()
+    }
 
-      retrofit.create(RegisterServices::class.java)
+    val favoriteApiService: FavoriteApiServices by lazy {
+        instance.create(FavoriteApiServices::class.java)
     }
 }

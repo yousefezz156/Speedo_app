@@ -1,5 +1,6 @@
 package com.example.bm_app.mycard
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
@@ -35,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -84,7 +87,7 @@ fun Scaffold_AddCard(navController: NavController, modifier: Modifier = Modifier
 fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , addCardViewModel: AddCardViewModel = viewModel()) {
 
     var cardHolderName by remember {
-        mutableStateOf("yousef")
+        mutableStateOf("")
     }
     var cardNumber by remember {
         mutableStateOf("")
@@ -122,7 +125,8 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                     Text(
                         text = "Enter Cardholder Name"
                     )
-                })
+                },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+            )
             Spacer(modifier = modifier.padding(8.dp))
             Text(text = "Card No")
             Spacer(modifier = modifier.padding(8.dp))
@@ -134,7 +138,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                     Text(
                         text = "Card No"
                     )
-                })
+                },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
             Spacer(modifier = modifier.padding(8.dp))
             Row {
                 Column {
@@ -144,7 +148,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                         modifier
                             .width(168.dp)
                             .height(49.dp),
-                        placeholder = { Text(text = "MM/YY") })
+                        placeholder = { Text(text = "MM/YY") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
 
                 }
                 Spacer(modifier = modifier.padding(8.dp))
@@ -158,7 +162,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                         modifier
                             .width(168.dp)
                             .height(49.dp),
-                        placeholder = { Text(text = "CVV") })
+                        placeholder = { Text(text = "CVV") },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
                 }
             }
 
@@ -175,8 +179,12 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                 currency = "",
                 accountType = ""
             )
+                val sharedPreferences = context.getSharedPreferences("MyAppPreferences" , Context.MODE_PRIVATE)
+                val token = sharedPreferences.getString("auth_token", null)
 
-                AddCardClient.instance.addCard(addCardRequest).enqueue(object : Callback<Void> {
+                token?.let {
+
+                AddCardClient.instance.addCard("Bear $it",addCardRequest).enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if (response.isSuccessful) {
                             addCardViewModel.cardHolderName.value = cardHolderName
@@ -191,7 +199,8 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                     override fun onFailure(call: Call<Void>, t: Throwable) {
                         Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                     }
-                }) },
+                })} ?: run { Toast.makeText(context, "Token is missing" , Toast.LENGTH_SHORT).show() }
+                      },
             modifier
                 .fillMaxWidth()
                 .padding(16.dp)

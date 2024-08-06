@@ -1,5 +1,6 @@
 package com.example.bm_app.transfer
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -34,6 +35,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -44,6 +47,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,16 +55,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.approutes.AppRoutes
+import com.example.bm_app.modelApi.AddFavorite
+import com.example.bm_app.viewModel.FavoriteApiViewModel
 
 data class data4 (val routes : String , val title : String, val SelectedIcon : Painter, val unselectedItem : Painter)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldBack(navController: NavController,modifier: Modifier = Modifier) {
+fun ScaffoldBack(navController: NavController,recipientname : String, recipientaccount: String,modifier: Modifier = Modifier) {
     var selectedItem by rememberSaveable {
         mutableStateOf(1)
     }
@@ -99,11 +106,7 @@ fun ScaffoldBack(navController: NavController,modifier: Modifier = Modifier) {
     Scaffold(topBar = {
         TopAppBar(title = {
             Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxWidth()) {
-                Text(text = "Transfer")
-            }
-        }, navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Filled.KeyboardArrowLeft, contentDescription = null)
+                Text(text = "Transfer", textAlign = TextAlign.Center)
             }
         })
     }, bottomBar = {
@@ -123,14 +126,17 @@ fun ScaffoldBack(navController: NavController,modifier: Modifier = Modifier) {
         }
     }) { innerpadding ->
         Box(modifier = modifier.padding(innerpadding)) {
-            TransferPayment(navController)
+            TransferPayment(navController, recipientaccount,recipientname)
         }
 
     }
 }
 
 @Composable
-fun TransferPayment(navController: NavController,modifier: Modifier = Modifier) {
+fun TransferPayment(navController: NavController, recipientaccount: String,recipientname: String,viewModel: FavoriteApiViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), modifier: Modifier = Modifier) {
+    val addFavoriteResult by viewModel.addFavoriteResult.collectAsState()
+    val error by viewModel.error.collectAsState()
+    val context= LocalContext.current
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -228,9 +234,9 @@ fun TransferPayment(navController: NavController,modifier: Modifier = Modifier) 
                         )
                         Spacer(modifier = modifier.padding(12.dp))
                         Column {
-                            Text(text = "From")
+                            Text(text = "To")
                             Text(
-                                text = "Asmaa dosuky",
+                                text = "$recipientname",
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 20.sp,
@@ -238,7 +244,7 @@ fun TransferPayment(navController: NavController,modifier: Modifier = Modifier) 
                             )
 
                             Text(
-                                text = "Account xxxx7890",
+                                text = "Account $recipientaccount",
                                 modifier = modifier.padding(top = 12.dp)
                             )
                         }
@@ -278,6 +284,7 @@ fun TransferPayment(navController: NavController,modifier: Modifier = Modifier) 
         Divider(
             color = Color.Gray,
             thickness = 0.2.dp,
+
             modifier = modifier.padding(horizontal = 8.dp)
         )
         Spacer(modifier = modifier.padding(12.dp))
@@ -294,7 +301,7 @@ fun TransferPayment(navController: NavController,modifier: Modifier = Modifier) 
         }
         Spacer(modifier = modifier.padding(8.dp))
         Button(
-            onClick = { AppRoutes.TRANSFER_HOME },
+            onClick = { viewModel.addFavorite(AddFavorite(recipientname))},
             colors = ButtonDefaults.buttonColors(colorResource(id = R.color.white)),
             modifier = modifier
                 .fillMaxWidth()
@@ -306,6 +313,19 @@ fun TransferPayment(navController: NavController,modifier: Modifier = Modifier) 
             Text(text = "Add to favorite", color = colorResource(id = R.color.reddd))
         }
 
+
+        LaunchedEffect(addFavoriteResult, error) {
+            when {
+                addFavoriteResult?.isSuccessful == true -> {
+                    Toast.makeText(context, "Added to favorites successfully!", Toast.LENGTH_SHORT).show()
+                    navController.navigate(AppRoutes.TRANSFER_HOME)
+                }
+                error != null -> {
+                    Toast.makeText(context, error ?: "An error occurred", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
     }
 }
 
@@ -313,6 +333,6 @@ fun TransferPayment(navController: NavController,modifier: Modifier = Modifier) 
 @Composable
 private fun prevscreen () {
     //TransferPayment()
-    ScaffoldBack(navController = rememberNavController())
+    //ScaffoldBack(navController = rememberNavController())
 
 }

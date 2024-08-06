@@ -68,10 +68,11 @@ object AppRoutes {
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
-    //val addCardViewModel: AddCardViewModel = viewModel()
-    //val signUpViewModel: SignUpViewModel = viewModel()
+    val addCardViewModel: AddCardViewModel = viewModel()
+    val signUpViewModel: SignUpViewModel = viewModel()
 
-    NavHost(navController = navController, startDestination = AppRoutes.TRANSFER_HOME)
+
+    NavHost(navController = navController, startDestination = AppRoutes.MYCARDS_ADDCARDS)
     {
         composable(route = SIGNUP1) { ScaffoldSignup(navController) }
         composable(route = AppRoutes.SIGNUP2) { SignUpScreenP2S(navController) }
@@ -87,7 +88,14 @@ fun AppNavHost() {
             val recipientAccount = backStackEntry.arguments?.getString("recipientAccount") ?: ""
             scaffoldConfirm(navController, recipientName, recipientAccount)
         }
-        composable(route = AppRoutes.TRANSFER_PAYMENT) { ScaffoldBack(navController) }
+        composable(route = "${AppRoutes.TRANSFER_PAYMENT}/{recipientname}/{recipientaccount}",
+        arguments = listOf(navArgument("recipientname") { type = NavType.StringType },
+            navArgument("recipientaccount") { type = NavType.StringType })
+        ) { backStackEntry ->
+        val recipientName = backStackEntry.arguments?.getString("recipientname") ?: ""
+        val recipientAccount = backStackEntry.arguments?.getString("recipientaccount") ?: ""
+        scaffoldConfirm(navController, recipientName, recipientAccount)
+    }
         composable(route = AppRoutes.TRANSACTIONS_HISTORY) {
             ScaffololdTransactionScreen(
                 navController
@@ -100,7 +108,7 @@ fun AppNavHost() {
         }
         composable(route = AppRoutes.MYCARDS_SELECTCURRENY) { ScaffoldCurrency(navController) }
         composable(route = AppRoutes.MYCARDS_ADDCARDS) { Scaffold_AddCard(navController) }
-        composable(route = AppRoutes.MYCARDS_LOADINGSCREEN) { ScaffoldBack(navController) }
+        // composable(route = AppRoutes.MYCARDS_LOADINGSCREEN) { ScaffoldBack(navController) }
         composable(route = AppRoutes.MYCARDS_OTP) { ScaffoldOtp(navController) }
         composable(route = AppRoutes.MYCARDS_SUCCESFUL) { ScaaffoldOTPend(navController) }
         composable(route = AppRoutes.MORE) { ScaffoldMoreMain(navController) }

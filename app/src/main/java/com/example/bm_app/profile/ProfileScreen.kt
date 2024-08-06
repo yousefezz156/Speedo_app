@@ -1,5 +1,6 @@
 package com.example.bm_app.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,9 +44,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
 import com.example.bm_app.transfer.Navi
+import com.example.bm_app.viewModel.CurrenUserViewModel
 
 @Composable
-fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
+fun ProfileScreen(navController: NavController, viewModel: CurrenUserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), modifier: Modifier = Modifier) {
+    val userdata by viewModel.currentUser.collectAsState()
+    val error by viewModel.error.collectAsState()
+
+    val context = LocalContext.current
+    if (error!= null)
+        Toast.makeText(context, " the error: $error" , Toast.LENGTH_SHORT).show()
     var userName = "Ahmed Rashed"
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -91,7 +101,7 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = userName,
+                    text = "${userdata?.name}",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF24221E)
@@ -153,7 +163,7 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { navController.navigate("profile_setting")}
+                    .clickable { navController.navigate("profile_setting") }
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(
@@ -253,7 +263,7 @@ fun ProfileScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable {navController.navigate("more_fav") }
+                    .clickable { navController.navigate("more_fav") }
                     .padding(horizontal = 1.dp, vertical = 16.dp)
             ) {
                 Box(
