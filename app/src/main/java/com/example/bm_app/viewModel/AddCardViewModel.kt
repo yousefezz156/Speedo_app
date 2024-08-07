@@ -7,6 +7,6 @@ import androidx.lifecycle.ViewModel
 
 class AddCardViewModel :ViewModel() {
 
-    var cardHolderName = mutableStateOf("yousef")
+    var cardHolderName = mutableStateOf("yousef E")
     var cardNumber  = mutableStateOf("23458997")
 }

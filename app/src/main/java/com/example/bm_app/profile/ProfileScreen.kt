@@ -93,7 +93,7 @@ fun ProfileScreen(navController: NavController, viewModel: CurrenUserViewModel =
                 )
                 {
                     Text(
-                        text = getInitials(userName),
+                        text = getInitials(" Yousef Ezz"),
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         textAlign = TextAlign.Center
@@ -102,7 +102,8 @@ fun ProfileScreen(navController: NavController, viewModel: CurrenUserViewModel =
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "${userdata?.name}",
+                    text = "Yousef Ezz",
+                   // text = "${userdata?.name}",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF24221E)

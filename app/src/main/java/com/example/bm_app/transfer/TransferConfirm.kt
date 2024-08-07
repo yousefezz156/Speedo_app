@@ -185,7 +185,9 @@ fun TransferConfirmation(
     addCardViewModel: AddCardViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
-    val cardHolderName = addCardViewModel.cardHolderName.value
+    val cardHolderName by remember {
+        mutableStateOf("Yousef Ezz")
+    }
     val cardNumber = addCardViewModel.cardNumber.value
     val context = LocalContext.current
     val notificationHelper = remember { NotificationHelper(context) }
@@ -300,7 +302,7 @@ fun TransferConfirmation(
                         )
                         Spacer(modifier = modifier.padding(12.dp))
                         Column {
-                            Text(text = "From")
+                            Text(text = "To")
                             Text(
                                 text = recipientname,
                                 textAlign = TextAlign.Center,

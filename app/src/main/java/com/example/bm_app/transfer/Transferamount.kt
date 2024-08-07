@@ -263,7 +263,6 @@ fun TransferPage(
                 .fillMaxSize()
         )
         {
-            Text(text = "1 USD = 48.4220", modifier.padding(8.dp))
             Text(
                 text = "Rate guaranteed (2)",
                 modifier.padding(12.dp),

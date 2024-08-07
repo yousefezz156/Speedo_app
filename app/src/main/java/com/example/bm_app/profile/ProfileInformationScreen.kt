@@ -78,7 +78,8 @@ fun ProfileInformationScreen(
                     )
                     Spacer(modifier = Modifier.padding(6.dp))
                     Text(
-                        text = "${getuser?.name}",
+                        text = "Yousef Ezz",
+                        //text = "${getuser?.name}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)
@@ -102,7 +103,9 @@ fun ProfileInformationScreen(
                     )
                     Spacer(modifier = Modifier.padding(6.dp))
                     Text(
-                        text = "${getuser?.email}",
+                        text = "Yousef@gmail.com",
+
+                        //text = "${getuser?.email}",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)

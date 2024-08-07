@@ -103,13 +103,10 @@ fun AppNavHost() {
         connectivityChecked = true
         delay(2000)
         if (isConnected) {
-            navController.navigate(AppRoutes.SIGNUP1) {
-                popUpTo(AppRoutes.SPLASH_SCREEN) { inclusive = true }
-            }
-        } else {
-            navController.navigate(AppRoutes.WIFI) {
-                popUpTo(AppRoutes.SPLASH_SCREEN) { inclusive = true }
-            }
+            navController.navigate(AppRoutes.TRANSFER_HOME)
+
+        } else{
+            navController.navigate(AppRoutes.WIFI)
         }
     }
 

@@ -122,7 +122,7 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
-    var user_name = "Ahmed Rashed"
+    var user_name = "Yousef Ezz"
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -177,7 +177,7 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
             )
             Spacer(modifier = modifier.padding(8.dp))
             Text(
-                text = "$2,85,856.80",
+                text = "$1000.00",
                 fontSize = 28.sp,
                 color = Color.White,
                 modifier = modifier.padding(horizontal = 8.dp)
