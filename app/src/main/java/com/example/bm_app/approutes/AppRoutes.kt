@@ -1,6 +1,19 @@
 package com.example.bm_app.approutes
 
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -8,12 +21,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.bm_app.InactivieDialog
 import com.example.bm_app.SignUp_Screen.ScaffoldSignup
 //import com.example.bm_app.SignUp_Screen.ScaffoldSignup
 //import com.example.bm_app.SignUp_Screen.SignUp
 import com.example.bm_app.SignUp_Screen.SignUpScreenP2S
+import com.example.bm_app.SplashScreen
 import com.example.bm_app.approutes.AppRoutes.SIGNUP1
 import com.example.bm_app.approutes.AppRoutes.TRANSFER_CONFIRMATION
+import com.example.bm_app.error.InternetConnectionError
 import com.example.bm_app.list.CountryList
 import com.example.bm_app.more.ScaffoldFav
 import com.example.bm_app.more.ScaffoldMoreMain
@@ -28,6 +44,7 @@ import com.example.bm_app.profile.EditProfileScreen
 import com.example.bm_app.profile.ProfileInformationScreen
 import com.example.bm_app.profile.ScaffoldProfile
 import com.example.bm_app.profile.SettingScreen
+import com.example.bm_app.rememberConnectivityState
 import com.example.bm_app.signinscreen.SigninScreen
 import com.example.bm_app.transaction.ScaffololdSuccessTransactionScreen
 import com.example.bm_app.transaction.ScaffololdTransactionScreen
@@ -37,9 +54,13 @@ import com.example.bm_app.transfer.ScaffoldtransMain
 import com.example.bm_app.transfer.scaffoldConfirm
 import com.example.bm_app.viewModel.AddCardViewModel
 import com.example.bm_app.viewModel.SignUpViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlin.math.sign
 
 object AppRoutes {
+    val SPLASH_SCREEN = "splash"
     val SIGNUP1 = "signup_1"
     val SIGNUP2 = "signup_2"
     val SIGNIN = "signin"
@@ -62,6 +83,7 @@ object AppRoutes {
     val CHANGE_PASSWORD = "change_password"
     val EDIT_PROFILE = "edit_profile"
     val MY_CARDS = "my_cards"
+    val WIFI ="wifi"
 
 }
 
@@ -70,10 +92,30 @@ fun AppNavHost() {
     val navController = rememberNavController()
     val addCardViewModel: AddCardViewModel = viewModel()
     val signUpViewModel: SignUpViewModel = viewModel()
+    val isConnected = rememberConnectivityState().value
+    var connectivityChecked by remember {
+        mutableStateOf(false)
+    }
+    
+    InactivieDialog(navController = navController)
 
+    LaunchedEffect(isConnected) {
+        connectivityChecked = true
+        delay(2000)
+        if (isConnected) {
+            navController.navigate(AppRoutes.SIGNUP1) {
+                popUpTo(AppRoutes.SPLASH_SCREEN) { inclusive = true }
+            }
+        } else {
+            navController.navigate(AppRoutes.WIFI) {
+                popUpTo(AppRoutes.SPLASH_SCREEN) { inclusive = true }
+            }
+        }
+    }
 
-    NavHost(navController = navController, startDestination = AppRoutes.TRANSFER_HOME)
+    NavHost(navController = navController, startDestination =  AppRoutes.SPLASH_SCREEN )
     {
+        composable(route = AppRoutes.SPLASH_SCREEN) { SplashScreen() }
         composable(route = SIGNUP1) { ScaffoldSignup(navController) }
         composable(route = AppRoutes.SIGNUP2) { SignUpScreenP2S(navController) }
         composable(route = AppRoutes.SIGNIN) { SigninScreen(navController) }
@@ -131,5 +173,7 @@ fun AppNavHost() {
             )
         }
         composable(route = AppRoutes.MY_CARDS) { ScaffoldMyCardsMain(navController) }
+        composable(route = AppRoutes.WIFI) { InternetConnectionError() }
+
     }
 }

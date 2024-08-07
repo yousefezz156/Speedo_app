@@ -1,5 +1,7 @@
 package com.example.bm_app.error
 
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import com.example.bm_app.R
 import androidx.compose.ui.res.painterResource
@@ -29,10 +32,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 
 @Composable
-fun InternetConnectionError( modifier: Modifier = Modifier) {
+fun InternetConnectionError(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -54,7 +60,8 @@ fun InternetConnectionError( modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(30.dp))
         Button(
-            onClick = {},
+            onClick = {
+                context.startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))},
             shape = RoundedCornerShape(6.dp),
             modifier = modifier
                 .fillMaxWidth()
