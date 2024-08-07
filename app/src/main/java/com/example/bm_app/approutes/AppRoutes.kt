@@ -157,7 +157,7 @@ fun AppNavHost() {
         }
         composable(route = AppRoutes.MYCARDS_SELECTCURRENY) { ScaffoldCurrency(navController) }
         composable(route = AppRoutes.MYCARDS_ADDCARDS) { Scaffold_AddCard(navController) }
-        // composable(route = AppRoutes.MYCARDS_LOADINGSCREEN) { ScaffoldBack(navController) }
+        composable(route = AppRoutes.MYCARDS_LOADINGSCREEN) { ScaffoldBack(navController,"Ahmed Rashed", "Yousef Ezz","123456789" ) }
         composable(route = AppRoutes.MYCARDS_OTP) { ScaffoldOtp(navController) }
         composable(route = AppRoutes.MYCARDS_SUCCESFUL) { ScaaffoldOTPend(navController) }
         composable(route = AppRoutes.MORE) { ScaffoldMoreMain(navController) }

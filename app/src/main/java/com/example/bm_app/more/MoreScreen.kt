@@ -71,7 +71,7 @@ fun MoreScreen(navController: NavController, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF5E1))
+            .background(Color(0xFFFEF0EA))
     ) {
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -303,7 +303,8 @@ fun ScaffoldMoreMain(navController: NavController, modifier: Modifier = Modifier
         )
     )
 
-    Scaffold(bottomBar = {
+    Scaffold(
+        bottomBar = {
         NavigationBar(modifier = modifier.clip(RoundedCornerShape(24.dp))) {
             items.forEachIndexed { index, item ->
                 NavigationBarItem(

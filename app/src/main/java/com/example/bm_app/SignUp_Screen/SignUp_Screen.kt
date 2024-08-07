@@ -3,6 +3,7 @@ package com.example.bm_app.SignUp_Screen
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -88,6 +91,7 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
+            .background(Color(0xFFFEF0EA))
             .padding(16.dp)
             .verticalScroll(state = ScrollState(1), true)
     )
@@ -103,28 +107,31 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
         Spacer(modifier = modifier.padding(55.dp))
 
         Column(modifier = modifier.fillMaxWidth()) {
-            Text(text = stringResource(R.string.full_name), modifier.padding(horizontal = 8.dp))
+            Text(text = stringResource(R.string.full_name),
+                modifier = Modifier.padding(all = 8.dp).
+                background(Color(0xFFFEF0EA)))
             OutlinedTextField(
                 value = FullName,
                 onValueChange = { FullName = it },
                 modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                label = {
-                    Text(text = stringResource(R.string.enter_your_full_name))
-                }, trailingIcon = {
-                    Image(
+                    .padding(horizontal = 8.dp)
+                    .background(Color(0xFFFFFFFF)),
+                placeholder = { Text(text = stringResource(R.string.enter_your_full_name)) }, trailingIcon = {
+                    Icon(
                         painter = painterResource(id = R.drawable.user),
                         contentDescription = null
                     )
-                })
+                }
+            )
             Text(text = stringResource(R.string.email), modifier.padding(8.dp))
             OutlinedTextField(
                 value = Email,
                 onValueChange = { Email = it },
                 modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 8.dp)
+                    .background(Color(0xFFFFFFFF)),
                 placeholder = { Text(text = stringResource(R.string.enter_your_email)) }, trailingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.email),
@@ -137,7 +144,8 @@ fun SignUp(navController: NavController, modifier: Modifier = Modifier, signUpVi
                 onValueChange = { Password = it },
                 modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 8.dp)
+                    .background(Color(0xFFFFFFFF)),
                 placeholder = { Text(text =  stringResource(R.string.enter_your_password)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 visualTransformation = if (passwordVisual) VisualTransformation.None else PasswordVisualTransformation(),

@@ -38,7 +38,7 @@ fun SettingScreen(navController: NavController, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF5E1))
+            .background(Color(0xFFFEF0EA))
     ) {
 
         Spacer(modifier = Modifier.height(16.dp))

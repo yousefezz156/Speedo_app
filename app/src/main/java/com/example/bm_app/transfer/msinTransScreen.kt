@@ -126,7 +126,7 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.purple_200))
+            .background(Color(0xFFFEF0EA))
     ) {
         Spacer(modifier = modifier.padding(8.dp))
         Row(

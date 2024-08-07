@@ -79,7 +79,8 @@ fun AccountConnectedScreen(navController: NavController,modifier: Modifier = Mod
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Color(0xFFFEF0EA))
+            .padding(16.dp)
     ) {
         Spacer(modifier = modifier.padding(76.dp))
 
@@ -145,13 +146,12 @@ fun IconChange(modifier: Modifier = Modifier) {
 
     )
     {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_check),
+        Image(
+            painter = painterResource(id = R.drawable.confirmation),
             contentDescription = null,
-            tint = Color.White,
             modifier = Modifier
-                .width(45.dp)
-                .height(38.dp)
+                .width(124.dp)
+                .height(120.dp)
         )
 
     }

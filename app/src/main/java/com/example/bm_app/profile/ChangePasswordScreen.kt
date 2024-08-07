@@ -64,7 +64,7 @@ fun ChangePasswordScreen(navController: NavController, modifier: Modifier = Modi
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFFFF5E1))
+            .background(Color(0xFFFEF0EA))
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -85,7 +85,7 @@ fun ChangePasswordScreen(navController: NavController, modifier: Modifier = Modi
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().background(Color(0xFFFFFFFF)),
                     label = {
                         Text(text = stringResource(R.string.enter_your_password))
                     },
@@ -116,7 +116,8 @@ fun ChangePasswordScreen(navController: NavController, modifier: Modifier = Modi
                     value = newPassword,
                     onValueChange = { newPassword = it },
                     modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .background(Color(0xFFFFFFFF)),
                     placeholder = { Text(text = stringResource(R.string.enter_your_password)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     visualTransformation = if (newPasswordVisual) VisualTransformation.None else PasswordVisualTransformation(),

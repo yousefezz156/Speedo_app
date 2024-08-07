@@ -1,6 +1,7 @@
 package com.example.bm_app.SignUp_Screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +44,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key.Companion.Calendar
 import androidx.compose.ui.platform.LocalContext
@@ -108,7 +110,9 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)) {
+            .background(Color(0xFFFEF0EA))
+            .padding(16.dp)
+    ) {
         Text(text = stringResource(R.string.speedo_transfer), fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(modifier = modifier.padding(12.dp))
         Text(text = stringResource(R.string.welcome_to_banque_misr) , fontWeight = FontWeight.Bold, fontSize = 24.sp)
@@ -150,7 +154,8 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
                 modifier = modifier
                     .clickable { showCountryPicker = true }
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(8.dp)
+                    .background(Color(0xFFFFFFFF)),
                 placeholder = {Text(text =  stringResource(R.string.select_your_country))},
                 trailingIcon = {Icon(Icons.Filled.KeyboardArrowDown , contentDescription = null)},
                 readOnly = true
@@ -162,7 +167,8 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
                 modifier = modifier
                     .clickable { isDatePickerShown = true }
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(8.dp)
+                    .background(Color(0xFFFFFFFF)),
                 placeholder = {Text(dateButton)},
                 trailingIcon = {Icon(Icons.Filled.DateRange , contentDescription = null)}
             )

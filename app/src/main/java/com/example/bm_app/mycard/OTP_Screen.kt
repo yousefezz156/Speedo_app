@@ -1,5 +1,6 @@
 package com.example.bm_app.mycard
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -43,10 +44,17 @@ import com.example.bm_app.approutes.AppRoutes
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldOtp(navController: NavController,modifier: Modifier = Modifier) {
-    Scaffold(topBar = {
-        TopAppBar(navigationIcon = {
+    Scaffold(
+        topBar = {
+        TopAppBar(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(Color(0xFFFEF0EA)),
+            navigationIcon = {
         }, title = {
-            Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
+            Box(modifier = modifier
+                .fillMaxWidth()
+                , contentAlignment = Alignment.Center)
             {
                 Text(text = stringResource(R.string.bank_card_otp))
             }
@@ -104,6 +112,7 @@ fun OTPScreen(navController: NavController, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
+            .background(Color(0xFFFEFAFD))
             .padding(16.dp)
     ) {
         Spacer(modifier = modifier.height(48.dp))

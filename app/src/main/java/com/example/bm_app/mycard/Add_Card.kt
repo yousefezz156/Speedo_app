@@ -2,6 +2,7 @@ package com.example.bm_app.mycard
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -107,6 +109,7 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
     Column(
         modifier = modifier
             .fillMaxSize()
+            .background(Color(0xFFFEF0EA))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -127,7 +130,9 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
             OutlinedTextField(
                 value = cardHolderName,
                 onValueChange = { cardHolderName=it },
-                modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFFFFFFF)),
                 placeholder = {
                     Text(
                         text = stringResource(R.string.enter_cardholder_name)
@@ -141,8 +146,11 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                 value = cardNumber,
                 onValueChange = { cardNumber=it },
 
-                modifier.fillMaxWidth(), placeholder = {
-                    Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFFFFFFF))
+                , placeholder = {
+                        Text(
                         text = stringResource(R.string.card_no)
                     )
                 },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
@@ -154,7 +162,8 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                     OutlinedTextField(value = monthYear, onValueChange = { monthYear=it },
                         modifier
                             .width(168.dp)
-                            .height(49.dp),
+                            .height(49.dp)
+                            .background(Color(0xFFFFFFFF)),
                         placeholder = { Text(text = stringResource(R.string.mm_yy)) }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
 
                 }
@@ -168,7 +177,8 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                         onValueChange = { cvv=it },
                         modifier
                             .width(168.dp)
-                            .height(49.dp),
+                            .height(49.dp)
+                            .background(Color(0xFFFFFFFF)),
                         placeholder = { Text(text = stringResource(R.string.cvv)) },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
                 }
             }

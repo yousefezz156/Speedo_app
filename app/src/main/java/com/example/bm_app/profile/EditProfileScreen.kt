@@ -86,6 +86,7 @@ fun EditProfileScreen(navController: NavController,country : List<Country>, modi
         Column(
             modifier = modifier
                 .fillMaxWidth()
+                .background(Color(0xFFFEF0EA))
                 .padding(horizontal = 16.dp)
         ) {
             Column {
@@ -94,10 +95,10 @@ fun EditProfileScreen(navController: NavController,country : List<Country>, modi
                 OutlinedTextField(
                     value = FullName,
                     onValueChange = { FullName = it },
-                    modifier.fillMaxWidth(),
-                    label = {
-                        Text(text = stringResource(R.string.enter_your_full_name))
-                    },
+                    modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFFFFFFF)),
+                    placeholder = { Text(text = stringResource(R.string.enter_your_full_name)) }
                 )
             }
             Spacer(modifier = Modifier.padding(4.dp))
@@ -108,8 +109,8 @@ fun EditProfileScreen(navController: NavController,country : List<Country>, modi
                 OutlinedTextField(
                     value = Email,
                     onValueChange = { Email = it },
-                    modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .background(Color(0xFFFFFFFF)),
                     placeholder = { Text(text = stringResource(R.string.enter_your_email)) },
 
                 )
@@ -147,7 +148,9 @@ fun EditProfileScreen(navController: NavController,country : List<Country>, modi
                     onValueChange = {},
                     modifier = modifier
                         .clickable { showCountryPicker = true }
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .background(Color(0xFFFEF0EA))
+                    ,
                     placeholder = {Text(text = stringResource(R.string.select_your_country))},
                     trailingIcon = { Icon(Icons.Filled.KeyboardArrowDown , contentDescription = null) },
                     readOnly = true

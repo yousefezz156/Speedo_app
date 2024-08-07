@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -70,6 +72,7 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
+            .background(Color(0xFFFEF0EA))
             .padding(16.dp)
     ) {
         Spacer(modifier = modifier.padding(16.dp))
@@ -86,7 +89,9 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                 onValueChange = { email = it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 8.dp)
+                    .background(Color(0xFFFFFFFF))
+                    ,
                 placeholder = { Text(text = stringResource(R.string.enter_your_email)) },
                 trailingIcon = {
                     Image(
@@ -101,7 +106,8 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                 onValueChange = { password = it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 8.dp)
+                    .background(Color(0xFFFFFFFF)),
                 placeholder = { Text(text = stringResource(R.string.enter_your_password)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),

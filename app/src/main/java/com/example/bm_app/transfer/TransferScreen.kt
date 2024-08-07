@@ -251,7 +251,6 @@ fun TransferPayment(navController: NavController, from:String,recipientname: Str
             }
             //chatGpt
             Box(
-
                 modifier = Modifier
                     .align(Alignment.Center)
                     .background(color = colorResource(id = R.color.brown), shape = CircleShape)
