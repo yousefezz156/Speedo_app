@@ -1,18 +1,53 @@
-# BM App
+# Speedo Transfer
 
-An Android app I’m building as a **mobile banking-style UI** — transfers, cards, profile, and auth flows — mostly in **Jetpack Compose**. It’s a learning/portfolio project: the screens and navigation are real, but treat anything “banking” as **demo UX**, not a production financial product.
+![Min SDK](https://img.shields.io/badge/Min%20SDK-26-brightgreen?style=flat-square)
+![Language](https://img.shields.io/badge/Language-Kotlin-purple?style=flat-square&logo=kotlin)
+![UI](https://img.shields.io/badge/UI-Jetpack%20Compose-blue?style=flat-square)
+![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red?style=flat-square)
 
----
-
-## What it does (high level)
-
-You can move through a **sign up / sign in** flow, a **home / transfer** area (pick amount, confirm, payment-style steps), **transaction history** and success screens, **My Cards** (currency, add card, OTP-style verification), a **More** section with favourites, and **profile** bits (info, settings, change password, edit profile with country list).
-
-There’s also **camera** integration for card-related flows: **CameraX**, **ML Kit text recognition**, and **Blinkcard** (Microblink) for scanning-style UX. The app asks for **camera** permission at runtime where needed, plus **network** access for API-style wiring.
+A **mobile banking-style UI** built in Jetpack Compose — transfers, cards, profile, and auth flows. Screens and navigation are fully functional; treat anything "banking" as **demo UX**, not a production financial product.
 
 ---
 
-## Tech I’m using
+## Features
+
+- **Auth flow** — Sign up and sign in with form validation
+- **Home dashboard** — Animated card widget (front/back flip), live balance, recent transactions
+- **Transfer flow** — Multi-step payment: pick recipient, enter amount, confirm, success
+- **My Cards** — View linked accounts, add a new card with camera scanning via Blinkcard (Microblink)
+- **Transaction history** — Scrollable list of past transfers
+- **More / Profile** — Favourites, personal info, settings, change password, edit profile with country picker
+- **Connectivity-aware navigation** — Handles offline state gracefully
+- **Camera integration** — Runtime permission gate, Blinkcard UX SDK for card scanning
+
+---
+### Full App Walkthrough
+
+
+https://github.com/user-attachments/assets/725b9933-1901-4dcd-a039-4c4245f15c13
+
+
+
+---
+
+## 📸 Screenshots
+
+| Sign In | Sign Up | Home |
+|:---:|:---:|:---:|
+| ![Screenshot_20260331-072720_bm_app](https://github.com/user-attachments/assets/d34111b5-56bd-47e5-8a5d-e1096b94b995) | ![Screenshot_20260331-072724_bm_app](https://github.com/user-attachments/assets/4122b321-072d-41b8-b27d-c23509c280ea) | ![Screenshot_20260329-171742_bm_app](https://github.com/user-attachments/assets/b773f3b6-5a6c-4e65-ad98-0ae7d99cfc4b) |
+| Card Flip (Back) | My Cards | Add Card |
+|:---:|:---:|:---:|
+|![Screenshot_20260329-171753_bm_app](https://github.com/user-attachments/assets/5621e970-97b6-447d-995b-cb30379aa5a7) | ![Screenshot_20260329-171905_bm_app](https://github.com/user-attachments/assets/6cdba169-b83d-4f9b-85b2-c38533d44c9e) | ![Screenshot_20260329-171933_bm_app](https://github.com/user-attachments/assets/ebd67a51-b7c9-479e-a870-acbfc29bf6a8) |
+| Card Scanner (Blinkcard) | Profile | Settings |
+|:---:|:---:|
+| ![Screenshot_20260331-071951_bm_app](https://github.com/user-attachments/assets/5433f702-c541-4785-b20d-86d973a53c49) | ![Screenshot_20260331-072615_bm_app](https://github.com/user-attachments/assets/04dc9d2f-4798-4ee6-8808-6d7b37b06031) | ![Screenshot_20260331-072542_bm_app](https://github.com/user-attachments/assets/6343af2e-7c99-42bb-aef9-e1240ad71985) |
+
+
+> 🎬 **Video walkthrough:** *(add your YouTube / unlisted link here)*
+
+---
+
+## Tech Stack
 
 | Area | Stack |
 |------|--------|
@@ -20,58 +55,60 @@ There’s also **camera** integration for card-related flows: **CameraX**, **ML 
 | Navigation | Navigation Compose |
 | Async | Kotlin Coroutines, `lifecycle-viewmodel-ktx`, `lifecycle-runtime-compose` |
 | Networking | Retrofit, Gson, OkHttp logging |
-| Camera / cards | CameraX, ML Kit Text Recognition, Blinkcard UX SDK |
+| Camera / cards | Blinkcard UX SDK (Microblink) |
 
-- **Min SDK:** 26  
-- **Target / compile:** aligned with the project (see `app/build.gradle.kts`)
-
----
-
-## Project structure (rough map)
-
-- `MainActivity` — entry, edge-to-edge, camera permission gate for CameraX  
-- `approutes/` — `NavHost`, route names, connectivity-driven navigation bits  
-- `transfer/` — main transfer flow and confirmations  
-- `mycard/` — cards, OTP-style screens, camera helpers  
-- `profile/`, `signinscreen/`, `SignUp_Screen/`, `transaction/`, `more/` — the rest of the flows  
-- `viewModel/` — e.g. add-card and sign-up view models  
+- **Min SDK:** 26
+- **Target / compile SDK:** see `app/build.gradle.kts`
 
 ---
 
-## Running it locally
+## Project Structure
 
-1. **Clone** the repo and open the folder in **Android Studio** (recent stable version is fine).  
-2. Let Gradle **sync**; install any SDK platforms it asks for.  
-3. **Run** on an emulator or device (**API 26+**).
+```
+├── MainActivity              # Entry point, edge-to-edge, camera permission gate
+├── approutes/                # NavHost, route names, connectivity-driven navigation
+├── transfer/                 # Transfer flow and confirmation screens
+├── mycard/                   # Cards list, add card, OTP screens, camera helpers
+├── profile/                  # Profile, settings, change password, edit profile
+├── signinscreen/             # Sign in
+├── SignUp_Screen/            # Sign up
+├── transaction/              # Transaction history and success screens
+├── more/                     # More tab and favourites
+└── viewModel/                # AddCard and SignUp ViewModels
+```
+
+---
+
+## Running Locally
+
+1. **Clone** the repo and open in **Android Studio** (recent stable).
+2. Let Gradle **sync**; install any SDK platforms it prompts for.
+3. **Run** on an emulator or physical device (**API 26+**).
 
 ### Blinkcard / Microblink
 
-The app depends on **Blinkcard**. If Gradle can’t resolve it or the scanner doesn’t initialise, you’ll need whatever **credentials / Maven repo / licence** Microblink expects for your account. I can’t ship those in the repo — check their docs when you fork this.
+The app depends on the Blinkcard SDK. If Gradle can't resolve it or the scanner won't initialise, you'll need the Maven credentials and licence key from your Microblink account — these can't be shipped in the repo. Check [Microblink's docs](https://github.com/BlinkCard/blinkcard-android) when you fork this.
 
 ---
 
 ## Permissions
 
-Declared in the manifest (summarised):
+| Permission | Purpose |
+|------------|---------|
+| `INTERNET`, `ACCESS_NETWORK_STATE` | API calls and connectivity checks |
+| `CAMERA` | Card scanning via Blinkcard |
+| `POST_NOTIFICATIONS` | Notifications on supported API levels |
 
-- `INTERNET`, `ACCESS_NETWORK_STATE` — connectivity and API calls  
-- `CAMERA` — camera and card capture flows  
-- `POST_NOTIFICATIONS` — notifications (where used on supported API levels)  
-
-Camera is **optional hardware** (`required="false"`) so the app can still install on devices without a back camera.
-
----
-
-## Honest disclaimer
-
-This repo is for **UI, navigation, and Android patterns** — not audited payments or real bank security. Don’t put real card data or secrets in debug builds you share.
+Camera is declared as **optional hardware** (`required="false"`) so the app installs on devices without a rear camera.
 
 ---
 
-## Licence
+## Disclaimer
 
-Unless you add a `LICENSE` file yourself, **all rights reserved** by default. If you open-source this later, drop a licence in the root and update this section.
+This project is for demonstrating **UI patterns, navigation architecture, and Android development** — not audited payments or real banking security. Do not enter real card details or secrets in debug builds you share publicly.
 
 ---
 
-Thanks for stopping by — if something’s broken on your machine, it’s usually Gradle/SDK or Blinkcard setup first, then sync again.
+
+
+Thanks for stopping by. If something breaks on your machine, start with Gradle/SDK sync issues or Blinkcard setup — that covers 90% of cases.
