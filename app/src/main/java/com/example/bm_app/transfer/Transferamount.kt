@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -190,12 +191,14 @@ fun TransferPage(
     var showpicker by remember {
         mutableStateOf(false)
     }
+
+    var scrollingState= rememberScrollState()
     val context = LocalContext.current
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(state = ScrollState(1), true)
+            .verticalScroll(state = scrollingState)
     )
     {
         if (showpicker) {
@@ -341,24 +344,27 @@ fun TransferPage(
         Text(text = stringResource(R.string.recipient_name), modifier.padding(8.dp))
         OutlinedTextField(
             value = recipientName,
-            onValueChange = { recipientName = it },
-            modifier
-                .fillMaxWidth()
-                .padding(8.dp), placeholder = {
+            onValueChange = { recipientName = it }, 
+            placeholder = {
                 Text(
                     text = stringResource(R.string.enter_recipient_name)
                 )
-            },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        modifier= modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+        )
         Text(text = stringResource(R.string.recipient_account), modifier.padding(8.dp))
         OutlinedTextField(
             value = recipientAccount,
             onValueChange = { recipientAccount = it },
-            modifier
+            placeholder = { Text(text = stringResource(R.string.enter_recipient_account_number)) },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier= modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            placeholder = { Text(text = stringResource(R.string.enter_recipient_account_number)) }
-        ,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
+                .padding(8.dp)
+        )
 
         Button(onClick = {
             if (recipientName.isNotEmpty() && !recipientAccount.isEmpty() && from.toInt() <= 5000) {

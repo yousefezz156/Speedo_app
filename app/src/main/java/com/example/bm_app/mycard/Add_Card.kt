@@ -1,7 +1,11 @@
 package com.example.bm_app.mycard
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
+import androidx.camera.core.CameraSelector
+import androidx.camera.view.CameraController
+import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cameraswitch
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -29,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +52,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -61,7 +68,7 @@ import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Scaffold_AddCard(navController: NavController, modifier: Modifier = Modifier) {
+fun Scaffold_AddCard(navController: NavController,addCardViewModel: AddCardViewModel, modifier: Modifier = Modifier) {
     Scaffold(topBar = {
         TopAppBar(navigationIcon = {
             IconButton(onClick = { /*TODO*/ }) {
@@ -78,41 +85,53 @@ fun Scaffold_AddCard(navController: NavController, modifier: Modifier = Modifier
                 Text(text = "cancel", fontWeight = FontWeight.Thin)
             }
         })
-    }) {
-            innerpadding ->
+    }) { innerpadding ->
 
         Box(modifier = modifier.padding(innerpadding)) {
-            Add_CardScreen(rememberNavController())
+            Add_CardScreen(navController,addCardViewModel=addCardViewModel)
         }
     }
 }
 
 @Composable
-fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , addCardViewModel: AddCardViewModel = viewModel()) {
+fun Add_CardScreen(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    addCardViewModel: AddCardViewModel
+) {
 
     var cardHolderName by remember {
-        mutableStateOf("")
+        mutableStateOf( addCardViewModel.cardDetails?.cardHolderName?:"")
     }
     var cardNumber by remember {
-        mutableStateOf("")
+        mutableStateOf(addCardViewModel.cardDetails?.cardNumber?:"")
     }
     var monthYear by remember {
-        mutableStateOf("")
+        mutableStateOf(addCardViewModel.cardDetails?.expiryDate?:"")
     }
     var cvv by remember {
-        mutableStateOf("")
+        mutableStateOf(addCardViewModel.cardDetails?.cvv?:"")
     }
     var balance by remember {
         mutableIntStateOf(250000)
     }
+
+    Log.d("AddCardScreen", "Add_CardScreen called ${addCardViewModel.cardDetails}")
+
     val context = LocalContext.current
+
+
+
+
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color(0xFFFEF0EA))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    ) {
+
 
         Spacer(modifier = modifier.padding(22.dp))
         Text(
@@ -124,12 +143,25 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
         )
         Spacer(modifier = modifier.padding(22.dp))
 
+        Button(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .size(56.dp),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = colorResource(
+                    id = R.color.reddd
+                )
+            ), onClick = { navController.navigate(AppRoutes.CAMERA) }) { Text("Scan your card", color = Color.White) }
+
+
         Column(modifier = modifier.padding(horizontal = 16.dp)) {
             Text(text = stringResource(R.string.cardholder_name))
             Spacer(modifier = modifier.padding(8.dp))
             OutlinedTextField(
                 value = cardHolderName,
-                onValueChange = { cardHolderName=it },
+                onValueChange = { cardHolderName = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color(0xFFFFFFFF)),
@@ -137,34 +169,38 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
                     Text(
                         text = stringResource(R.string.enter_cardholder_name)
                     )
-                },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
             )
             Spacer(modifier = modifier.padding(8.dp))
             Text(text = stringResource(R.string.card_no))
             Spacer(modifier = modifier.padding(8.dp))
             OutlinedTextField(
                 value = cardNumber,
-                onValueChange = { cardNumber=it },
+                onValueChange = { cardNumber = it },
 
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFFFFFFFF))
-                , placeholder = {
-                        Text(
+                    .background(Color(0xFFFFFFFF)), placeholder = {
+                    Text(
                         text = stringResource(R.string.card_no)
                     )
-                },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
+                }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+            )
             Spacer(modifier = modifier.padding(8.dp))
             Row {
                 Column {
                     Text(text = stringResource(R.string.mm_yy))
                     Spacer(modifier = modifier.padding(8.dp))
-                    OutlinedTextField(value = monthYear, onValueChange = { monthYear=it },
+                    OutlinedTextField(
+                        value = monthYear?:"",
+                        onValueChange = { monthYear},
                         modifier
                             .width(168.dp)
                             .height(49.dp)
                             .background(Color(0xFFFFFFFF)),
-                        placeholder = { Text(text = stringResource(R.string.mm_yy)) }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
+                        placeholder = { Text(text = stringResource(R.string.mm_yy)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                    )
 
                 }
                 Spacer(modifier = modifier.padding(8.dp))
@@ -174,53 +210,76 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
 
                     OutlinedTextField(
                         value = cvv,
-                        onValueChange = { cvv=it },
+                        onValueChange = { cvv = it },
                         modifier
                             .width(168.dp)
                             .height(49.dp)
                             .background(Color(0xFFFFFFFF)),
-                        placeholder = { Text(text = stringResource(R.string.cvv)) },keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text))
+                        placeholder = { Text(text = stringResource(R.string.cvv)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                    )
                 }
             }
 
         }
         Spacer(modifier = modifier.padding(32.dp))
         Button(
-            onClick = { val addCardRequest = AddCardRequest(
-                cardNumber = cardNumber,
-                cardholderName = cardHolderName,
-                monthYear = monthYear ,
-                cvv = cvv,
-                pin = "",
-                balance = balance,
-                currency = "",
-                accountType = ""
-            )
-                val sharedPreferences = context.getSharedPreferences("MyAppPreferences" , Context.MODE_PRIVATE)
+            onClick = {
+                val addCardRequest = AddCardRequest(
+                    cardNumber = cardNumber,
+                    cardholderName = cardHolderName,
+                    monthYear = monthYear as String,
+                    cvv = cvv,
+                    pin = "",
+                    balance = balance,
+                    currency = "",
+                    accountType = ""
+                )
+                navController.navigate(AppRoutes.MYCARDS_OTP)
+
+                val sharedPreferences =
+                    context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
                 val token = sharedPreferences.getString("auth_token", null)
 
                 token?.let {
 
-                AddCardClient.instance.addCard("Bear $it",addCardRequest).enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            addCardViewModel.cardHolderName.value = cardHolderName
-                            addCardViewModel.cardNumber.value = cardNumber
-                            Toast.makeText(context,
-                                context.getString(R.string.card_added_successfully), Toast.LENGTH_SHORT).show()
-                            navController.navigate(AppRoutes.MYCARDS_OTP)
-                        } else {
-                            Toast.makeText(context,
-                                context.getString(R.string.failed_to_add_card), Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                    AddCardClient.instance.addCard("Bear $it", addCardRequest)
+                        .enqueue(object : Callback<Void> {
+                            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                                if (response.isSuccessful) {
+                                    addCardViewModel.cardHolderName.value = cardHolderName
+                                    addCardViewModel.cardNumber.value = cardNumber
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.card_added_successfully),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    navController.navigate(AppRoutes.MYCARDS_OTP)
+                                } else {
+//                                    Toast.makeText(
+//                                        context,
+//                                        context.getString(R.string.failed_to_add_card),
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+                                    navController.navigate(AppRoutes.MYCARDS_OTP)
 
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })} ?: run { Toast.makeText(context,
-                    context.getString(R.string.token_is_missing) , Toast.LENGTH_SHORT).show() }
-                      },
+                                }
+                            }
+
+                            override fun onFailure(call: Call<Void>, t: Throwable) {
+                                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT)
+                                    .show()
+                                navController.navigate(AppRoutes.MYCARDS_OTP)
+
+                            }
+                        })
+                } ?: run {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.token_is_missing), Toast.LENGTH_SHORT
+                    ).show()
+                }
+            },
             modifier
                 .fillMaxWidth()
                 .padding(16.dp)
@@ -236,10 +295,15 @@ fun Add_CardScreen(navController: NavController,modifier: Modifier = Modifier , 
         }
     }
 
+
+
+
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
 private fun AddCardPrev() {
-    Add_CardScreen(rememberNavController())
+    //Scaffold_AddCard(rememberNavController())
 }

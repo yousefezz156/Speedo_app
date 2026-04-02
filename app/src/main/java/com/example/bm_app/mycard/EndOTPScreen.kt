@@ -65,7 +65,7 @@ fun ScaaffoldOTPend(navController: NavController,modifier: Modifier = Modifier) 
     }) { innerpadding ->
 
         Box(modifier = modifier.padding(innerpadding)) {
-
+            AccountConnectedScreen(navController = navController)
         }
 
     }
@@ -160,5 +160,5 @@ fun IconChange(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun prevds () {
-    AccountConnectedScreen(rememberNavController())
+   // AccountConnectedScreen(rememberNavController())
 }

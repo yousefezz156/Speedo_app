@@ -177,7 +177,7 @@ fun ProfileInformationScreen(
                     )
                     Spacer(modifier = Modifier.padding(6.dp))
                     Text(
-                        text = "12335XXX",
+                        text = "xxxx8997",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFF898886)

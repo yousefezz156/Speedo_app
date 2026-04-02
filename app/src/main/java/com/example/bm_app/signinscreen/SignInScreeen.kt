@@ -75,6 +75,7 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
             .background(Color(0xFFFEF0EA))
             .padding(16.dp)
     ) {
+
         Spacer(modifier = modifier.padding(16.dp))
 
         Text(text = stringResource(R.string.sign_in),fontSize = 20.sp, fontWeight = FontWeight.Normal)
@@ -146,6 +147,8 @@ fun SigninScreen(navController: NavController,modifier: Modifier = Modifier) {
                                 val errorCode = response.code()
                                 val errorMessage = response.errorBody()?.string() ?: "Unknown error"
                                 Toast.makeText(context, "Login failed: $errorCode - $errorMessage", Toast.LENGTH_SHORT).show()
+                                navController.navigate(AppRoutes.TRANSFER_HOME)
+
                             }
                         }
 

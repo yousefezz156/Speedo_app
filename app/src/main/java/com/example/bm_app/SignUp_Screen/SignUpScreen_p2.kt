@@ -102,7 +102,6 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
     var selectedCountry by remember { mutableStateOf<Country?>(null) }
     var dateButton by remember { mutableStateOf("Choose a date") }
     var isDatePickerShown by remember { mutableStateOf(false) }
-    val context = LocalContext.current
     var year by remember { mutableIntStateOf(0) }
     var month by remember { mutableIntStateOf(0) }
     var day by remember { mutableIntStateOf(0) }
@@ -121,12 +120,18 @@ fun SignUpScreenP2(navController: NavController,country : List<Country>,modifier
 
         Column(modifier = modifier.fillMaxWidth()) {
             Text(text = stringResource(R.string.country), modifier.padding(8.dp))
-            if (showCountryPicker){
-                ModalBottomSheet(onDismissRequest = { showCountryPicker = false}) {
-                  lazycol(country = CountryList().getCountryList() , selectedCountry = selectedCountry, onCountrySelected = {selected -> selectedCountry = selected
-                  showCountryPicker=false})
+            if (showCountryPicker) {
+                ModalBottomSheet(onDismissRequest = { showCountryPicker = false }) {
+                    lazycol(
+                        country = CountryList().getCountryList(),
+                        selectedCountry = selectedCountry,
+                        onCountrySelected = { selected ->
+                            selectedCountry = selected
+                            showCountryPicker = false
+                        })
 
-            }}
+                }
+            }
 
             if (isDatePickerShown) {
                 DatePickerChooser(onConfirm = { dateState ->
@@ -232,7 +237,7 @@ fun Countrycard(onCountrySelected: (Country) -> Unit,
 }
 @Composable
 fun lazycol(selectedCountry: Country?,
-            onCountrySelected: (Country) -> Unit,country: List<Country>, modifier: Modifier = Modifier) {
+            onCountrySelected: (Country) -> Unit,country: List<Country>) {
 
 
     LazyColumn {

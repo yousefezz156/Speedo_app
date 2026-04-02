@@ -229,7 +229,7 @@ fun TransferConfirmation(
             Text(text = stringResource(R.string.total_amount))
             Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth())
             {
-                Text(text = "48,4220")
+                Text(text = "1000")
             }
         }
         Spacer(modifier = modifier.padding(6.dp))
@@ -292,7 +292,7 @@ fun TransferConfirmation(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = modifier
                             .fillMaxSize()
-                            .padding(32.dp)
+                            .padding(horizontal = 32.dp)
                     )
                     {
                         //card(painter = R.drawable.bank, name = "Asmaa Dosuky" , accountB ="Account xxxx7890" )
@@ -312,8 +312,10 @@ fun TransferConfirmation(
                             )
 
                             Text(
-                                text = "Account $recipientaccount", fontSize = 12.sp,
-                                // modifier = modifier.padding(top = 12.dp)
+                                text = "Account ${
+                                    recipientaccount.takeLast(4).padStart(cardNumber.length, '*')
+                                }", fontSize = 16.sp,
+                                modifier = modifier.padding(top = 12.dp)
                             )
                         }
                     }
@@ -342,7 +344,7 @@ fun TransferConfirmation(
                     "Transfer Successful",
                     "Your transfer of $from to $recipientname was successful."
                 )
-                navController.navigate("$TRANSFER_PAYMENT/$from/$recipientname/$recipientaccount")
+                navController.navigate("$TRANSFER_PAYMENT/$recipientname/$recipientname/$recipientaccount")
                 val transfer = Transfer(
                     senderCardNumber = "123",
                     recipientCardNumber = recipientaccount,

@@ -1,5 +1,6 @@
 package com.example.bm_app.approutes
 
+import ShowCam
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -84,6 +85,7 @@ object AppRoutes {
     val EDIT_PROFILE = "edit_profile"
     val MY_CARDS = "my_cards"
     val WIFI ="wifi"
+    val CAMERA = "camera"
 
 }
 
@@ -110,7 +112,7 @@ fun AppNavHost() {
         }
     }
 
-    NavHost(navController = navController, startDestination =  AppRoutes.SPLASH_SCREEN )
+    NavHost(navController = navController, startDestination =  AppRoutes.TRANSFER_HOME )
     {
         composable(route = AppRoutes.SPLASH_SCREEN) { SplashScreen() }
         composable(route = SIGNUP1) { ScaffoldSignup(navController) }
@@ -153,10 +155,10 @@ fun AppNavHost() {
             )
         }
         composable(route = AppRoutes.MYCARDS_SELECTCURRENY) { ScaffoldCurrency(navController) }
-        composable(route = AppRoutes.MYCARDS_ADDCARDS) { Scaffold_AddCard(navController) }
+        composable(route = AppRoutes.MYCARDS_ADDCARDS) { Scaffold_AddCard(navController,addCardViewModel) }
         composable(route = AppRoutes.MYCARDS_LOADINGSCREEN) { ScaffoldBack(navController,"Ahmed Rashed", "Yousef Ezz","123456789" ) }
         composable(route = AppRoutes.MYCARDS_OTP) { ScaffoldOtp(navController) }
-        composable(route = AppRoutes.MYCARDS_SUCCESFUL) { ScaaffoldOTPend(navController) }
+        composable(route = AppRoutes.MYCARDS_SUCCESFUL) { ScaaffoldOTPend(navController=navController) }
         composable(route = AppRoutes.MORE) { ScaffoldMoreMain(navController) }
         composable(route = AppRoutes.MORE_FAV) { ScaffoldFav(navController) }
         composable(route = AppRoutes.MORE_PROFILE) { ScaffoldProfile(navController) }
@@ -171,6 +173,7 @@ fun AppNavHost() {
         }
         composable(route = AppRoutes.MY_CARDS) { ScaffoldMyCardsMain(navController) }
         composable(route = AppRoutes.WIFI) { InternetConnectionError() }
+        composable(route = AppRoutes.CAMERA) { ShowCam(navController,addCardViewModel) }
 
     }
 }

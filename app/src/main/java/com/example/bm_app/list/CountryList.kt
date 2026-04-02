@@ -1,6 +1,5 @@
 package com.example.bm_app.list
 
-import androidx.compose.ui.res.painterResource
 import com.example.bm_app.R
 import com.example.bm_app.model.Country
 

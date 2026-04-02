@@ -2,23 +2,45 @@ package com.example.bm_app.transfer
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,14 +53,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -46,20 +75,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.bm_app.R
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
-data class Navi (val route : String ,val title : String ,  val SelectedIcon : Painter, val unselectedItem : Painter)
+data class Navi(
+    val route: String,
+    val title: String,
+    val SelectedIcon: Painter,
+    val unselectedItem: Painter
+)
+
 @Composable
-fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifier)
-{
+fun ScaffoldtransMain(navController: NavController, modifier: Modifier = Modifier) {
+
+
     var selectedItem by rememberSaveable {
         mutableStateOf(0)
     }
-    val activity = (LocalContext.current as? Activity)
     val items = listOf(
         Navi(
             route = "no",
@@ -74,7 +112,7 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
             unselectedItem = painterResource(id = R.drawable.transfer_figma)
         ),
         Navi(
-            route="transactions",
+            route = "transactions",
             title = stringResource(R.string.transactions),
             SelectedIcon = painterResource(id = R.drawable.transaction_figma),
             unselectedItem = painterResource(id = R.drawable.transaction_figma)
@@ -99,34 +137,57 @@ fun ScaffoldtransMain( navController: NavController,modifier: Modifier = Modifie
                     selected = selectedItem == index,
                     onClick = {
                         selectedItem = index
-                        if (item.route != "no"){
+                        if (item.route != "no") {
                             navController.navigate(item.route)
                         }
-                              },
-                    icon = { Icon(
-                    painter = if (selectedItem == index) item.SelectedIcon else item.unselectedItem,
-                    contentDescription = null
-                ) }, label = { Text(text = item.title, fontSize = 11.sp , textAlign = TextAlign.Center , maxLines = 1)})
+                    },
+                    icon = {
+                        Icon(
+                            painter = if (selectedItem == index) item.SelectedIcon else item.unselectedItem,
+                            contentDescription = null
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = item.title,
+                            fontSize = 11.sp,
+                            textAlign = TextAlign.Center,
+                            maxLines = 1
+                        )
+                    })
             }
         }
     })
     { innerpadding ->
-        Box(modifier = modifier.padding(innerpadding)){
+        Box(modifier = modifier.padding(innerpadding)) {
             TransferHome(navController)
         }
     }
-    BackHandler() {
-            activity?.finish()
-    }
+
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
     var user_name = "Yousef Ezz"
+    val infiniteTransition = rememberInfiniteTransition(label = "Gloss")
+    val shimmerPhase by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3500, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "Shimmer"
+    )
+
+
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color(0xFFFEF0EA))
+
     ) {
         Spacer(modifier = modifier.padding(8.dp))
         Row(
@@ -137,7 +198,9 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
         )
         {
             Spacer(modifier = modifier.padding(8.dp))
-            IconChange(user_name)
+            Box(modifier = modifier.clickable{}) {
+                IconChange(user_name)
+            }
             Spacer(modifier = modifier.padding(8.dp))
             Column {
                 Text(text = stringResource(R.string.welcome_back))
@@ -160,6 +223,7 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
 
         }
         Spacer(modifier = modifier.padding(8.dp))
+        CardAnimation()
         Card(
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.reddd)),
@@ -215,22 +279,22 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
                     ServiceItem(
                         iconId = R.drawable.transfer1,
                         label = "Transfer",
-                        onClick = {navController.navigate("transfer")}
+                        onClick = { navController.navigate("transfer") }
                     )
                     ServiceItem(
                         iconId = R.drawable.history11,
                         label = "Transactions",
-                        onClick = {navController.navigate("transactions")}
+                        onClick = { navController.navigate("transactions") }
                     )
                     ServiceItem(
                         iconId = R.drawable.card1s,
                         label = "Cards",
-                        onClick = {navController.navigate("my_cards")}
+                        onClick = { navController.navigate("my_cards") }
                     )
                     ServiceItem(
                         iconId = R.drawable.account1,
                         label = "Account",
-                        onClick = {navController.navigate("more")}
+                        onClick = { navController.navigate("more") }
                     )
                 }
             }
@@ -287,6 +351,7 @@ fun TransferHome(navController: NavController, modifier: Modifier = Modifier) {
         }
     }
 }
+
 @Composable
 fun TransactionItem(
     name: String,
@@ -353,7 +418,7 @@ fun TransactionItem(
 }
 
 @Composable
-fun ServiceItem(iconId: Int, label: String, onClick : ()->Unit) {
+fun ServiceItem(iconId: Int, label: String, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -389,19 +454,20 @@ fun IconText(icon: Painter, text: String, modifier: Modifier = Modifier) {
     ) {
         Icon(
             painter = icon,
-            contentDescription =null,
-            )
+            contentDescription = null,
+        )
 
-        Text(text = text , textAlign = TextAlign.Center, overflow = TextOverflow.Ellipsis)
+        Text(text = text, textAlign = TextAlign.Center, overflow = TextOverflow.Ellipsis)
 
     }
 }
 
 
 @Composable
-fun IconChange(userName : String ,modifier: Modifier = Modifier) {
+fun IconChange(userName: String, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
+            .clickable{}
             .size(48.dp)
             .clip(CircleShape)
             .background(
@@ -421,6 +487,9 @@ fun IconChange(userName : String ,modifier: Modifier = Modifier) {
     }
 }
 
+
+
+
 fun getInitials(fullName: String): String {
     val parts = fullName.trim().split(" ")
     val firstNameInitial = parts[0].first().uppercaseChar()
@@ -428,10 +497,101 @@ fun getInitials(fullName: String): String {
     return "$firstNameInitial$lastNameInitial"
 }
 
+@Composable
+fun CardAnimation(modifier: Modifier = Modifier) {
+    val rotation = remember { Animatable(0f) }
+    val scope = rememberCoroutineScope()
+    val density = LocalDensity.current.density
+
+    val normalizedAngle = (rotation.value % 360 + 360) % 360
+    val isBackVisible = normalizedAngle in 90f..270f
+
+    val infiniteTransition = rememberInfiniteTransition(label = "Gloss")
+    val shimmerPhase by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3500, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "Shimmer"
+    )
+
+    val dragStartFace = remember { mutableStateOf(0f) }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(210.dp)
+            .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(28.dp))
+            .graphicsLayer {
+                rotationY = rotation.value
+                cameraDistance = 14f * density
+            }
+            .draggable(
+                state = rememberDraggableState { delta ->
+                    scope.launch {
+                        val direction = if (isBackVisible) -1f else 1f
+                        val current = rotation.value
+                        val angleInHalfTurn = ((current - dragStartFace.value) % 180f + 180f) % 180f
+                        val distanceFromMid = kotlin.math.abs(angleInHalfTurn - 90f)
+                        val magneticFactor = androidx.compose.ui.util.lerp(
+                            start = 0.25f,
+                            stop = 1f,
+                            fraction = (distanceFromMid / 90f).coerceIn(0f, 1f)
+                        )
+                        val proposed = current + delta * 0.6f * magneticFactor * direction
+                        val clamped = proposed.coerceIn(
+                            minimumValue = dragStartFace.value - 180f,
+                            maximumValue = dragStartFace.value + 180f
+                        )
+                        rotation.snapTo(clamped)
+                    }
+                },
+                orientation = Orientation.Horizontal,
+                onDragStarted = {
+                    dragStartFace.value = (rotation.value / 180f).roundToInt() * 180f
+                },
+                onDragStopped = { velocity ->
+                    val current = rotation.value
+                    val base = dragStartFace.value
+                    val offset = current - base
+                    val target = when {
+                        velocity > 800f -> base + 180f
+                        velocity < -800f -> base - 180f
+                        offset > 60f -> base + 180f
+                        offset < -60f -> base - 180f
+                        else -> base
+                    }
+                    scope.launch {
+                        rotation.animateTo(
+                            targetValue = target,
+                            animationSpec = spring(dampingRatio = 0.65f, stiffness = 420f)
+                        )
+                    }
+                }
+            )
+    ) {
+        if (isBackVisible) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer { rotationY = 180f }
+            ) {
+                CardBackDesign(shimmerPhase = shimmerPhase)
+            }
+        } else {
+            CardFrontDesign(shimmerPhase = shimmerPhase)
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 private fun Show() {
-    ScaffoldtransMain(navController = rememberNavController())
+   // ScaffoldtransMain(navController = rememberNavController())
 
 }
 

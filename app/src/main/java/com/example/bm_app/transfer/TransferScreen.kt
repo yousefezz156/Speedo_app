@@ -196,7 +196,7 @@ fun TransferPayment(navController: NavController, from:String,recipientname: Str
                         Column {
                             Text(text = "From")
                             Text(
-                                text = "Asmaa dosuky",
+                                text = "Yousef Ezzeldin",
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 20.sp,
@@ -204,7 +204,7 @@ fun TransferPayment(navController: NavController, from:String,recipientname: Str
                             )
 
                             Text(
-                                text = "Account xxxx7890",
+                                text = "Account xxxx8997",
                                 modifier = modifier.padding(top = 12.dp)
                             )
                         }
@@ -222,7 +222,7 @@ fun TransferPayment(navController: NavController, from:String,recipientname: Str
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = modifier
                             .fillMaxSize()
-                            .padding(32.dp)
+                            .padding(horizontal = 32.dp)
                     )
                     {
                         //card(painter = R.drawable.bank, name = "Asmaa Dosuky" , accountB ="Account xxxx7890" )
@@ -234,7 +234,7 @@ fun TransferPayment(navController: NavController, from:String,recipientname: Str
                         Column {
                             Text(text = "To")
                             Text(
-                                text = "$recipientname",
+                                text = "Rashed",
                                 textAlign = TextAlign.Center,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 20.sp,
@@ -242,7 +242,9 @@ fun TransferPayment(navController: NavController, from:String,recipientname: Str
                             )
 
                             Text(
-                                text = "Account $recipientaccount",
+                                text = "Account ${
+                                    recipientaccount.takeLast(4).padStart(recipientaccount.length, '*')
+                                }", fontSize = 16.sp,
                                 modifier = modifier.padding(top = 12.dp)
                             )
                         }
@@ -275,7 +277,7 @@ fun TransferPayment(navController: NavController, from:String,recipientname: Str
             Text(text = stringResource(R.string.total_amount))
             Row(horizontalArrangement = Arrangement.End, modifier = modifier.fillMaxWidth())
             {
-                Text(text = from)
+                Text(text = "500")
             }
         }
         Spacer(modifier = modifier.padding(6.dp))

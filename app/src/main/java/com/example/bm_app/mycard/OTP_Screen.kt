@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -26,6 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -62,7 +65,7 @@ fun ScaffoldOtp(navController: NavController,modifier: Modifier = Modifier) {
     }) { innerpadding ->
 
         Box(modifier = modifier.padding(innerpadding)) {
-            OTPScreen(rememberNavController())
+            OTPScreen(navController)
         }
 
     }
@@ -72,13 +75,16 @@ fun ScaffoldOtp(navController: NavController,modifier: Modifier = Modifier) {
 fun OTPInputBox(
     value: String,
     onValueChange: (String) -> Unit,
+    otpFocusReq: FocusRequester,
+    nextOtpFocus:FocusRequester?=null,
     modifier: Modifier = Modifier
 ) {
 
     OutlinedTextField(
         value = value,
         onValueChange = {
-            if (it.length <= 1) onValueChange(it.filter { char -> char.isDigit() })
+            if (it.length <= 1){ onValueChange(it.filter { char -> char.isDigit() })}
+            if(it.isNotBlank()){nextOtpFocus?.requestFocus()}
         },
         singleLine = true,
         textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center, fontSize = 24.sp , color = colorResource(
@@ -89,7 +95,7 @@ fun OTPInputBox(
 
         ),
         keyboardActions = KeyboardActions(onNext = { }),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
+        colors = OutlinedTextFieldDefaults.colors(
             unfocusedBorderColor = if(value.isEmpty()) Color.Gray else colorResource(id = R.color.reddd),
             focusedBorderColor = if(value.isEmpty()) Color.Gray else colorResource(id = R.color.reddd),
             disabledBorderColor = if(value.isEmpty()) Color.Gray else colorResource(id = R.color.reddd),
@@ -98,6 +104,7 @@ fun OTPInputBox(
         modifier = modifier
             .height(60.dp)
             .width(50.dp)
+            .focusRequester(otpFocusReq)
             ,
         shape = RoundedCornerShape(8.dp)
     )
@@ -105,8 +112,13 @@ fun OTPInputBox(
 
 @Composable
 fun OTPScreen(navController: NavController, modifier: Modifier = Modifier) {
-    var otpValues = remember { mutableStateListOf("", "", "", "", "", "") }
+    val otpValues = remember { mutableStateListOf("", "", "", "", "", "") }
     val isComplete = otpValues.none { it.isEmpty() }
+
+    // Create 6 focus requesters (one for each OTP box)
+    val focusRequesters = remember {
+        List(6) { FocusRequester() }
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -115,21 +127,29 @@ fun OTPScreen(navController: NavController, modifier: Modifier = Modifier) {
             .background(Color(0xFFFEFAFD))
             .padding(16.dp)
     ) {
-        Spacer(modifier = modifier.height(48.dp))
-        Text(stringResource(R.string.enter_the_digits_verification_code), fontSize = 16.sp)
+        Spacer(modifier = Modifier.height(48.dp))
+
+        Text(
+            text = stringResource(R.string.enter_the_digits_verification_code),
+            fontSize = 16.sp
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
+
         Row {
             otpValues.forEachIndexed { index, value ->
                 OTPInputBox(
                     value = value,
                     onValueChange = { newValue ->
                         otpValues[index] = newValue
-                        if (newValue.length == 1 && index < otpValues.size - 1) {
-
-                        }
                     },
-                    modifier = modifier.padding(4.dp),
-
+                    otpFocusReq = focusRequesters[index],
+                    nextOtpFocus = if (index < focusRequesters.size - 1) {
+                        focusRequesters[index + 1]
+                    } else {
+                        null
+                    },
+                    modifier = Modifier.padding(4.dp)
                 )
             }
         }
@@ -162,5 +182,5 @@ fun OTPScreen(navController: NavController, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun OTPPrev() {
-    ScaffoldOtp(rememberNavController() )
+//    ScaffoldOtp(rememberNavController() )
 }
